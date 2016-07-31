@@ -8,4 +8,10 @@
     <color name="tab_textview">#000000</color>
 
 
+    <color name="zhihu_blue">#1F96F2</color>
+    <color name="zhihu_icon_blue">#39C6FB</color>
+
+    <color name="bg_f4f6f5">#F4F6F5</color>
+    <color name="stroke_dddfde">#DDDFDE</color>
+
 </resources>

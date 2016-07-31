@@ -13,7 +13,7 @@
         android:id="@+id/bottomTabBar"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="#0E6DB0"
+        android:background="@color/zhihu_blue"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal" >
 
@@ -36,7 +36,7 @@
                 android:id="@+id/tvFeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="微信"
+                android:text="日报"
                 android:textColor="@color/tab_textview" />
         </LinearLayout>
 
@@ -59,7 +59,7 @@
                 android:id="@+id/tvDiscover"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="朋友"
+                android:text="主题"
                 android:textColor="@color/tab_textview" />
         </LinearLayout>
 
@@ -82,7 +82,7 @@
                 android:id="@+id/tvMore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="通讯录"
+                android:text="专栏"
                 android:textColor="@color/tab_textview" />
         </LinearLayout>
 

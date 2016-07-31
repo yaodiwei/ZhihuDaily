@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.yao.zhihudaily.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +50,9 @@ public class FragmentSwitchTool implements OnClickListener {
             selectedViews = new ArrayList<View[]>();
         }
         selectedViews.add(views);
+//        if (currentSelectedView == null) {
+//            currentSelectedView = views;
+//        }
         return this;
     }
     public void setFragments(Class<? extends Fragment>... fragments) {
@@ -66,15 +67,15 @@ public class FragmentSwitchTool implements OnClickListener {
         for (int i = 0; i < clickableViews.length; i++) {
             if (v.getId() == clickableViews[i].getId()) {
 
-                if (showAnimator) {
-                    int exitIndex = selectedViews.indexOf(currentSelectedView);
+//                if (showAnimator) {
+//                    int exitIndex = selectedViews.indexOf(currentSelectedView);
 //					Log.e("yao", "enter : " + i + "   exit: " + exitIndex);
 //                    if (i > exitIndex){
 //                        fragmentTransaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out);
 //                    } else if (i < exitIndex) {
 //                        fragmentTransaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_right_out);
 //                    }
-                }
+//                }
 
                 if (fragment == null) {
                     if (currentFragment != null) {
@@ -97,9 +98,10 @@ public class FragmentSwitchTool implements OnClickListener {
                 } else if (fragment == currentFragment) {
                 } else {
                     fragmentTransaction.hide(currentFragment);
-                    for (View view : currentSelectedView) {
-                        view.setSelected(false);
-                    }
+                    if (currentSelectedView != null)
+                        for (View view : currentSelectedView) {
+                            view.setSelected(false);
+                        }
                     fragmentTransaction.show(fragment);
                 }
 
