@@ -14,7 +14,7 @@
 
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/coll_toolbar_layout"
+            android:id="@+id/collapsingToolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="256dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -40,6 +40,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/title_image_black_bg"
                     android:layout_gravity="bottom"/>
 
                 <TextView
