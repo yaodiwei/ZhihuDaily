@@ -38,6 +38,10 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StroyHolder>
         this.stories.addAll(stories);
     }
 
+    public void addListToHeader(List<Story> stories) {
+        this.stories.addAll(0, stories);
+    }
+
     @Override
     public StroyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new StroyHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_story, parent, false));

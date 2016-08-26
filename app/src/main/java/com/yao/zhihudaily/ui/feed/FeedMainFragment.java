@@ -40,9 +40,13 @@ public class FeedMainFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private StoryAdapter storyAdapter;
 
-    private String currentDate;
+    private String endDate;//当前App里有的最新日报的时间
+
+    private String startDate;//当前App下拉加载到的最早时间
 
     private LinearLayoutManager linearLayoutManager;
+
+    private boolean isLoadMore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,42 +60,76 @@ public class FeedMainFragment extends Fragment implements SwipeRefreshLayout.OnR
         rvStories.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         rvStories.setAdapter(storyAdapter = new StoryAdapter(this));
         rvStories.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            private int lastVisibleItemPosition;
+            private int visibleItemCount;
+            private int totalItemCount;
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                visibleItemCount = layoutManager.getChildCount();
+                lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                totalItemCount = layoutManager.getItemCount();
+                if (visibleItemCount > 0 && newState == RecyclerView.SCROLL_STATE_IDLE
+                        && lastVisibleItemPosition >= totalItemCount - 1) {
+                    //加载更多
+                    if (!isLoadMore) {
+                        getNews(startDate);
+                        isLoadMore = true;
+                    }
+                }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-
             }
         });
 
-        getLatestNews();
+        getNews(null);
 
         return view;
     }
 
-    private void getLatestNews() {
+    /**
+     *
+     * @param tartgetDate
+     * targetDate为空表示首次刷新或者下拉刷新, 获取最新数据
+     * 不为空表示加载更多, 获取指定日期历史数据
+     */
+    private void getNews(final String tartgetDate) {
         Subscription subscription = Observable.create(new Observable.OnSubscribe<Boolean>() {
 
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
                 try {
-                    Response response = OkHttpSync.get(UrlConstants.NEWS);
+                    Response response = null;
+                    if (tartgetDate == null) {
+                        response = OkHttpSync.get(UrlConstants.NEWS);
+                    } else {
+                        response = OkHttpSync.get(UrlConstants.NEWS_BEFORE + tartgetDate);
+                    }
                     if (response.isSuccessful()) {
                         NewsJson newsJson = new Gson().fromJson(response.body().string(), NewsJson.class);
-
-                        if (TextUtils.isEmpty(currentDate) || !currentDate.equals(newsJson.getDate())) {
-                            //下拉刷新, 如果有更加新的数据
-                            currentDate = newsJson.getDate();
+                        if (TextUtils.isEmpty(endDate)) { //如果是首次加载这个界面
+                            startDate = newsJson.getDate();
+                            endDate = newsJson.getDate();
                             storyAdapter.addList(newsJson.getStories());
                             subscriber.onCompleted();
-                        } else {
-                            //下拉刷新, 如果没有更加新的数据
-                            subscriber.onNext(false);
+                        } else if (tartgetDate == null) { //表示下拉刷新
+                            if (endDate.equals(newsJson.getDate())) { //App的最晚时间 等于 下拉新获取的时间
+                                subscriber.onNext(false);
+                            } else { ////App的最晚时间 不等于 下拉新获取的时间
+                                endDate = newsJson.getDate();
+                                storyAdapter.addListToHeader(newsJson.getStories());
+                                subscriber.onCompleted();
+                            }
+                        } else { //表示上拉加载
+                            startDate = newsJson.getDate();
+                            storyAdapter.addList(newsJson.getStories());
+                            subscriber.onCompleted();
                         }
                     } else {
                         subscriber.onError(new Exception("error"));
@@ -108,6 +146,9 @@ public class FeedMainFragment extends Fragment implements SwipeRefreshLayout.OnR
                     @Override
                     public void onCompleted() {
                         storyAdapter.notifyDataSetChanged();
+                        if (tartgetDate != null) {
+                            isLoadMore = false;
+                        }
                     }
 
                     @Override
@@ -123,10 +164,9 @@ public class FeedMainFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
 
-
     @Override
     public void onRefresh() {
-        getLatestNews();
+        getNews(null);
     }
 
     @Override
