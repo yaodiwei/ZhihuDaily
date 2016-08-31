@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/7/26.
  */
-public class NewJson {
+public class StoryJson {
 
     private String body;
 

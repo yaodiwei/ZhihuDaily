@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/7/24.
  */
-public class NewsJson {
+public class StoriesJson {
 
     private String date;
     private List<Story> stories;

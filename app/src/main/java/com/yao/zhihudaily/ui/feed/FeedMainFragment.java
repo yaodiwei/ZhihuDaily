@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.yao.zhihudaily.R;
-import com.yao.zhihudaily.model.NewsJson;
+import com.yao.zhihudaily.model.StoriesJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
@@ -107,28 +107,28 @@ public class FeedMainFragment extends Fragment implements SwipeRefreshLayout.OnR
                 try {
                     Response response = null;
                     if (tartgetDate == null) {
-                        response = OkHttpSync.get(UrlConstants.NEWS);
+                        response = OkHttpSync.get(UrlConstants.STORIES);
                     } else {
-                        response = OkHttpSync.get(UrlConstants.NEWS_BEFORE + tartgetDate);
+                        response = OkHttpSync.get(String.format(UrlConstants.STORIES_BEFORE, tartgetDate));
                     }
                     if (response.isSuccessful()) {
-                        NewsJson newsJson = new Gson().fromJson(response.body().string(), NewsJson.class);
+                        StoriesJson storiesJson = new Gson().fromJson(response.body().string(), StoriesJson.class);
                         if (TextUtils.isEmpty(endDate)) { //如果是首次加载这个界面
-                            startDate = newsJson.getDate();
-                            endDate = newsJson.getDate();
-                            storyAdapter.addList(newsJson.getStories());
+                            startDate = storiesJson.getDate();
+                            endDate = storiesJson.getDate();
+                            storyAdapter.addList(storiesJson.getStories());
                             subscriber.onCompleted();
                         } else if (tartgetDate == null) { //表示下拉刷新
-                            if (endDate.equals(newsJson.getDate())) { //App的最晚时间 等于 下拉新获取的时间
+                            if (endDate.equals(storiesJson.getDate())) { //App的最晚时间 等于 下拉新获取的时间
                                 subscriber.onNext(false);
                             } else { ////App的最晚时间 不等于 下拉新获取的时间
-                                endDate = newsJson.getDate();
-                                storyAdapter.addListToHeader(newsJson.getStories());
+                                endDate = storiesJson.getDate();
+                                storyAdapter.addListToHeader(storiesJson.getStories());
                                 subscriber.onCompleted();
                             }
                         } else { //表示上拉加载
-                            startDate = newsJson.getDate();
-                            storyAdapter.addList(newsJson.getStories());
+                            startDate = storiesJson.getDate();
+                            storyAdapter.addList(storiesJson.getStories());
                             subscriber.onCompleted();
                         }
                     } else {

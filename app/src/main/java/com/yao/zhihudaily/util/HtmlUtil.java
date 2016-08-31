@@ -1,7 +1,7 @@
 package com.yao.zhihudaily.util;
 
 
-import com.yao.zhihudaily.model.NewJson;
+import com.yao.zhihudaily.model.StoryJson;
 
 import java.util.List;
 
@@ -104,7 +104,7 @@ public class HtmlUtil
      *
      * @return String
      */
-    public static String createHtmlData(NewJson detail)
+    public static String createHtmlData(StoryJson detail)
     {
 
         final String css = HtmlUtil.createCssTag(detail.getCss());

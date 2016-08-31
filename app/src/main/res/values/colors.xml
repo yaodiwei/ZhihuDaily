@@ -7,11 +7,18 @@
 
     <color name="tab_textview">#000000</color>
 
-
     <color name="zhihu_blue">#1F96F2</color>
     <color name="zhihu_icon_blue">#39C6FB</color>
 
+    <!-- 评论字体主颜色 -->
+    <color name="comment">#606467</color>
+    <!-- 评论字体弱颜色,用与引号别人的话 -->
+    <color name="comment_weak">#9EA3A6</color>
+    <color name="comment_author">#60859F</color>
+
     <color name="bg_f4f6f5">#F4F6F5</color>
     <color name="stroke_dddfde">#DDDFDE</color>
+
+
 
 </resources>

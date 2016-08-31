@@ -5,10 +5,14 @@ package com.yao.zhihudaily.net;
  */
 public interface UrlConstants {
 
-    String NEWS = "http://news-at.zhihu.com/api/4/news/latest";
+    String STORIES = "http://news-at.zhihu.com/api/4/news/latest";
 
-    String NEWS_BEFORE = "http://news.at.zhihu.com/api/4/news/before/";
+    String STORIES_BEFORE = "http://news.at.zhihu.com/api/4/news/before/%1$s";
 
-    String NEW = "http://news-at.zhihu.com/api/4/news/";
+    String STORY = "http://news-at.zhihu.com/api/4/news/%1$s";
+
+    String STORY_EXTRA = "http://news-at.zhihu.com/api/4/story-extra/%1$s";
+
+    String SHORT_COMMENTS = "http://news-at.zhihu.com/api/4/story/%1$s/short-comments";
 
 }

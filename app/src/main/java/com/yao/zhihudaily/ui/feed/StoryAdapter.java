@@ -79,7 +79,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StroyHolder>
         @Override
         public void onItemClick(int pos) {
             Story story = stories.get(pos);
-            Intent intent = new Intent(fragment.getActivity(), NewDetailActivity.class);
+            Intent intent = new Intent(fragment.getActivity(), StoryDetailActivity.class);
             intent.putExtra("story", story);
             fragment.getActivity().startActivity(intent);
         }
