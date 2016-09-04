@@ -1,6 +1,5 @@
 package com.yao.zhihudaily.ui.feed;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +16,7 @@ import com.yao.zhihudaily.model.StoriesJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
+import com.yao.zhihudaily.ui.MainFragment;
 
 import java.io.IOException;
 
@@ -30,7 +30,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/7/22.
  */
-public class FeedMainFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class FeedMainFragment extends MainFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "FeedMainFragment";
 

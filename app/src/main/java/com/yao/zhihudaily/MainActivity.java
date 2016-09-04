@@ -1,9 +1,7 @@
 package com.yao.zhihudaily;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,23 +9,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.yao.zhihudaily.tool.FragmentSwitchTool;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
+import com.yao.zhihudaily.ui.MainFragment;
+import com.yao.zhihudaily.ui.MainViewPagerAdapter;
 import com.yao.zhihudaily.ui.discover.DiscoverMainFragment;
 import com.yao.zhihudaily.ui.feed.FeedMainFragment;
 import com.yao.zhihudaily.ui.more.MoreMainFragment;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private MainFragment currentFragment;
+    private MainViewPagerAdapter adapter;
+    private AHBottomNavigationAdapter navigationAdapter;
+    private ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
+    //是否用Menu资源去完成,menu资源即对应的menu布局文件. 否则就是用代码new出来并且添加上去的AHBottomNavigationItem
+    private boolean useMenuResource = true;
+    private int[] tabColors;
+
+    // UI
+    private AHBottomNavigationViewPager viewPager;//适配BottomNavigation的ViewPager
+    private AHBottomNavigation bottomNavigation;//底部的BottomNavigation
 
     private LinearLayout llFeed, llDiscover, llMore;
     private ImageView ivFeed, ivDiscover, ivMore;
     private TextView tvFeed, tvDiscover, tvMore;
-    private FragmentSwitchTool tool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +50,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -56,27 +62,71 @@ public class MainActivity extends AppCompatActivity
 
 
         initView();
-        tool = new FragmentSwitchTool(getFragmentManager(), R.id.flContainer);
-        tool.setClickableViews(llFeed, llDiscover, llMore);
-        tool.addSelectedViews(new View[]{ivFeed, tvFeed}).addSelectedViews(new View[]{ivDiscover, tvDiscover})
-                .addSelectedViews(new View[]{ivMore, tvMore});
-        tool.setFragments(FeedMainFragment.class, DiscoverMainFragment.class, MoreMainFragment.class);
-
-        tool.changeTag(llFeed);
     }
 
     private void initView() {
-        llFeed = (LinearLayout) findViewById(R.id.llFeed);
-        llDiscover = (LinearLayout) findViewById(R.id.llDiscover);
-        llMore = (LinearLayout) findViewById(R.id.llMore);
+        viewPager = (AHBottomNavigationViewPager) findViewById(R.id.viewPager);
+        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
-        ivFeed = (ImageView) findViewById(R.id.ivFeed);
-        ivDiscover = (ImageView) findViewById(R.id.ivDiscover);
-        ivMore = (ImageView) findViewById(R.id.ivMore);
+        if (useMenuResource) {//方式一:通过menu菜单去完成
+            tabColors = getApplicationContext().getResources().getIntArray(R.array.tab_colors);
+            navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_3);
+            navigationAdapter.setupWithBottomNavigation(bottomNavigation, tabColors);
+        } else {//方式二:通过代码new出去并且添加上去完成
+            AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.feed, R.mipmap.ic_bottomnavigation_feed, R.color.color_tab_1);
+            AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.discover, R.mipmap.ic_bottomnavigation_discover, R.color.color_tab_2);
+            AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.more, R.mipmap.ic_bottomnavigation_more, R.color.color_tab_3);
 
-        tvFeed = (TextView) findViewById(R.id.tvFeed);
-        tvDiscover = (TextView) findViewById(R.id.tvDiscover);
-        tvMore = (TextView) findViewById(R.id.tvMore);
+            bottomNavigationItems.add(item1);
+            bottomNavigationItems.add(item2);
+            bottomNavigationItems.add(item3);
+
+            bottomNavigation.addItems(bottomNavigationItems);
+        }
+
+        bottomNavigation.setBehaviorTranslationEnabled(true);//重要属性 设置向上滑动时是否隐藏底部栏
+        bottomNavigation.setAccentColor(getResources().getColor(R.color.zhihu_blue)); //设置选中的颜色
+        bottomNavigation.setInactiveColor(getResources().getColor(R.color.bottomnavigation_inactive));//设置闲置的颜色
+        bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.bottomnavigation_bg));//设置背景颜色
+
+//        bottomNavigation.setNotification("", position);//给Item设置通知图标
+        viewPager.setOffscreenPageLimit(2);
+
+        FeedMainFragment feedMainFragment = new FeedMainFragment();
+        DiscoverMainFragment discoverMainFragment = new DiscoverMainFragment();
+        MoreMainFragment moreMainFragment = new MoreMainFragment();
+        ArrayList<MainFragment> mainFragments = new ArrayList<MainFragment>();
+        mainFragments.add(feedMainFragment);
+        mainFragments.add(discoverMainFragment);
+        mainFragments.add(moreMainFragment);
+        adapter = new MainViewPagerAdapter(getFragmentManager(), mainFragments);
+        viewPager.setAdapter(adapter);
+        currentFragment = adapter.getCurrentFragment();
+
+        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public boolean onTabSelected(int position, boolean wasSelected) {//wasSelected为真时,表示当前显示与当前点击的是同一个Item
+
+
+                if (currentFragment == null) {
+                    currentFragment = adapter.getCurrentFragment();
+                }
+
+                if (wasSelected) {//为真时,刷新一个当前item就行
+                    currentFragment.refresh();
+                    return true;
+                }
+
+                if (currentFragment != null) {
+                    currentFragment.willBeHidden();
+                }
+
+                viewPager.setCurrentItem(position, false);
+                currentFragment = adapter.getCurrentFragment();
+                currentFragment.willBeDisplayed();
+                return true;
+            }
+        });
     }
 
     @Override

@@ -1,30 +1,18 @@
 package com.yao.zhihudaily.ui.feed;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
-import com.google.gson.Gson;
 import com.yao.zhihudaily.R;
-import com.yao.zhihudaily.model.ShortComment;
-import com.yao.zhihudaily.model.ShortCommentJson;
 import com.yao.zhihudaily.model.StoryExtra;
-import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
-import com.yao.zhihudaily.tool.DividerItemDecoration;
 
-import java.io.IOException;
-import java.util.List;
-
-import okhttp3.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/8/30.
@@ -33,11 +21,10 @@ public class CommentsActivity extends Activity {
 
     private int id;
     private StoryExtra storyExtra;
-    private RecyclerView rvComments;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private List<ShortComment> shortComments;
-    private CommentAdapter commentAdapter;
-    private LinearLayoutManager linearLayoutManager;
+    private ViewPager viewPager;
+    private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
+    private TabLayout tabLayout;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,53 +33,76 @@ public class CommentsActivity extends Activity {
 
         id = getIntent().getIntExtra("id", 0);
         storyExtra = (StoryExtra) getIntent().getSerializableExtra("storyExtra");
-        rvComments = (RecyclerView) findViewById(R.id.rvComments);
 
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        initToolbar(toolbar);
 
-        rvComments.setLayoutManager(linearLayoutManager = new LinearLayoutManager(this));
-        rvComments.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-        rvComments.setAdapter(commentAdapter = new CommentAdapter(this));
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
+        //
+        ArrayList<String> tabList = new ArrayList<>();
+        tabList.add("短评论");
+        tabList.add("长评论");
+        tabLayout.addTab(tabLayout.newTab().setText(tabList.get(0)));//添加tab选项卡
+        tabLayout.addTab(tabLayout.newTab().setText(tabList.get(1)));
 
-        Subscription subscription = Observable.create(new Observable.OnSubscribe<Boolean>() {
+        //短评论界面
+        CommentsFragment shortCommentsFragment = new CommentsFragment();
+        Bundle bundleForShortComments = new Bundle();
+        bundleForShortComments.putInt("id", id);
+        bundleForShortComments.putSerializable("storyExtra", storyExtra);
+        bundleForShortComments.putString("url", UrlConstants.SHORT_COMMENTS);
+        shortCommentsFragment.setArguments(bundleForShortComments);
 
-            @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
-                try {
-                    Response response = OkHttpSync.get(String.format(UrlConstants.SHORT_COMMENTS, String.valueOf(id)));
-                    if (response.isSuccessful()) {
-                        String json = response.body().string();
-                        Log.e("YAO", "CommentsActivity.java - call() ---------- " + json);
-                        ShortCommentJson shortCommentJson = new Gson().fromJson(json, ShortCommentJson.class);
-                        shortComments = shortCommentJson.getShortComments();
-                        Log.e("YAO", "CommentsActivity.java - call() ---------- " + shortComments);
-                        commentAdapter.addList(shortComments);
-                        subscriber.onCompleted();
-                    } else {
-                        subscriber.onError(new Exception("error"));
-                    }
-                } catch (IOException e) {
-                    subscriber.onError(e);
-                }
-            }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Boolean>() {
+        //长评论界面
+        CommentsFragment longCommentsFragment = new CommentsFragment();
+        Bundle bundleForLongComments = new Bundle();
+        bundleForLongComments.putInt("id", id);
+        bundleForLongComments.putSerializable("storyExtra", storyExtra);
+        bundleForLongComments.putString("url", UrlConstants.LONG_COMMENTS);
+        longCommentsFragment.setArguments(bundleForLongComments);
 
-                    @Override
-                    public void onCompleted() {
-                        commentAdapter.notifyDataSetChanged();
-                    }
+        fragments.add(shortCommentsFragment);
+        fragments.add(longCommentsFragment);
+        CommentPagerAdapter adapter = new CommentPagerAdapter(getFragmentManager(), fragments, tabList);
+//      mViewPager.setOffscreenPageLimit(0);
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(pageListener);
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("YAO", "onError: " + e.toString());
-                    }
-
-                    @Override
-                    public void onNext(Boolean isRefreshing) {
-                    }
-                });
+        tabLayout.setupWithViewPager(viewPager);//将TabLayout和ViewPager关联起来。
+        tabLayout.setTabsFromPagerAdapter(adapter);//给Tabs设置适配器
     }
+
+    private void initToolbar(Toolbar toolbar) {
+        toolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
+        toolbar.setTitle("共" + storyExtra.getShortComments() + "条");//设置主标题
+        toolbar.setNavigationOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+            }
+        });
+    }
+
+    private ViewPager.OnPageChangeListener pageListener = new ViewPager.OnPageChangeListener(){
+
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 }

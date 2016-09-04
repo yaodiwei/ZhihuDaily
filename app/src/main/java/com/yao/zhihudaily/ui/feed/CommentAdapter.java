@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
-import com.yao.zhihudaily.model.ShortComment;
+import com.yao.zhihudaily.model.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
     private static final int COMMENT_WITH_REPLY = 1;
 
 
-    private List<ShortComment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
     private LayoutInflater inflater;
     private Context ctx;
 
@@ -33,7 +33,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
         inflater = LayoutInflater.from(ctx);
     }
 
-    public void addList(List<ShortComment> comments) {
+    public void addList(List<Comment> comments) {
         this.comments.addAll(comments);
     }
 
@@ -49,10 +49,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
 
     @Override
     public void onBindViewHolder(CommentAdapter.ShortCommentViewHolder holder, int position) {
-        ShortComment c = comments.get(position);
+        Comment c = comments.get(position);
         Glide.with(ctx).load(c.getAvatar()).into(holder.ivAvatar);
         holder.tvAuthor.setText(c.getAuthor());
-        holder.tvContent.setText(c.getAuthor() + c.getContent());
+        holder.tvContent.setText(c.getContent());
         holder.tvTime.setText(c.getTimeStr());
         holder.tvLikes.setText(String.valueOf(c.getLikes()));
         if (c.getReplyTo() != null) {

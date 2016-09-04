@@ -6,7 +6,7 @@ import com.yao.zhihudaily.util.DateUtil;
 /**
  * Created by Administrator on 2016/8/30.
  */
-public class ShortComment {
+public class Comment {
 
     private int id;
     private String author;
@@ -79,7 +79,7 @@ public class ShortComment {
 
     @Override
     public String toString() {
-        return "ShortComment{" +
+        return "Comment{" +
                 "id=" + id +
                 ", author='" + author + '\'' +
                 ", content='" + content + '\'' +

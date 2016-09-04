@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="@string/feed"
+        android:icon="@mipmap/ic_bottomnavigation_feed" />
+
+    <item
+        android:title="@string/discover"
+        android:icon="@mipmap/ic_bottomnavigation_discover" />
+
+    <item
+        android:title="@string/more"
+        android:icon="@mipmap/ic_bottomnavigation_more" />
+
+</menu>

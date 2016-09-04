@@ -15,4 +15,6 @@ public interface UrlConstants {
 
     String SHORT_COMMENTS = "http://news-at.zhihu.com/api/4/story/%1$s/short-comments";
 
+    String LONG_COMMENTS = "http://news-at.zhihu.com/api/4/story/%1$s/long-comments";
+
 }

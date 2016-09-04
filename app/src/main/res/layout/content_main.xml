@@ -15,6 +15,7 @@
         android:layout_height="55dp"
         android:background="@color/zhihu_blue"
         android:layout_alignParentBottom="true"
+        app:layout_scrollFlags="scroll|enterAlways"
         android:orientation="horizontal" >
 
         <LinearLayout
@@ -30,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
-                android:src="@mipmap/ic_bottomtabbar_feed" />
+                android:src="@mipmap/ic_bottomnavigation_feed" />
 
             <TextView
                 android:id="@+id/tvFeed"
@@ -53,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
-                android:src="@mipmap/ic_bottomtabbar_discover" />
+                android:src="@mipmap/ic_bottomnavigation_discover" />
 
             <TextView
                 android:id="@+id/tvDiscover"
@@ -76,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
-                android:src="@mipmap/ic_bottomtabbar_more" />
+                android:src="@mipmap/ic_bottomnavigation_more" />
 
             <TextView
                 android:id="@+id/tvMore"
