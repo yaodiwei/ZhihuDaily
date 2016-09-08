@@ -7,8 +7,9 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/23.
+ * 列表里面的Daily Item
  */
-public class Story implements Serializable {
+public class Daily implements Serializable {
 
     private int id;
 
@@ -74,7 +75,7 @@ public class Story implements Serializable {
 
     @Override
     public String toString() {
-        return "Story{" +
+        return "Daily{" +
                 "id=" + id +
                 ", type=" + type +
                 ", time='" + time + '\'' +

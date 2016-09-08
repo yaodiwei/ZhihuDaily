@@ -5,10 +5,10 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/7/24.
  */
-public class StoriesJson {
+public class DailiesJson {
 
     private String date;
-    private List<Story> stories;
+    private List<Daily> stories;
 
     public String getDate() {
         return date;
@@ -18,11 +18,11 @@ public class StoriesJson {
         this.date = date;
     }
 
-    public List<Story> getStories() {
+    public List<Daily> getStories() {
         return stories;
     }
 
-    public void setStories(List<Story> stories) {
+    public void setStories(List<Daily> stories) {
         this.stories = stories;
     }
 }

@@ -19,8 +19,8 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 import com.yao.zhihudaily.ui.MainFragment;
 import com.yao.zhihudaily.ui.MainViewPagerAdapter;
-import com.yao.zhihudaily.ui.discover.DiscoverMainFragment;
-import com.yao.zhihudaily.ui.feed.FeedMainFragment;
+import com.yao.zhihudaily.ui.daily.DailyMainFragment;
+import com.yao.zhihudaily.ui.theme.ThemeMainFragment;
 import com.yao.zhihudaily.ui.more.MoreMainFragment;
 
 import java.util.ArrayList;
@@ -92,12 +92,12 @@ public class MainActivity extends AppCompatActivity
 //        bottomNavigation.setNotification("", position);//给Item设置通知图标
         viewPager.setOffscreenPageLimit(2);
 
-        FeedMainFragment feedMainFragment = new FeedMainFragment();
-        DiscoverMainFragment discoverMainFragment = new DiscoverMainFragment();
+        DailyMainFragment feedMainFragment = new DailyMainFragment();
+        ThemeMainFragment themeMainFragment = new ThemeMainFragment();
         MoreMainFragment moreMainFragment = new MoreMainFragment();
         ArrayList<MainFragment> mainFragments = new ArrayList<MainFragment>();
         mainFragments.add(feedMainFragment);
-        mainFragments.add(discoverMainFragment);
+        mainFragments.add(themeMainFragment);
         mainFragments.add(moreMainFragment);
         adapter = new MainViewPagerAdapter(getFragmentManager(), mainFragments);
         viewPager.setAdapter(adapter);

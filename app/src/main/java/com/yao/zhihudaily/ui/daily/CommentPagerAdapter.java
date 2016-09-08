@@ -1,4 +1,4 @@
-package com.yao.zhihudaily.ui.feed;
+package com.yao.zhihudaily.ui.daily;
 
 import android.app.Fragment;
 import android.app.FragmentManager;

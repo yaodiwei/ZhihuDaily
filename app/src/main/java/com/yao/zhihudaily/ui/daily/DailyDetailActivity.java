@@ -1,4 +1,4 @@
-package com.yao.zhihudaily.ui.feed;
+package com.yao.zhihudaily.ui.daily;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,9 +16,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.yao.zhihudaily.R;
-import com.yao.zhihudaily.model.Story;
-import com.yao.zhihudaily.model.StoryExtra;
-import com.yao.zhihudaily.model.StoryJson;
+import com.yao.zhihudaily.model.DailyExtra;
+import com.yao.zhihudaily.model.Daily;
+import com.yao.zhihudaily.model.DailyJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.util.HtmlUtil;
@@ -34,15 +34,15 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/7/28.
  */
-public class StoryDetailActivity extends Activity {
+public class DailyDetailActivity extends Activity {
 
-    private static final String TAG = "StoryDetailActivity";
+    private static final String TAG = "DailyDetailActivity";
     private WebView webView;
     private TextView tvTitle, tvSource;
     private ImageView ivImage;
     private CollapsingToolbarLayout collapsingToolbarLayout;
 
-    private StoryExtra storyExtra;
+    private DailyExtra dailyExtra;
 
 
     @Override
@@ -50,7 +50,7 @@ public class StoryDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_detail);
 
-        final Story story = (Story) getIntent().getSerializableExtra("story");
+        final Daily daily = (Daily) getIntent().getSerializableExtra("daily");
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle("五个推荐者");
@@ -74,12 +74,12 @@ public class StoryDetailActivity extends Activity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.itemShare:
-                        Toast.makeText(StoryDetailActivity.this, "点击分享", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DailyDetailActivity.this, "点击分享", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.itemComment:
-                        Intent intent = new Intent(StoryDetailActivity.this, CommentsActivity.class);
-                        intent.putExtra("id", story.getId());
-                        intent.putExtra("storyExtra", storyExtra);
+                        Intent intent = new Intent(DailyDetailActivity.this, CommentsActivity.class);
+                        intent.putExtra("id", daily.getId());
+                        intent.putExtra("dailyExtra", dailyExtra);
                         startActivity(intent);
                         break;
                 }
@@ -95,16 +95,16 @@ public class StoryDetailActivity extends Activity {
 
 
         //获取文章内容
-        Observable.create(new Observable.OnSubscribe<StoryJson>() {
+        Observable.create(new Observable.OnSubscribe<DailyJson>() {
 
             @Override
-            public void call(Subscriber<? super StoryJson> subscriber) {
+            public void call(Subscriber<? super DailyJson> subscriber) {
                 try {
-                    Response response = OkHttpSync.get(String.format(UrlConstants.STORY, story.getId()));
+                    Response response = OkHttpSync.get(String.format(UrlConstants.DAILY, daily.getId()));
                     if (response.isSuccessful()) {
                         String json = response.body().string();
-                        StoryJson storyJson = new Gson().fromJson(json, StoryJson.class);
-                        subscriber.onNext(storyJson);
+                        DailyJson dailyJson = new Gson().fromJson(json, DailyJson.class);
+                        subscriber.onNext(dailyJson);
                     } else {
                         subscriber.onError(new Exception("error"));
                     }
@@ -115,7 +115,7 @@ public class StoryDetailActivity extends Activity {
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<StoryJson>() {
+                .subscribe(new Subscriber<DailyJson>() {
 
                     @Override
                     public void onCompleted() {
@@ -127,26 +127,26 @@ public class StoryDetailActivity extends Activity {
                     }
 
                     @Override
-                    public void onNext(StoryJson storyJson) {
-                        webView.loadData(HtmlUtil.createHtmlData(storyJson), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
-                        tvTitle.setText(storyJson.getTitle());
-                        tvSource.setText(storyJson.getImageSource());
-                        Glide.with(StoryDetailActivity.this).load(storyJson.getImage()).into(ivImage);
+                    public void onNext(DailyJson dailyJson) {
+                        webView.loadData(HtmlUtil.createHtmlData(dailyJson), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
+                        tvTitle.setText(dailyJson.getTitle());
+                        tvSource.setText(dailyJson.getImageSource());
+                        Glide.with(DailyDetailActivity.this).load(dailyJson.getImage()).into(ivImage);
                     }
                 });
 
 
         //获取长评论数,点赞总数,短评论数,评论总数
-        Observable.create(new Observable.OnSubscribe<StoryExtra>() {
+        Observable.create(new Observable.OnSubscribe<DailyExtra>() {
 
             @Override
-            public void call(Subscriber<? super StoryExtra> subscriber) {
+            public void call(Subscriber<? super DailyExtra> subscriber) {
                 try {
-                    Response response = OkHttpSync.get(String.format(UrlConstants.STORY_EXTRA, story.getId()));
+                    Response response = OkHttpSync.get(String.format(UrlConstants.DAILY_EXTRA, daily.getId()));
                     if (response.isSuccessful()) {
                         String json = response.body().string();
-                        storyExtra = new Gson().fromJson(json, StoryExtra.class);
-                        subscriber.onNext(storyExtra);
+                        dailyExtra = new Gson().fromJson(json, DailyExtra.class);
+                        subscriber.onNext(dailyExtra);
                     } else {
                         subscriber.onError(new Exception("error"));
                     }
@@ -157,7 +157,7 @@ public class StoryDetailActivity extends Activity {
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<StoryExtra>() {
+                .subscribe(new Subscriber<DailyExtra>() {
 
                     @Override
                     public void onCompleted() {
@@ -169,7 +169,7 @@ public class StoryDetailActivity extends Activity {
                     }
 
                     @Override
-                    public void onNext(StoryExtra storyExtra) {
+                    public void onNext(DailyExtra dailyExtra) {
 
                     }
                 });

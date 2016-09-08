@@ -1,4 +1,4 @@
-package com.yao.zhihudaily.ui.feed;
+package com.yao.zhihudaily.ui.daily;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.yao.zhihudaily.R;
-import com.yao.zhihudaily.model.StoriesJson;
+import com.yao.zhihudaily.model.DailiesJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
@@ -30,15 +30,15 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/7/22.
  */
-public class FeedMainFragment extends MainFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class DailyMainFragment extends MainFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "FeedMainFragment";
+    private static final String TAG = "DailyMainFragment";
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private RecyclerView rvStories;
+    private RecyclerView rvDailies;
 
-    private StoryAdapter storyAdapter;
+    private DailyAdapter dailyAdapter;
 
     private String endDate;//当前App里有的最新日报的时间
 
@@ -50,16 +50,16 @@ public class FeedMainFragment extends MainFragment implements SwipeRefreshLayout
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_feed, container, false);
+        View view = inflater.inflate(R.layout.fragment_daily, container, false);
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
-        rvStories = (RecyclerView) view.findViewById(R.id.rvStories);
+        rvDailies = (RecyclerView) view.findViewById(R.id.rvDailies);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        rvStories.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
-        rvStories.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-        rvStories.setAdapter(storyAdapter = new StoryAdapter(this));
-        rvStories.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        rvDailies.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
+        rvDailies.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        rvDailies.setAdapter(dailyAdapter = new DailyAdapter(this));
+        rvDailies.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             private int lastVisibleItemPosition;
             private int visibleItemCount;
@@ -107,28 +107,28 @@ public class FeedMainFragment extends MainFragment implements SwipeRefreshLayout
                 try {
                     Response response = null;
                     if (tartgetDate == null) {
-                        response = OkHttpSync.get(UrlConstants.STORIES);
+                        response = OkHttpSync.get(UrlConstants.DAILIES);
                     } else {
-                        response = OkHttpSync.get(String.format(UrlConstants.STORIES_BEFORE, tartgetDate));
+                        response = OkHttpSync.get(String.format(UrlConstants.DAILIES_BEFORE, tartgetDate));
                     }
                     if (response.isSuccessful()) {
-                        StoriesJson storiesJson = new Gson().fromJson(response.body().string(), StoriesJson.class);
+                        DailiesJson dailiesJson = new Gson().fromJson(response.body().string(), DailiesJson.class);
                         if (TextUtils.isEmpty(endDate)) { //如果是首次加载这个界面
-                            startDate = storiesJson.getDate();
-                            endDate = storiesJson.getDate();
-                            storyAdapter.addList(storiesJson.getStories());
+                            startDate = dailiesJson.getDate();
+                            endDate = dailiesJson.getDate();
+                            dailyAdapter.addList(dailiesJson.getStories());
                             subscriber.onCompleted();
                         } else if (tartgetDate == null) { //表示下拉刷新
-                            if (endDate.equals(storiesJson.getDate())) { //App的最晚时间 等于 下拉新获取的时间
+                            if (endDate.equals(dailiesJson.getDate())) { //App的最晚时间 等于 下拉新获取的时间
                                 subscriber.onNext(false);
                             } else { ////App的最晚时间 不等于 下拉新获取的时间
-                                endDate = storiesJson.getDate();
-                                storyAdapter.addListToHeader(storiesJson.getStories());
+                                endDate = dailiesJson.getDate();
+                                dailyAdapter.addListToHeader(dailiesJson.getStories());
                                 subscriber.onCompleted();
                             }
                         } else { //表示上拉加载
-                            startDate = storiesJson.getDate();
-                            storyAdapter.addList(storiesJson.getStories());
+                            startDate = dailiesJson.getDate();
+                            dailyAdapter.addList(dailiesJson.getStories());
                             subscriber.onCompleted();
                         }
                     } else {
@@ -145,7 +145,7 @@ public class FeedMainFragment extends MainFragment implements SwipeRefreshLayout
 
                     @Override
                     public void onCompleted() {
-                        storyAdapter.notifyDataSetChanged();
+                        dailyAdapter.notifyDataSetChanged();
                         if (tartgetDate != null) {
                             isLoadMore = false;
                         }

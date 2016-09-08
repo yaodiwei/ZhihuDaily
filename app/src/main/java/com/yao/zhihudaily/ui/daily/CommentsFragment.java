@@ -1,8 +1,9 @@
-package com.yao.zhihudaily.ui.feed;
+package com.yao.zhihudaily.ui.daily;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +15,7 @@ import com.google.gson.Gson;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Comment;
 import com.yao.zhihudaily.model.CommentJson;
-import com.yao.zhihudaily.model.StoryExtra;
+import com.yao.zhihudaily.model.DailyExtra;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 
@@ -39,8 +40,9 @@ public class CommentsFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
 
     private int id;
-    private StoryExtra storyExtra;
+    private DailyExtra dailyExtra;
     private String url;
+    private int count;
 
     @Nullable
     @Override
@@ -49,8 +51,10 @@ public class CommentsFragment extends Fragment {
 
         Bundle bundle = getArguments();
         id = bundle.getInt("id", 0);
-        storyExtra = (StoryExtra) bundle.getSerializable("storyExtra");
+        dailyExtra = (DailyExtra) bundle.getSerializable("dailyExtra");
         url = bundle.getString("url");
+        count = bundle.getInt("count");
+
 
 
         rvComments = (RecyclerView) view.findViewById(R.id.rvComments);
@@ -58,6 +62,37 @@ public class CommentsFragment extends Fragment {
         rvComments.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         rvComments.setAdapter(commentAdapter = new CommentAdapter(getActivity()));
 
+        if (count > 20) {
+            rvComments.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                private int lastVisibleItemPosition;
+                private int visibleItemCount;
+                private int totalItemCount;
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    visibleItemCount = layoutManager.getChildCount();
+                    lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                    totalItemCount = layoutManager.getItemCount();
+                    if (visibleItemCount > 0 && newState == RecyclerView.SCROLL_STATE_IDLE
+                            && lastVisibleItemPosition >= totalItemCount - 1) {
+                        //加载更多
+                        final Snackbar snackbar = Snackbar.make(rvComments, "如想查看更多评论\n    请下载正版知乎日报.", Snackbar.LENGTH_SHORT);
+                        snackbar.setAction("关闭", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        snackbar.dismiss();
+                                    }
+                                });
+                        snackbar.show();
+                    }
+                }
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                }
+            });
+        }
 
         Subscription subscription = Observable.create(new Observable.OnSubscribe<Boolean>() {
 
