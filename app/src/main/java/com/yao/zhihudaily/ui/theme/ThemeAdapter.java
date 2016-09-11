@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Theme;
 import com.yao.zhihudaily.tool.OnItemClickListener;
-import com.yao.zhihudaily.ui.daily.DailyDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +27,6 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeHolder>
     private List<Theme> themes = new ArrayList<>();
 
     public ThemeAdapter(Fragment fragment) {
-        this.fragment = fragment;
-    }
-
-    public ThemeAdapter(List<Theme> themes, Fragment fragment) {
-        this.themes = themes;
         this.fragment = fragment;
     }
 
@@ -80,9 +74,9 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeHolder>
         @Override
         public void onItemClick(int pos) {
             Theme theme = themes.get(pos);
-            Intent intent = new Intent(fragment.getActivity(), DailyDetailActivity.class);
-            intent.putExtra("theme", theme);
-//            fragment.getActivity().startActivity(intent);
+            Intent intent = new Intent(fragment.getActivity(), ThemeActivity.class);
+            intent.putExtra("id", theme.getId());
+            fragment.getActivity().startActivity(intent);
         }
     };
 

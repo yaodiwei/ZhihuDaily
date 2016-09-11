@@ -9,9 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
@@ -20,8 +17,9 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 import com.yao.zhihudaily.ui.MainFragment;
 import com.yao.zhihudaily.ui.MainViewPagerAdapter;
 import com.yao.zhihudaily.ui.daily.DailyMainFragment;
-import com.yao.zhihudaily.ui.theme.ThemeMainFragment;
+import com.yao.zhihudaily.ui.hot.HotMainFragment;
 import com.yao.zhihudaily.ui.more.MoreMainFragment;
+import com.yao.zhihudaily.ui.theme.ThemeMainFragment;
 
 import java.util.ArrayList;
 
@@ -40,9 +38,6 @@ public class MainActivity extends AppCompatActivity
     private AHBottomNavigationViewPager viewPager;//适配BottomNavigation的ViewPager
     private AHBottomNavigation bottomNavigation;//底部的BottomNavigation
 
-    private LinearLayout llFeed, llDiscover, llMore;
-    private ImageView ivFeed, ivDiscover, ivMore;
-    private TextView tvFeed, tvDiscover, tvMore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +68,15 @@ public class MainActivity extends AppCompatActivity
             navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_3);
             navigationAdapter.setupWithBottomNavigation(bottomNavigation, tabColors);
         } else {//方式二:通过代码new出去并且添加上去完成
-            AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.feed, R.mipmap.ic_bottomnavigation_feed, R.color.color_tab_1);
-            AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.discover, R.mipmap.ic_bottomnavigation_discover, R.color.color_tab_2);
-            AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.more, R.mipmap.ic_bottomnavigation_more, R.color.color_tab_3);
+            AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.daily, R.mipmap.ic_bottomnavigation_daily, R.color.color_tab_1);
+            AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.theme, R.mipmap.ic_bottomnavigation_theme, R.color.color_tab_2);
+            AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.hot, R.mipmap.ic_bottomnavigation_hot, R.color.color_tab_3);
+            AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.more, R.mipmap.ic_bottomnavigation_more, R.color.color_tab_4);
 
             bottomNavigationItems.add(item1);
             bottomNavigationItems.add(item2);
             bottomNavigationItems.add(item3);
+            bottomNavigationItems.add(item4);
 
             bottomNavigation.addItems(bottomNavigationItems);
         }
@@ -94,10 +91,12 @@ public class MainActivity extends AppCompatActivity
 
         DailyMainFragment feedMainFragment = new DailyMainFragment();
         ThemeMainFragment themeMainFragment = new ThemeMainFragment();
+        HotMainFragment hotMainFragment = new HotMainFragment();
         MoreMainFragment moreMainFragment = new MoreMainFragment();
         ArrayList<MainFragment> mainFragments = new ArrayList<MainFragment>();
         mainFragments.add(feedMainFragment);
         mainFragments.add(themeMainFragment);
+        mainFragments.add(hotMainFragment);
         mainFragments.add(moreMainFragment);
         adapter = new MainViewPagerAdapter(getFragmentManager(), mainFragments);
         viewPager.setAdapter(adapter);

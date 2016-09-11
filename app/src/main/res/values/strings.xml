@@ -6,7 +6,8 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="feed">日报</string>
-    <string name="discover">主题</string>
+    <string name="daily">日报</string>
+    <string name="theme">主题</string>
+    <string name="hot">热门</string>
     <string name="more">专栏</string>
 </resources>

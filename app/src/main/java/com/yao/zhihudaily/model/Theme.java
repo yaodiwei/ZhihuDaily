@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by Administrator on 2016/9/7.
+ * 列表里面的Theme Item
  */
 public class Theme implements Serializable {
 

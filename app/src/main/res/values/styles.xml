@@ -25,9 +25,15 @@
     </style>
 
     <style name="ExpandedAppBar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">30dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ExpandedDisappearAppBar" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">0dp</item>
         <item name="android:textColor">@android:color/transparent</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="CollapsedAppBar" parent="@android:style/TextAppearance.Medium">

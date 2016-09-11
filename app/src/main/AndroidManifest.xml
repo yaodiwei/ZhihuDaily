@@ -21,8 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.daily.DailyDetailActivity"/>
+        <activity android:name=".ui.NewsDetailActivity"/>
         <activity android:name=".ui.daily.CommentsActivity"/>
+        <activity android:name=".ui.theme.ThemeActivity"/>
 
     </application>
 

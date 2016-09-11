@@ -19,4 +19,8 @@ public interface UrlConstants {
 
     String THEMES = "http://news-at.zhihu.com/api/4/themes";
 
+    String THEME = "http://news-at.zhihu.com/api/4/theme/%1$s";
+
+    String HOT = "http://news-at.zhihu.com/api/3/news/hot";
+
 }

@@ -1,8 +1,9 @@
-package com.yao.zhihudaily.ui.daily;
+package com.yao.zhihudaily.ui.hot;
 
 import android.app.Fragment;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
-import com.yao.zhihudaily.model.Daily;
+import com.yao.zhihudaily.model.Hot;
 import com.yao.zhihudaily.tool.OnItemClickListener;
 import com.yao.zhihudaily.ui.NewsDetailActivity;
 
@@ -21,48 +22,45 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/7/24.
  */
-public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StroyHolder> {
+public class HotAdapter extends RecyclerView.Adapter<HotAdapter.StroyHolder> {
 
     private Fragment fragment;
-    private List<Daily> stories = new ArrayList<>();
+    private List<Hot> stories = new ArrayList<>();
     private OnItemClickListener listener = new OnItemClickListener() {
         @Override
         public void onItemClick(int pos) {
-            Daily daily = stories.get(pos);
+            Hot hot = stories.get(pos);
             Intent intent = new Intent(fragment.getActivity(), NewsDetailActivity.class);
-            intent.putExtra("id", daily.getId());
+            intent.putExtra("id", hot.getNewsId());
             fragment.getActivity().startActivity(intent);
         }
     };
 
-    public DailyAdapter(Fragment fragment) {
+    public HotAdapter(Fragment fragment) {
         this.fragment = fragment;
     }
 
-    public DailyAdapter(List<Daily> stories, Fragment fragment) {
+    public HotAdapter(List<Hot> stories, Fragment fragment) {
         this.stories = stories;
         this.fragment = fragment;
     }
 
-    public void addList(List<Daily> stories) {
+    public void addList(List<Hot> stories) {
         this.stories.addAll(stories);
     }
 
-    public void addListToHeader(List<Daily> stories) {
-        this.stories.addAll(0, stories);
-    }
 
     @Override
     public StroyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new StroyHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_daily, parent, false));
+        return new StroyHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hot, parent, false));
     }
 
     @Override
     public void onBindViewHolder(StroyHolder holder, int position) {
-        Daily daily = stories.get(position);
-        holder.tvTitle.setText(daily.getTitle());
-        if (daily.getImages().size() != 0) {
-            Glide.with(fragment).load(daily.getImages().get(0)).into(holder.iv);
+        Hot hot = stories.get(position);
+        holder.tvTitle.setText(hot.getTitle());
+        if (!TextUtils.isEmpty(hot.getThumbnail())) {
+            Glide.with(fragment).load(hot.getThumbnail()).into(holder.iv);
         }
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(listener);

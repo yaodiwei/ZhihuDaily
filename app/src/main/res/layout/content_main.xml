@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
-                android:src="@mipmap/ic_bottomnavigation_feed" />
+                android:src="@mipmap/ic_bottomnavigation_daily" />
 
             <TextView
                 android:id="@+id/tvFeed"
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
-                android:src="@mipmap/ic_bottomnavigation_discover" />
+                android:src="@mipmap/ic_bottomnavigation_theme" />
 
             <TextView
                 android:id="@+id/tvDiscover"

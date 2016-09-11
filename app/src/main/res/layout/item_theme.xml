@@ -16,6 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="用户推荐日报"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
         android:layout_gravity="center_horizontal" />
 
     <TextView
