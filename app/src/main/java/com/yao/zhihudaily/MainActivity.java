@@ -18,7 +18,7 @@ import com.yao.zhihudaily.ui.MainFragment;
 import com.yao.zhihudaily.ui.MainViewPagerAdapter;
 import com.yao.zhihudaily.ui.daily.DailyMainFragment;
 import com.yao.zhihudaily.ui.hot.HotMainFragment;
-import com.yao.zhihudaily.ui.more.MoreMainFragment;
+import com.yao.zhihudaily.ui.section.SectionMainFragment;
 import com.yao.zhihudaily.ui.theme.ThemeMainFragment;
 
 import java.util.ArrayList;
@@ -87,17 +87,17 @@ public class MainActivity extends AppCompatActivity
         bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.bottomnavigation_bg));//设置背景颜色
 
 //        bottomNavigation.setNotification("", position);//给Item设置通知图标
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(3);
 
         DailyMainFragment feedMainFragment = new DailyMainFragment();
         ThemeMainFragment themeMainFragment = new ThemeMainFragment();
         HotMainFragment hotMainFragment = new HotMainFragment();
-        MoreMainFragment moreMainFragment = new MoreMainFragment();
+        SectionMainFragment sectionMainFragment = new SectionMainFragment();
         ArrayList<MainFragment> mainFragments = new ArrayList<MainFragment>();
         mainFragments.add(feedMainFragment);
         mainFragments.add(themeMainFragment);
         mainFragments.add(hotMainFragment);
-        mainFragments.add(moreMainFragment);
+        mainFragments.add(sectionMainFragment);
         adapter = new MainViewPagerAdapter(getFragmentManager(), mainFragments);
         viewPager.setAdapter(adapter);
         currentFragment = adapter.getCurrentFragment();

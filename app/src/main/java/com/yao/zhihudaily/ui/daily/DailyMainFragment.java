@@ -50,6 +50,7 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.e("YAO", "DailyMainFragment.java - onCreateView() ---------- onCreateView " );
         View view = inflater.inflate(R.layout.fragment_daily, container, false);
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
@@ -172,5 +173,8 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        //如果没有这个置空,当没有设置fragment缓存时,会执行destroyView方法.但是成员变量并不会摧毁,依然有值
+        // 下次再进来时,会得出endDate不是空的情况,从而跳过"首次加载这个界面"这个逻辑
+        endDate = null;
     }
 }

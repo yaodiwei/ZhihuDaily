@@ -23,4 +23,6 @@ public interface UrlConstants {
 
     String HOT = "http://news-at.zhihu.com/api/3/news/hot";
 
+    String SECTIONS = "http://news-at.zhihu.com/api/3/sections";
+
 }
