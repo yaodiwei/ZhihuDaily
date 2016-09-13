@@ -25,4 +25,6 @@ public interface UrlConstants {
 
     String SECTIONS = "http://news-at.zhihu.com/api/3/sections";
 
+    String SECTION = "http://news-at.zhihu.com/api/3/section/%1$s";
+
 }

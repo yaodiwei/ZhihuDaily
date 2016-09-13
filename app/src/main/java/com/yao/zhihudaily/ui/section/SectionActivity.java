@@ -1,20 +1,16 @@
-package com.yao.zhihudaily.ui.theme;
+package com.yao.zhihudaily.ui.section;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.yao.zhihudaily.R;
-import com.yao.zhihudaily.model.ThemeJson;
+import com.yao.zhihudaily.model.SectionJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
@@ -30,50 +26,44 @@ import rx.schedulers.Schedulers;
 
 
 /**
- * Created by Administrator on 2016/9/10.
+ * Created by Administrator on 2016/9/13.
  */
-public class ThemeActivity extends Activity {
+public class SectionActivity extends Activity {
 
-    private static final String TAG = "ThemeActivity";
+    private static final String TAG = "SectionActivity";
 
-    private ImageView ivBackground;
     private RecyclerView rvStories;
-    private ThemeJson themeJson;
+    private SectionJson sectionJson;
     private int id;
-    private TextView tvDescription;
-    private ThemeStoryAdapter themeStoryAdapter;
+    private String name;
+    private SectionStoryAdapter sectionStoryAdapter;
     private LinearLayoutManager linearLayoutManager;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_theme);
+        setContentView(R.layout.activity_section);
 
         id = getIntent().getIntExtra("id", 0);
-        rvStories = (RecyclerView) findViewById(R.id.rvStories);
-        ivBackground = (ImageView) findViewById(R.id.ivBackground);
-        tvDescription = (TextView) findViewById(R.id.tvDescription);
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
-        //已经在xml中设置
-//        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
-//        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+        name = getIntent().getStringExtra("name");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
-//        toolbar.setLogo(R.mipmap.ic_launcher);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setTitle(name);//设置主标题
+        toolbar.setNavigationOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v)
+            {
                 finish();
             }
         });
 
-
-        themeStoryAdapter = new ThemeStoryAdapter(this);
-        rvStories.setAdapter(themeStoryAdapter);
+        rvStories = (RecyclerView) findViewById(R.id.rvStories);
+        sectionStoryAdapter = new SectionStoryAdapter(this);
+        rvStories.setAdapter(sectionStoryAdapter);
         rvStories.setLayoutManager(linearLayoutManager = new LinearLayoutManager(this));
         rvStories.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
@@ -83,11 +73,11 @@ public class ThemeActivity extends Activity {
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
                 try {
-                    Response response = OkHttpSync.get(String.format(UrlConstants.THEME, String.valueOf(id)));
+                    Response response = OkHttpSync.get(String.format(UrlConstants.SECTION, String.valueOf(id)));
                     if (response.isSuccessful()) {
-                        themeJson = new Gson().fromJson(response.body().string(), ThemeJson.class);
-                        Log.e("YAO", "ThemeActivity.java - call() ---------- "+ themeJson.getStories().size() + themeJson);
-                        themeStoryAdapter.addList(themeJson.getStories());
+                        sectionJson = new Gson().fromJson(response.body().string(), SectionJson.class);
+                        Log.e("YAO", "SectionActivity.java - call() ---------- "+ sectionJson.getStories().size() + sectionJson);
+                        sectionStoryAdapter.addList(sectionJson.getStories());
                         subscriber.onCompleted();
                     } else {
                         subscriber.onError(new Exception("error"));
@@ -103,10 +93,7 @@ public class ThemeActivity extends Activity {
 
                     @Override
                     public void onCompleted() {
-                        themeStoryAdapter.notifyDataSetChanged();
-                        Glide.with(ThemeActivity.this).load(themeJson.getBackground()).into(ivBackground);
-                        collapsingToolbarLayout.setTitle(themeJson.getName());
-                        tvDescription.setText("        " + themeJson.getDescription());
+                        sectionStoryAdapter.notifyDataSetChanged();
                         Log.e("YAO", "ThemeMainFragment.java - onCompleted() ---------- ");
                     }
 

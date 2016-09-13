@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class ThemeJson {
 
-    private ArrayList<Story> stories;
+    private ArrayList<ThemeStory> stories;
     private String description;
     private String background;
     private int color;
@@ -20,11 +20,11 @@ public class ThemeJson {
     @SerializedName("image_source")
     private String imageSource;
 
-    public ArrayList<Story> getStories() {
+    public ArrayList<ThemeStory> getStories() {
         return stories;
     }
 
-    public void setStories(ArrayList<Story> stories) {
+    public void setStories(ArrayList<ThemeStory> stories) {
         this.stories = stories;
     }
 

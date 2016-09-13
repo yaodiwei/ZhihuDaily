@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2016/9/10.
  */
-public class Story {
+public class ThemeStory {
 
     private ArrayList<String> images;
     private int type;
@@ -46,7 +46,7 @@ public class Story {
 
     @Override
     public String toString() {
-        return "Story{" +
+        return "ThemeStory{" +
                 "title='" + title + '\'' +
                 ", id=" + id +
                 ", type=" + type +

@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Section;
 import com.yao.zhihudaily.tool.OnItemClickListener;
-import com.yao.zhihudaily.ui.NewsDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +29,9 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionH
         @Override
         public void onItemClick(int pos) {
             Section section = sections.get(pos);
-            Intent intent = new Intent(fragment.getActivity(), NewsDetailActivity.class);
+            Intent intent = new Intent(fragment.getActivity(), SectionActivity.class);
             intent.putExtra("id", section.getId());
+            intent.putExtra("name", section.getName());
             fragment.getActivity().startActivity(intent);
         }
     };

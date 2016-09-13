@@ -24,6 +24,7 @@
         <activity android:name=".ui.NewsDetailActivity"/>
         <activity android:name=".ui.daily.CommentsActivity"/>
         <activity android:name=".ui.theme.ThemeActivity"/>
+        <activity android:name=".ui.section.SectionActivity"/>
 
     </application>
 

@@ -62,7 +62,6 @@ public class NewsDetailActivity extends Activity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
-//        toolbar.setLogo(R.mipmap.ic_launcher);
         toolbar.inflateMenu(R.menu.new_detail_menu);//设置右上角的填充菜单
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +131,7 @@ public class NewsDetailActivity extends Activity {
                         webView.loadData(HtmlUtil.createHtmlData(dailyJson), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
                         tvTitle.setText(dailyJson.getTitle());
                         tvSource.setText(dailyJson.getImageSource());
+                        Log.e(TAG, "NewsDetailActivity.java - onNext() ---------- dailyJson.getImage() : " + dailyJson.getImage());
                         Glide.with(NewsDetailActivity.this).load(dailyJson.getImage()).into(ivImage);
                     }
                 });
