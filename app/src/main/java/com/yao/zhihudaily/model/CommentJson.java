@@ -2,7 +2,7 @@ package com.yao.zhihudaily.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/8/30.
@@ -10,13 +10,13 @@ import java.util.List;
 public class CommentJson {
 
     @SerializedName("comments")
-    private List<Comment> comments;
+    private ArrayList<Comment> comments;
 
-    public List<Comment> getComments() {
+    public ArrayList<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
     }
 }

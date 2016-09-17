@@ -44,7 +44,7 @@ public class NewsDetailActivity extends Activity {
 
 
     private DailyExtra dailyExtra;
-
+    private Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,13 +54,12 @@ public class NewsDetailActivity extends Activity {
         final int id = getIntent().getIntExtra("id", 0);
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
-        collapsingToolbarLayout.setTitle("五个推荐者");
         //也可以在xml中设置
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedDisappearAppBar);
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
         toolbar.inflateMenu(R.menu.new_detail_menu);//设置右上角的填充菜单
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -101,6 +100,7 @@ public class NewsDetailActivity extends Activity {
             public void call(Subscriber<? super DailyJson> subscriber) {
                 try {
                     Response response = OkHttpSync.get(String.format(UrlConstants.DAILY, id));
+                    Log.e("YAO", "NewsDetailActivity.java - call() ---------- id" + id );
                     if (response.isSuccessful()) {
                         String json = response.body().string();
                         DailyJson dailyJson = new Gson().fromJson(json, DailyJson.class);
@@ -131,8 +131,20 @@ public class NewsDetailActivity extends Activity {
                         webView.loadData(HtmlUtil.createHtmlData(dailyJson), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
                         tvTitle.setText(dailyJson.getTitle());
                         tvSource.setText(dailyJson.getImageSource());
-                        Log.e(TAG, "NewsDetailActivity.java - onNext() ---------- dailyJson.getImage() : " + dailyJson.getImage());
-                        Glide.with(NewsDetailActivity.this).load(dailyJson.getImage()).into(ivImage);
+                        if (dailyJson.getRecommenders() == null) {
+                            collapsingToolbarLayout.setTitle("并没有推荐者");
+                        } else {
+                            collapsingToolbarLayout.setTitle(dailyJson.getRecommenders().size() + "个推荐者");
+                            toolbar.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(NewsDetailActivity.this, RecommendersActivity.class);
+                                    intent.putExtra("id", id);
+                                    startActivity(intent);
+                                }
+                            });
+                        }
+                        Glide.with(NewsDetailActivity.this).load(dailyJson.getImage()).placeholder(R.mipmap.liukanshan).into(ivImage);
                     }
                 });
 
@@ -174,5 +186,7 @@ public class NewsDetailActivity extends Activity {
 
                     }
                 });
+
+
     }
 }

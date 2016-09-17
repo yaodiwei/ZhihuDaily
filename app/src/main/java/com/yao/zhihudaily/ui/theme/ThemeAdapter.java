@@ -16,7 +16,7 @@ import com.yao.zhihudaily.model.Theme;
 import com.yao.zhihudaily.tool.OnItemClickListener;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/9/9.
@@ -24,13 +24,13 @@ import java.util.List;
 public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeHolder> {
 
     private Fragment fragment;
-    private List<Theme> themes = new ArrayList<>();
+    private ArrayList<Theme> themes = new ArrayList<>();
 
     public ThemeAdapter(Fragment fragment) {
         this.fragment = fragment;
     }
 
-    public void addList(List<Theme> themes) {
+    public void addList(ArrayList<Theme> themes) {
         this.themes.addAll(themes);
     }
 

@@ -13,7 +13,7 @@ import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Comment;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/8/30.
@@ -24,7 +24,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
     private static final int COMMENT_WITH_REPLY = 1;
 
 
-    private List<Comment> comments = new ArrayList<>();
+    private ArrayList<Comment> comments = new ArrayList<>();
     private LayoutInflater inflater;
     private Context ctx;
 
@@ -33,7 +33,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
         inflater = LayoutInflater.from(ctx);
     }
 
-    public void addList(List<Comment> comments) {
+    public void addList(ArrayList<Comment> comments) {
         this.comments.addAll(comments);
     }
 

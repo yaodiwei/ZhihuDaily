@@ -25,6 +25,12 @@ public interface UrlConstants {
 
     String SECTIONS = "http://news-at.zhihu.com/api/3/sections";
 
+    String SECTION_BEFORE = "http://news-at.zhihu.com/api/3/section/%1$s/before/%2$s";
+
     String SECTION = "http://news-at.zhihu.com/api/3/section/%1$s";
+
+    String RECOMMENDERS = "http://news-at.zhihu.com/api/4/story/%1$s/recommenders";
+
+    String EDITORS = "http://news-at.zhihu.com/api/4/editor/%1$s/profile-page/android";
 
 }

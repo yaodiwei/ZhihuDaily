@@ -1,7 +1,5 @@
 package com.yao.zhihudaily.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 
 /**
@@ -9,17 +7,16 @@ import java.util.ArrayList;
  */
 public class SectionJson {
 
-    @SerializedName("timestamp")
-    private long timeStamp;
+    private long timestamp;
 
     private ArrayList<SectionStory> stories;
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public ArrayList<SectionStory> getStories() {

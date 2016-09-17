@@ -2,7 +2,7 @@ package com.yao.zhihudaily.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/7/26.
@@ -25,24 +25,17 @@ public class DailyJson {
     @SerializedName("ga_prefix")
     private String time;
 
-    private List<String> images;
-
     private int type;
 
     private int id;
 
-    private List<String> css;
+    private ArrayList<String> css;
 
-    private List<String> js;
+    private ArrayList<String> js;
 
     private Section section;
 
-    class Section {
-
-        private int id;
-        private String thumbnail;
-        private String name;
-    }
+    private ArrayList<Recommender> recommenders;
 
     public String getBody() {
         return body;
@@ -92,14 +85,6 @@ public class DailyJson {
         this.time = time;
     }
 
-    public List<String> getImages() {
-        return images;
-    }
-
-    public void setImages(List<String> images) {
-        this.images = images;
-    }
-
     public int getType() {
         return type;
     }
@@ -116,19 +101,19 @@ public class DailyJson {
         this.id = id;
     }
 
-    public List<String> getCss() {
+    public ArrayList<String> getCss() {
         return css;
     }
 
-    public void setCss(List<String> css) {
+    public void setCss(ArrayList<String> css) {
         this.css = css;
     }
 
-    public List<String> getJs() {
+    public ArrayList<String> getJs() {
         return js;
     }
 
-    public void setJs(List<String> js) {
+    public void setJs(ArrayList<String> js) {
         this.js = js;
     }
 
@@ -138,5 +123,31 @@ public class DailyJson {
 
     public void setSection(Section section) {
         this.section = section;
+    }
+
+    public ArrayList<Recommender> getRecommenders() {
+        return recommenders;
+    }
+
+    public void setRecommenders(ArrayList<Recommender> recommenders) {
+        this.recommenders = recommenders;
+    }
+
+    @Override
+    public String toString() {
+        return "DailyJson{" +
+                "body='" + body + '\'' +
+                ", imageSource='" + imageSource + '\'' +
+                ", title='" + title + '\'' +
+                ", image='" + image + '\'' +
+                ", shareUrl='" + shareUrl + '\'' +
+                ", time='" + time + '\'' +
+                ", type=" + type +
+                ", id=" + id +
+                ", css=" + css +
+                ", js=" + js +
+                ", section=" + section +
+                ", recommenders=" + recommenders +
+                '}';
     }
 }

@@ -1,6 +1,6 @@
 package com.yao.zhihudaily.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/7/24.
@@ -8,7 +8,7 @@ import java.util.List;
 public class DailiesJson {
 
     private String date;
-    private List<Daily> stories;
+    private ArrayList<Daily> stories;
 
     public String getDate() {
         return date;
@@ -18,11 +18,11 @@ public class DailiesJson {
         this.date = date;
     }
 
-    public List<Daily> getStories() {
+    public ArrayList<Daily> getStories() {
         return stories;
     }
 
-    public void setStories(List<Daily> stories) {
+    public void setStories(ArrayList<Daily> stories) {
         this.stories = stories;
     }
 }

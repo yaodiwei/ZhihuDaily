@@ -16,6 +16,7 @@ import com.yao.zhihudaily.model.DailiesJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
+import com.yao.zhihudaily.tool.RecyclerViewOnLoadMoreListener;
 import com.yao.zhihudaily.ui.MainFragment;
 
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
 
     private LinearLayoutManager linearLayoutManager;
 
-    private boolean isLoadMore;
+    private RecyclerViewOnLoadMoreListener listener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,36 +61,14 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
         rvDailies.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
         rvDailies.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         rvDailies.setAdapter(dailyAdapter = new DailyAdapter(this));
-        rvDailies.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            private int lastVisibleItemPosition;
-            private int visibleItemCount;
-            private int totalItemCount;
-
+        rvDailies.addOnScrollListener(listener = new RecyclerViewOnLoadMoreListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                visibleItemCount = layoutManager.getChildCount();
-                lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-                totalItemCount = layoutManager.getItemCount();
-                if (visibleItemCount > 0 && newState == RecyclerView.SCROLL_STATE_IDLE
-                        && lastVisibleItemPosition >= totalItemCount - 1) {
-                    //加载更多
-                    if (!isLoadMore) {
-                        getNews(startDate);
-                        isLoadMore = true;
-                    }
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+            public void onLoadMore() {
+                getDailies(startDate);
             }
         });
 
-        getNews(null);
+        getDailies(null);
 
         return view;
     }
@@ -100,7 +79,7 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
      * targetDate为空表示首次刷新或者下拉刷新, 获取最新数据
      * 不为空表示加载更多, 获取指定日期历史数据
      */
-    private void getNews(final String tartgetDate) {
+    private void getDailies(final String tartgetDate) {
         Subscription subscription = Observable.create(new Observable.OnSubscribe<Boolean>() {
 
             @Override
@@ -148,7 +127,7 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
                     public void onCompleted() {
                         dailyAdapter.notifyDataSetChanged();
                         if (tartgetDate != null) {
-                            isLoadMore = false;
+                            listener.setLoading(false);
                         }
                     }
 
@@ -167,7 +146,7 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        getNews(null);
+        getDailies(null);
     }
 
     @Override

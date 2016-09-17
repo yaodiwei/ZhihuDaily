@@ -14,6 +14,7 @@ import com.yao.zhihudaily.model.SectionJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
+import com.yao.zhihudaily.tool.RecyclerViewOnLoadMoreListener;
 
 import java.io.IOException;
 
@@ -39,6 +40,8 @@ public class SectionActivity extends Activity {
     private SectionStoryAdapter sectionStoryAdapter;
     private LinearLayoutManager linearLayoutManager;
     private Toolbar toolbar;
+
+    private RecyclerViewOnLoadMoreListener listener;
 
 
     @Override
@@ -66,18 +69,42 @@ public class SectionActivity extends Activity {
         rvStories.setAdapter(sectionStoryAdapter);
         rvStories.setLayoutManager(linearLayoutManager = new LinearLayoutManager(this));
         rvStories.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        rvStories.addOnScrollListener(listener = new RecyclerViewOnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                getSectionStories(sectionJson.getTimestamp());
+            }
+        });
 
+        getSectionStories(-1);
+    }
 
+    /**
+     *
+     * @param timestamp
+     * targetDate为-1表示首次刷新或者下拉刷新, 获取最新数据
+     * 为0表示没有更多数据
+     * 其他值为加载更多数据
+     */
+    private void getSectionStories(final long timestamp) {
         Subscription subscription = Observable.create(new Observable.OnSubscribe<Boolean>() {
+
+            private Response response;
 
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
                 try {
-                    Response response = OkHttpSync.get(String.format(UrlConstants.SECTION, String.valueOf(id)));
-                    if (response.isSuccessful()) {
+                    if (timestamp == -1) {
+                        response = OkHttpSync.get(String.format(UrlConstants.SECTION, String.valueOf(id)));
+                    } else if (timestamp == 0) {
+                    } else {
+                        response = OkHttpSync.get(String.format(UrlConstants.SECTION_BEFORE, String.valueOf(id), timestamp));
+                    }
+                    if (response == null) {
+                    } else if (response.isSuccessful()) {
                         sectionJson = new Gson().fromJson(response.body().string(), SectionJson.class);
-                        Log.e("YAO", "SectionActivity.java - call() ---------- "+ sectionJson.getStories().size() + sectionJson);
                         sectionStoryAdapter.addList(sectionJson.getStories());
+                        Log.e("YAO", "SectionActivity.java - call() ---------- sectionJson" + sectionJson.getTimestamp());
                         subscriber.onCompleted();
                     } else {
                         subscriber.onError(new Exception("error"));
@@ -94,7 +121,9 @@ public class SectionActivity extends Activity {
                     @Override
                     public void onCompleted() {
                         sectionStoryAdapter.notifyDataSetChanged();
-                        Log.e("YAO", "ThemeMainFragment.java - onCompleted() ---------- ");
+                        if (timestamp > 0) {
+                            listener.setLoading(false);
+                        }
                     }
 
                     @Override
@@ -106,7 +135,5 @@ public class SectionActivity extends Activity {
                     public void onNext(Boolean isRefreshing) {
                     }
                 });
-
-
     }
 }

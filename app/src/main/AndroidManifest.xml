@@ -25,6 +25,8 @@
         <activity android:name=".ui.daily.CommentsActivity"/>
         <activity android:name=".ui.theme.ThemeActivity"/>
         <activity android:name=".ui.section.SectionActivity"/>
+        <activity android:name=".ui.RecommendersActivity"/>
+        <activity android:name=".ui.ProfilePageActivity"/>
 
     </application>
 

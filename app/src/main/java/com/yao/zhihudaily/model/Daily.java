@@ -3,7 +3,7 @@ package com.yao.zhihudaily.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/7/23.
@@ -23,7 +23,7 @@ public class Daily implements Serializable {
     @SerializedName("mutlipic")
     private boolean multiPic;
 
-    private List<String> images;
+    private ArrayList<String> images;
 
     public int getId() {
         return id;
@@ -65,11 +65,11 @@ public class Daily implements Serializable {
         this.multiPic = multiPic;
     }
 
-    public List<String> getImages() {
+    public ArrayList<String> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(ArrayList<String> images) {
         this.images = images;
     }
 

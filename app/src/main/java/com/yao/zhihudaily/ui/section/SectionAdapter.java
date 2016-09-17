@@ -16,7 +16,6 @@ import com.yao.zhihudaily.model.Section;
 import com.yao.zhihudaily.tool.OnItemClickListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/24.
@@ -24,7 +23,7 @@ import java.util.List;
 public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionHolder> {
 
     private Fragment fragment;
-    private List<Section> sections = new ArrayList<>();
+    private ArrayList<Section> sections = new ArrayList<>();
     private OnItemClickListener listener = new OnItemClickListener() {
         @Override
         public void onItemClick(int pos) {
@@ -40,12 +39,12 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionH
         this.fragment = fragment;
     }
 
-    public SectionAdapter(List<Section> sections, Fragment fragment) {
+    public SectionAdapter(ArrayList<Section> sections, Fragment fragment) {
         this.sections = sections;
         this.fragment = fragment;
     }
 
-    public void addList(List<Section> sections) {
+    public void addList(ArrayList<Section> sections) {
         this.sections.addAll(sections);
     }
 

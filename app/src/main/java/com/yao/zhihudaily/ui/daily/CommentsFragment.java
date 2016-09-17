@@ -20,7 +20,7 @@ import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 import okhttp3.Response;
 import rx.Observable;
@@ -35,7 +35,7 @@ import rx.schedulers.Schedulers;
 public class CommentsFragment extends Fragment {
 
     private RecyclerView rvComments;
-    private List<Comment> comments;
+    private ArrayList<Comment> comments;
     private CommentAdapter commentAdapter;
     private LinearLayoutManager linearLayoutManager;
 

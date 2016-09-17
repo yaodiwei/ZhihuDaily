@@ -3,7 +3,7 @@ package com.yao.zhihudaily.util;
 
 import com.yao.zhihudaily.model.DailyJson;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class HtmlUtil
 {
@@ -41,10 +41,10 @@ public class HtmlUtil
     /**
      * 根据多个css链接生成Link标签
      *
-     * @param urls List<String>
+     * @param urls ArrayList<String>
      * @return String
      */
-    public static String createCssTag(List<String> urls)
+    public static String createCssTag(ArrayList<String> urls)
     {
 
         final StringBuilder sb = new StringBuilder();
@@ -70,10 +70,10 @@ public class HtmlUtil
     /**
      * 根据多个js链接生成Script标签
      *
-     * @param urls List<String>
+     * @param urls ArrayList<String>
      * @return String
      */
-    public static String createJsTag(List<String> urls)
+    public static String createJsTag(ArrayList<String> urls)
     {
 
         final StringBuilder sb = new StringBuilder();

@@ -17,7 +17,7 @@ import com.yao.zhihudaily.tool.OnItemClickListener;
 import com.yao.zhihudaily.ui.NewsDetailActivity;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/7/24.
@@ -25,7 +25,7 @@ import java.util.List;
 public class HotAdapter extends RecyclerView.Adapter<HotAdapter.StroyHolder> {
 
     private Fragment fragment;
-    private List<Hot> hots = new ArrayList<>();
+    private ArrayList<Hot> hots = new ArrayList<>();
     private OnItemClickListener listener = new OnItemClickListener() {
         @Override
         public void onItemClick(int pos) {
@@ -40,12 +40,12 @@ public class HotAdapter extends RecyclerView.Adapter<HotAdapter.StroyHolder> {
         this.fragment = fragment;
     }
 
-    public HotAdapter(List<Hot> hots, Fragment fragment) {
+    public HotAdapter(ArrayList<Hot> hots, Fragment fragment) {
         this.hots = hots;
         this.fragment = fragment;
     }
 
-    public void addList(List<Hot> stories) {
+    public void addList(ArrayList<Hot> stories) {
         this.hots.addAll(stories);
     }
 

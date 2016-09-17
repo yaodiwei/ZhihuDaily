@@ -16,7 +16,7 @@ import com.yao.zhihudaily.tool.OnItemClickListener;
 import com.yao.zhihudaily.ui.NewsDetailActivity;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/7/24.
@@ -24,7 +24,7 @@ import java.util.List;
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StroyHolder> {
 
     private Fragment fragment;
-    private List<Daily> stories = new ArrayList<>();
+    private ArrayList<Daily> stories = new ArrayList<>();
     private OnItemClickListener listener = new OnItemClickListener() {
         @Override
         public void onItemClick(int pos) {
@@ -39,16 +39,16 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StroyHolder>
         this.fragment = fragment;
     }
 
-    public DailyAdapter(List<Daily> stories, Fragment fragment) {
+    public DailyAdapter(ArrayList<Daily> stories, Fragment fragment) {
         this.stories = stories;
         this.fragment = fragment;
     }
 
-    public void addList(List<Daily> stories) {
+    public void addList(ArrayList<Daily> stories) {
         this.stories.addAll(stories);
     }
 
-    public void addListToHeader(List<Daily> stories) {
+    public void addListToHeader(ArrayList<Daily> stories) {
         this.stories.addAll(0, stories);
     }
 
