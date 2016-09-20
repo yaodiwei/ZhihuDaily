@@ -9,9 +9,9 @@ public interface UrlConstants {
 
     String DAILIES_BEFORE = "http://news.at.zhihu.com/api/4/news/before/%1$s";
 
-    String DAILY = "http://news-at.zhihu.com/api/4/news/%1$s";
+    String NEWS = "http://news-at.zhihu.com/api/4/news/%1$s";
 
-    String DAILY_EXTRA = "http://news-at.zhihu.com/api/4/story-extra/%1$s";
+    String STORY_EXTRA = "http://news-at.zhihu.com/api/4/story-extra/%1$s";
 
     String SHORT_COMMENTS = "http://news-at.zhihu.com/api/4/story/%1$s/short-comments";
 
@@ -25,12 +25,12 @@ public interface UrlConstants {
 
     String SECTIONS = "http://news-at.zhihu.com/api/3/sections";
 
-    String SECTION_BEFORE = "http://news-at.zhihu.com/api/3/section/%1$s/before/%2$s";
-
     String SECTION = "http://news-at.zhihu.com/api/3/section/%1$s";
+
+    String SECTION_BEFORE = "http://news-at.zhihu.com/api/3/section/%1$s/before/%2$s";
 
     String RECOMMENDERS = "http://news-at.zhihu.com/api/4/story/%1$s/recommenders";
 
-    String EDITORS = "http://news-at.zhihu.com/api/4/editor/%1$s/profile-page/android";
+    String EDITOR = "http://news-at.zhihu.com/api/4/editor/%1$s/profile-page/android";
 
 }

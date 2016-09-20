@@ -30,7 +30,7 @@ public class OkHttpSync {
     {
         Log.e(TAG, "static initializer: OkHttpSync");
         client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS).build();
+            .readTimeout(30, TimeUnit.SECONDS).build();
     }
 
     public static Response get(String url) throws IOException {

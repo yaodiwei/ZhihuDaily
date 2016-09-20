@@ -99,7 +99,7 @@ public class NewsDetailActivity extends Activity {
             @Override
             public void call(Subscriber<? super DailyJson> subscriber) {
                 try {
-                    Response response = OkHttpSync.get(String.format(UrlConstants.DAILY, id));
+                    Response response = OkHttpSync.get(String.format(UrlConstants.NEWS, id));
                     Log.e("YAO", "NewsDetailActivity.java - call() ---------- id" + id );
                     if (response.isSuccessful()) {
                         String json = response.body().string();
@@ -155,7 +155,7 @@ public class NewsDetailActivity extends Activity {
             @Override
             public void call(Subscriber<? super DailyExtra> subscriber) {
                 try {
-                    Response response = OkHttpSync.get(String.format(UrlConstants.DAILY_EXTRA, id));
+                    Response response = OkHttpSync.get(String.format(UrlConstants.STORY_EXTRA, id));
                     if (response.isSuccessful()) {
                         String json = response.body().string();
                         dailyExtra = new Gson().fromJson(json, DailyExtra.class);

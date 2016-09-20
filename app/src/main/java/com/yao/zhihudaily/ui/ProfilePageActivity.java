@@ -40,7 +40,7 @@ public class ProfilePageActivity extends Activity {
 
         toolbar.setTitle(name);
         Log.e("YAO", "ProfilePageActivity.java - onCreate() ---------- id" + id );
-        webView.loadUrl(String.format(UrlConstants.EDITORS, id));
+        webView.loadUrl(String.format(UrlConstants.EDITOR, id));
 
     }
 }
