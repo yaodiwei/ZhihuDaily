@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by Administrator on 2016/8/30.
  */
-public class DailyExtra implements Serializable {
+public class StoryExtra implements Serializable {
 
     private int popularity;
 
@@ -53,7 +53,7 @@ public class DailyExtra implements Serializable {
 
     @Override
     public String toString() {
-        return "DailyExtra{" +
+        return "StoryExtra{" +
                 "popularity=" + popularity +
                 ", longComments=" + longComments +
                 ", shortComments=" + shortComments +

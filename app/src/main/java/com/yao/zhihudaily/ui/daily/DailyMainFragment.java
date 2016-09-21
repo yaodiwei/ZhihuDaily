@@ -15,6 +15,7 @@ import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.DailiesJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
+import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 import com.yao.zhihudaily.tool.RecyclerViewOnLoadMoreListener;
 import com.yao.zhihudaily.ui.MainFragment;
@@ -24,7 +25,6 @@ import java.io.IOException;
 import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -48,6 +48,8 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
     private LinearLayoutManager linearLayoutManager;
 
     private RecyclerViewOnLoadMoreListener listener;
+
+    private Subscriber<DailiesJson> subscriber;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,14 +75,75 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
         return view;
     }
 
+    private void getDailies(final String tartgetDate) {
+        subscriber = new Subscriber<DailiesJson>() {
+            @Override
+            public void onCompleted() {
+                dailyAdapter.notifyDataSetChanged();
+                if (tartgetDate != null) {
+                    listener.setLoading(false);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e(TAG, "onError: " + e.toString());
+            }
+
+            @Override
+            public void onNext(DailiesJson dailiesJson) {
+                if (TextUtils.isEmpty(endDate)) { //如果是首次加载这个界面
+                    startDate = dailiesJson.getDate();
+                    endDate = dailiesJson.getDate();
+                    dailyAdapter.addList(dailiesJson.getStories());
+                    subscriber.onCompleted();
+                } else if (tartgetDate == null) { //表示下拉刷新
+                    if (endDate.equals(dailiesJson.getDate())) { //App的最晚时间 等于 下拉新获取的时间
+                        swipeRefreshLayout.setRefreshing(false);
+                    } else { ////App的最晚时间 不等于 下拉新获取的时间
+                        endDate = dailiesJson.getDate();
+                        dailyAdapter.addListToHeader(dailiesJson.getStories());
+                        subscriber.onCompleted();
+                    }
+                } else { //表示上拉加载
+                    startDate = dailiesJson.getDate();
+                    dailyAdapter.addList(dailiesJson.getStories());
+                    subscriber.onCompleted();
+                }
+            }
+        };
+        if (tartgetDate == null) {
+            ZhihuHttp.getZhihuHttp().getDailies(subscriber);
+        } else {
+            ZhihuHttp.getZhihuHttp().getDailiesBefore(subscriber, tartgetDate);
+        }
+
+    }
+
+
+    @Override
+    public void onRefresh() {
+        getDailies(null);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //如果没有这个置空,当没有设置fragment缓存时,会执行destroyView方法.但是成员变量并不会摧毁,依然有值
+        // 下次再进来时,会得出endDate不是空的情况,从而跳过"首次加载这个界面"这个逻辑
+        endDate = null;
+    }
+
     /**
      *
      * @param tartgetDate
      * targetDate为空表示首次刷新或者下拉刷新, 获取最新数据
      * 不为空表示加载更多, 获取指定日期历史数据
+     * 此为纯RxJava
      */
-    private void getDailies(final String tartgetDate) {
-        Subscription subscription = Observable.create(new Observable.OnSubscribe<Boolean>() {
+    @Deprecated
+    private void getDailiesOld(final String tartgetDate) {
+        Observable.create(new Observable.OnSubscribe<Boolean>() {
 
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
@@ -141,19 +204,5 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
                         swipeRefreshLayout.setRefreshing(isRefreshing);
                     }
                 });
-    }
-
-
-    @Override
-    public void onRefresh() {
-        getDailies(null);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        //如果没有这个置空,当没有设置fragment缓存时,会执行destroyView方法.但是成员变量并不会摧毁,依然有值
-        // 下次再进来时,会得出endDate不是空的情况,从而跳过"首次加载这个界面"这个逻辑
-        endDate = null;
     }
 }

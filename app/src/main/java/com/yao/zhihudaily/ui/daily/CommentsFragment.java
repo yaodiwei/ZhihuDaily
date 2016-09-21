@@ -15,8 +15,9 @@ import com.google.gson.Gson;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Comment;
 import com.yao.zhihudaily.model.CommentJson;
-import com.yao.zhihudaily.model.DailyExtra;
+import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.net.OkHttpSync;
+import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 
 import java.io.IOException;
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -34,13 +34,15 @@ import rx.schedulers.Schedulers;
  */
 public class CommentsFragment extends Fragment {
 
+    private static final String TAG = "CommentsFragment";
+
     private RecyclerView rvComments;
     private ArrayList<Comment> comments;
     private CommentAdapter commentAdapter;
     private LinearLayoutManager linearLayoutManager;
 
     private int id;
-    private DailyExtra dailyExtra;
+    private StoryExtra storyExtra;
     private String url;
     private int count;
 
@@ -51,7 +53,7 @@ public class CommentsFragment extends Fragment {
 
         Bundle bundle = getArguments();
         id = bundle.getInt("id", 0);
-        dailyExtra = (DailyExtra) bundle.getSerializable("dailyExtra");
+        storyExtra = (StoryExtra) bundle.getSerializable("storyExtra");
         url = bundle.getString("url");
         count = bundle.getInt("count");
 
@@ -94,10 +96,46 @@ public class CommentsFragment extends Fragment {
             });
         }
 
-        Subscription subscription = Observable.create(new Observable.OnSubscribe<Boolean>() {
+        getComments(url);
+
+        return view;
+    }
+
+    private void getComments(String url) {
+        Subscriber subscriber = new Subscriber<CommentJson>() {
 
             @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e(TAG, "onError: " + e.toString());
+            }
+
+            @Override
+            public void onNext(CommentJson commentJson) {
+                comments = commentJson.getComments();
+                commentAdapter.addList(comments);
+                commentAdapter.notifyDataSetChanged();
+//                toolbar.setTitle(toolbar.getTitle() + "(以下展示" + comments.size() + "条)");
+            }
+        };
+
+        if (url.endsWith("short-comments")) {
+            ZhihuHttp.getZhihuHttp().getShortComments(subscriber, String.valueOf(id));
+        } else {
+            ZhihuHttp.getZhihuHttp().getLongComments(subscriber, String.valueOf(id));
+        }
+    }
+
+    @Deprecated
+    private void getCommentsOld() {
+        Observable.create(new Observable.OnSubscribe<CommentJson>() {
+
+            @Override
+            public void call(Subscriber<? super CommentJson> subscriber) {
                 try {
                     Response response = OkHttpSync.get(String.format(url, String.valueOf(id)));
                     if (response.isSuccessful()) {
@@ -116,7 +154,7 @@ public class CommentsFragment extends Fragment {
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Boolean>() {
+                .subscribe(new Subscriber<CommentJson>() {
 
                     @Override
                     public void onCompleted() {
@@ -130,10 +168,8 @@ public class CommentsFragment extends Fragment {
                     }
 
                     @Override
-                    public void onNext(Boolean isRefreshing) {
+                    public void onNext(CommentJson commentJson) {
                     }
                 });
-
-        return view;
     }
 }

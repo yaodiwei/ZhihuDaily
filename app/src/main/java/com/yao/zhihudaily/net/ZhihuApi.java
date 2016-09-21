@@ -1,6 +1,13 @@
 package com.yao.zhihudaily.net;
 
+import com.yao.zhihudaily.model.CommentJson;
 import com.yao.zhihudaily.model.DailiesJson;
+import com.yao.zhihudaily.model.DailyJson;
+import com.yao.zhihudaily.model.HotJson;
+import com.yao.zhihudaily.model.SectionsJson;
+import com.yao.zhihudaily.model.StoryExtra;
+import com.yao.zhihudaily.model.ThemeJson;
+import com.yao.zhihudaily.model.ThemesJson;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -16,42 +23,42 @@ public interface ZhihuApi {
     Observable<DailiesJson> getDailies();
 
     @GET("4/news/before/{date}")
-    void getDailiesBefore(@Path("date") String date);
+    Observable<DailiesJson> getDailiesBefore(@Path("date") String date);
 
     @GET("4/news/{id}")
-    void getNews(@Path("id") String id);
+    Observable<DailyJson> getNews(@Path("id") String id);
 
     @GET("4/story-extra/{id}")
-    void getStoryExtra(@Path("id") String id);
+    Observable<StoryExtra> getStoryExtra(@Path("id") String id);
 
     @GET("4/story/{id}/short-comments")
-    void getShortComments(@Path("id") String id);
+    Observable<CommentJson> getShortComments(@Path("id") String id);
 
     @GET("4/story/{id}/long-comments")
-    void getLongComments(@Path("id") String id);
+    Observable<CommentJson> getLongComments(@Path("id") String id);
 
     @GET("4/themes")
-    void getThemes();
+    Observable<ThemesJson> getThemes();
 
     @GET("4/theme/{id}")
-    void getTheme(@Path("id") String id);
+    Observable<ThemeJson> getTheme(@Path("id") String id);
 
     @GET("3/news/hot")
-    void getHot();
+    Observable<HotJson> getHot();
 
     @GET("3/sections")
-    void getSections();
+    Observable<SectionsJson> getSections();
 
     @GET("3/section/{id}")
-    void getSection(@Path("id") String id);
+    Observable getSection(@Path("id") String id);
 
     @GET("3/section/{id}/before/{timestamp}")
-    void getSectionBefore(@Path("id") String id, @Path("timestamp") String timestamp);
+    Observable getSectionBefore(@Path("id") String id, @Path("timestamp") String timestamp);
 
     @GET("4/story/{id}/recommenders")
-    void getRecommends(@Path("id") String id);
+    Observable getRecommends(@Path("id") String id);
 
     @GET("4/editor/{id}/profile-page/android")
-    void getEditor(@Path("id") String id);
+    Observable getEditor(@Path("id") String id);
 
 }

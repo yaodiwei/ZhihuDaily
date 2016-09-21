@@ -12,8 +12,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Section;
+import com.yao.zhihudaily.model.SectionsJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
+import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 import com.yao.zhihudaily.ui.MainFragment;
 
@@ -24,7 +26,6 @@ import java.util.ArrayList;
 import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -51,10 +52,41 @@ public class SectionMainFragment extends MainFragment {
         rvSections.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         rvSections.setAdapter(sectionAdapter = new SectionAdapter(this));
 
-        Subscription subscription = Observable.create(new Observable.OnSubscribe<Boolean>() {
+        getSections();
+
+        return view;
+    }
+
+    private void getSections() {
+        Subscriber subscriber = new Subscriber<SectionsJson>() {
 
             @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e(TAG, "onError: " + e.toString());
+            }
+
+            @Override
+            public void onNext(SectionsJson sectionsJson) {
+                ArrayList<Section> sections = sectionsJson.getSections();
+                sectionAdapter.addList(sections);
+                sectionAdapter.notifyDataSetChanged();
+            }
+        };
+
+        ZhihuHttp.getZhihuHttp().getSections(subscriber);
+    }
+
+
+    private void getSectionsOld() {
+        Observable.create(new Observable.OnSubscribe<SectionsJson>() {
+
+            @Override
+            public void call(Subscriber<? super SectionsJson> subscriber) {
                 try {
                     Response response = OkHttpSync.get(UrlConstants.SECTIONS);
                     if (response.isSuccessful()) {
@@ -62,7 +94,6 @@ public class SectionMainFragment extends MainFragment {
                         String responseString = response.body().string();
                         responseString = responseString.substring(8, responseString.length()-1);
                         ArrayList<Section> sections = new Gson().fromJson(responseString, listType);
-                        Log.e(TAG, "SectionMainFragment.java - call() ---------- " + sections );
                         sectionAdapter.addList(sections);
                         subscriber.onCompleted();
                     } else {
@@ -75,7 +106,7 @@ public class SectionMainFragment extends MainFragment {
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Boolean>() {
+                .subscribe(new Subscriber<SectionsJson>() {
 
                     @Override
                     public void onCompleted() {
@@ -88,10 +119,8 @@ public class SectionMainFragment extends MainFragment {
                     }
 
                     @Override
-                    public void onNext(Boolean isRefreshing) {
+                    public void onNext(SectionsJson sectionsJson) {
                     }
                 });
-
-        return view;
     }
 }

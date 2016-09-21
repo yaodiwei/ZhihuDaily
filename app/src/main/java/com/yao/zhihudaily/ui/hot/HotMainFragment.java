@@ -12,8 +12,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Hot;
+import com.yao.zhihudaily.model.HotJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
+import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 import com.yao.zhihudaily.ui.MainFragment;
 
@@ -24,7 +26,6 @@ import java.util.ArrayList;
 import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -51,10 +52,40 @@ public class HotMainFragment extends MainFragment {
         rvHots.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         rvHots.setAdapter(hotAdapter = new HotAdapter(this));
 
-        Subscription subscription = Observable.create(new Observable.OnSubscribe<Boolean>() {
+        getHot();
+
+        return view;
+    }
+
+    private void getHot() {
+        Subscriber subscriber = new Subscriber<HotJson>() {
 
             @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e(TAG, "onError: " + e.toString());
+            }
+
+            @Override
+            public void onNext(HotJson hotJson) {
+                ArrayList<Hot> hots = hotJson.getHots();
+                hotAdapter.addList(hots);
+                hotAdapter.notifyDataSetChanged();
+            }
+        };
+
+        ZhihuHttp.getZhihuHttp().getHot(subscriber);
+    }
+
+    private void getHotOld() {
+        Observable.create(new Observable.OnSubscribe<Response>() {
+
+            @Override
+            public void call(Subscriber<? super Response> subscriber) {
                 try {
                     Response response = OkHttpSync.get(UrlConstants.HOT);
                     if (response.isSuccessful()) {
@@ -75,7 +106,7 @@ public class HotMainFragment extends MainFragment {
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Boolean>() {
+                .subscribe(new Subscriber<Response>() {
 
                     @Override
                     public void onCompleted() {
@@ -88,11 +119,9 @@ public class HotMainFragment extends MainFragment {
                     }
 
                     @Override
-                    public void onNext(Boolean isRefreshing) {
+                    public void onNext(Response response) {
                     }
                 });
-
-        return view;
     }
 
 }

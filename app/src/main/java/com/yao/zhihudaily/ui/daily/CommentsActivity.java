@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.yao.zhihudaily.R;
-import com.yao.zhihudaily.model.DailyExtra;
+import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.net.UrlConstants;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class CommentsActivity extends Activity {
 
     private int id;
-    private DailyExtra dailyExtra;
+    private StoryExtra storyExtra;
     private ViewPager viewPager;
     private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
     private TabLayout tabLayout;
@@ -32,7 +32,7 @@ public class CommentsActivity extends Activity {
         setContentView(R.layout.activity_comments);
 
         id = getIntent().getIntExtra("id", 0);
-        dailyExtra = (DailyExtra) getIntent().getSerializableExtra("dailyExtra");
+        storyExtra = (StoryExtra) getIntent().getSerializableExtra("storyExtra");
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         initToolbar(toolbar);
@@ -42,8 +42,8 @@ public class CommentsActivity extends Activity {
 
         //
         ArrayList<String> tabList = new ArrayList<>();
-        tabList.add("短评论(" + dailyExtra.getShortComments() + ")");
-        tabList.add("长评论(" + dailyExtra.getLongComments() + ")");
+        tabList.add("短评论(" + storyExtra.getShortComments() + ")");
+        tabList.add("长评论(" + storyExtra.getLongComments() + ")");
         tabLayout.addTab(tabLayout.newTab().setText(tabList.get(0)));//添加tab选项卡
         tabLayout.addTab(tabLayout.newTab().setText(tabList.get(1)));
 
@@ -51,18 +51,18 @@ public class CommentsActivity extends Activity {
         CommentsFragment shortCommentsFragment = new CommentsFragment();
         Bundle bundleForShortComments = new Bundle();
         bundleForShortComments.putInt("id", id);
-        bundleForShortComments.putSerializable("dailyExtra", dailyExtra);
+        bundleForShortComments.putSerializable("storyExtra", storyExtra);
         bundleForShortComments.putString("url", UrlConstants.SHORT_COMMENTS);
-        bundleForShortComments.putInt("count", dailyExtra.getShortComments());
+        bundleForShortComments.putInt("count", storyExtra.getShortComments());
         shortCommentsFragment.setArguments(bundleForShortComments);
 
         //长评论界面
         CommentsFragment longCommentsFragment = new CommentsFragment();
         Bundle bundleForLongComments = new Bundle();
         bundleForLongComments.putInt("id", id);
-        bundleForLongComments.putSerializable("dailyExtra", dailyExtra);
+        bundleForLongComments.putSerializable("storyExtra", storyExtra);
         bundleForLongComments.putString("url", UrlConstants.LONG_COMMENTS);
-        bundleForShortComments.putInt("counts", dailyExtra.getLongComments());
+        bundleForShortComments.putInt("counts", storyExtra.getLongComments());
         longCommentsFragment.setArguments(bundleForLongComments);
 
         fragments.add(shortCommentsFragment);
@@ -78,7 +78,7 @@ public class CommentsActivity extends Activity {
 
     private void initToolbar(Toolbar toolbar) {
         toolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
-        toolbar.setTitle("共" + dailyExtra.getShortComments() + "条");//设置主标题
+        toolbar.setTitle("共" + storyExtra.getShortComments() + "条");//设置主标题
         toolbar.setNavigationOnClickListener(new View.OnClickListener()
         {
             @Override

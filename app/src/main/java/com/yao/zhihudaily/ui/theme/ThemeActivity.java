@@ -17,6 +17,7 @@ import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.ThemeJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
+import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 
 import java.io.IOException;
@@ -24,7 +25,6 @@ import java.io.IOException;
 import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -77,16 +77,45 @@ public class ThemeActivity extends Activity {
         rvStories.setLayoutManager(linearLayoutManager = new LinearLayoutManager(this));
         rvStories.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
+        getThemeData();
+    }
 
-        Subscription subscription = Observable.create(new Observable.OnSubscribe<Boolean>() {
+    private void getThemeData() {
+        Subscriber subscriber = new Subscriber<ThemeJson>() {
 
             @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e(TAG, "onError: " + e.toString());
+            }
+
+            @Override
+            public void onNext(ThemeJson themeJson) {
+                themeStoryAdapter.addList(themeJson.getStories());
+                themeStoryAdapter.notifyDataSetChanged();
+                Glide.with(ThemeActivity.this).load(themeJson.getBackground()).into(ivBackground);
+                collapsingToolbarLayout.setTitle(themeJson.getName());
+                tvDescription.setText("        " + themeJson.getDescription());
+            }
+        };
+
+        ZhihuHttp.getZhihuHttp().getTheme(subscriber, String.valueOf(id));
+    }
+
+    @Deprecated
+    private void getThemeDataOld() {
+        Observable.create(new Observable.OnSubscribe<ThemeJson>() {
+
+            @Override
+            public void call(Subscriber<? super ThemeJson> subscriber) {
                 try {
                     Response response = OkHttpSync.get(String.format(UrlConstants.THEME, String.valueOf(id)));
                     if (response.isSuccessful()) {
                         themeJson = new Gson().fromJson(response.body().string(), ThemeJson.class);
-                        Log.e("YAO", "ThemeActivity.java - call() ---------- "+ themeJson.getStories().size() + themeJson);
                         themeStoryAdapter.addList(themeJson.getStories());
                         subscriber.onCompleted();
                     } else {
@@ -99,7 +128,7 @@ public class ThemeActivity extends Activity {
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Boolean>() {
+                .subscribe(new Subscriber<ThemeJson>() {
 
                     @Override
                     public void onCompleted() {
@@ -107,7 +136,6 @@ public class ThemeActivity extends Activity {
                         Glide.with(ThemeActivity.this).load(themeJson.getBackground()).into(ivBackground);
                         collapsingToolbarLayout.setTitle(themeJson.getName());
                         tvDescription.setText("        " + themeJson.getDescription());
-                        Log.e("YAO", "ThemeMainFragment.java - onCompleted() ---------- ");
                     }
 
                     @Override
@@ -116,10 +144,8 @@ public class ThemeActivity extends Activity {
                     }
 
                     @Override
-                    public void onNext(Boolean isRefreshing) {
+                    public void onNext(ThemeJson themeJson) {
                     }
                 });
-
-
     }
 }

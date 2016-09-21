@@ -14,6 +14,7 @@ import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.ThemesJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
+import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.GridItemDecoration;
 import com.yao.zhihudaily.ui.MainFragment;
 
@@ -22,7 +23,6 @@ import java.io.IOException;
 import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -48,15 +48,44 @@ public class ThemeMainFragment extends MainFragment{
         rvThemes.addItemDecoration(new GridItemDecoration(10, 3));
         rvThemes.setAdapter(themeAdapter = new ThemeAdapter(this));
 
-        Subscription subscription = Observable.create(new Observable.OnSubscribe<Boolean>() {
+        getThemes();
+
+        return view;
+    }
+
+    private void getThemes() {
+        Subscriber subscriber = new Subscriber<ThemesJson>() {
 
             @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e(TAG, "onError: " + e.toString());
+            }
+
+            @Override
+            public void onNext(ThemesJson themesJson) {
+                themeAdapter.addList(themesJson.getOthers());
+                themeAdapter.notifyDataSetChanged();
+            }
+        };
+
+        ZhihuHttp.getZhihuHttp().getThemes(subscriber);
+    }
+
+    @Deprecated
+    private void getThemesOld() {
+        Observable.create(new Observable.OnSubscribe<ThemesJson>() {
+
+            @Override
+            public void call(Subscriber<? super ThemesJson> subscriber) {
                 try {
                     Response response = OkHttpSync.get(UrlConstants.THEMES);
                     if (response.isSuccessful()) {
                         ThemesJson themesJson = new Gson().fromJson(response.body().string(), ThemesJson.class);
-                        Log.e("YAO", "ThemeMainFragment.java - call() ---------- " + themesJson);
                         themeAdapter.addList(themesJson.getOthers());
                         subscriber.onCompleted();
                     } else {
@@ -69,12 +98,11 @@ public class ThemeMainFragment extends MainFragment{
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Boolean>() {
+                .subscribe(new Subscriber<ThemesJson>() {
 
                     @Override
                     public void onCompleted() {
                         themeAdapter.notifyDataSetChanged();
-                        Log.e("YAO", "ThemeMainFragment.java - onCompleted() ---------- ");
                     }
 
                     @Override
@@ -83,11 +111,8 @@ public class ThemeMainFragment extends MainFragment{
                     }
 
                     @Override
-                    public void onNext(Boolean isRefreshing) {
-//                        swipeRefreshLayout.setRefreshing(isRefreshing);
+                    public void onNext(ThemesJson themesJson) {
                     }
                 });
-
-        return view;
     }
 }

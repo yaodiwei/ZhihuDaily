@@ -87,7 +87,7 @@ public class SectionActivity extends Activity {
      * 其他值为加载更多数据
      */
     private void getSectionStories(final long timestamp) {
-        Subscription subscription = Observable.create(new Observable.OnSubscribe<Boolean>() {
+        Observable.create(new Observable.OnSubscribe<Boolean>() {
 
             private Response response;
 
