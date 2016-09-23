@@ -4,6 +4,8 @@ import com.yao.zhihudaily.model.CommentJson;
 import com.yao.zhihudaily.model.DailiesJson;
 import com.yao.zhihudaily.model.DailyJson;
 import com.yao.zhihudaily.model.HotJson;
+import com.yao.zhihudaily.model.RecommendsJson;
+import com.yao.zhihudaily.model.SectionJson;
 import com.yao.zhihudaily.model.SectionsJson;
 import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.model.ThemeJson;
@@ -50,13 +52,13 @@ public interface ZhihuApi {
     Observable<SectionsJson> getSections();
 
     @GET("3/section/{id}")
-    Observable getSection(@Path("id") String id);
+    Observable<SectionJson> getSection(@Path("id") String id);
 
     @GET("3/section/{id}/before/{timestamp}")
-    Observable getSectionBefore(@Path("id") String id, @Path("timestamp") String timestamp);
+    Observable<SectionJson> getSectionBefore(@Path("id") String id, @Path("timestamp") String timestamp);
 
     @GET("4/story/{id}/recommenders")
-    Observable getRecommends(@Path("id") String id);
+    Observable<RecommendsJson> getRecommends(@Path("id") String id);
 
     @GET("4/editor/{id}/profile-page/android")
     Observable getEditor(@Path("id") String id);

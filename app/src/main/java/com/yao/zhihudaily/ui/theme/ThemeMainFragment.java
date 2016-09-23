@@ -20,6 +20,8 @@ import com.yao.zhihudaily.ui.MainFragment;
 
 import java.io.IOException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -29,11 +31,12 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/7/22.
  */
-public class ThemeMainFragment extends MainFragment{
+public class ThemeMainFragment extends MainFragment {
 
     private static final String TAG = "ThemeMainFragment";
-    
-    private RecyclerView rvThemes;
+    @BindView(R.id.rvThemes)
+    RecyclerView rvThemes;
+
     private GridLayoutManager gridLayoutManager;
     private ThemeAdapter themeAdapter;
 
@@ -41,14 +44,15 @@ public class ThemeMainFragment extends MainFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_theme, container, false);
+        ButterKnife.bind(this, view);
 
-        rvThemes = (RecyclerView) view.findViewById(R.id.rvThemes);
 
         rvThemes.setLayoutManager(gridLayoutManager = new GridLayoutManager(getActivity(), 3));
         rvThemes.addItemDecoration(new GridItemDecoration(10, 3));
         rvThemes.setAdapter(themeAdapter = new ThemeAdapter(this));
 
         getThemes();
+
 
         return view;
     }

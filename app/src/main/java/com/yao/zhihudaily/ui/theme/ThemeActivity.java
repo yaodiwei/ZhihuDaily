@@ -22,6 +22,8 @@ import com.yao.zhihudaily.tool.DividerItemDecoration;
 
 import java.io.IOException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -35,28 +37,28 @@ import rx.schedulers.Schedulers;
 public class ThemeActivity extends Activity {
 
     private static final String TAG = "ThemeActivity";
+    @BindView(R.id.ivBackground)
+    ImageView ivBackground;
+    @BindView(R.id.tvDescription)
+    TextView tvDescription;
+    @BindView(R.id.collapsingToolbarLayout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.rvStories)
+    RecyclerView rvStories;
 
-    private ImageView ivBackground;
-    private RecyclerView rvStories;
     private ThemeJson themeJson;
     private int id;
-    private TextView tvDescription;
     private ThemeStoryAdapter themeStoryAdapter;
     private LinearLayoutManager linearLayoutManager;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_theme);
+        ButterKnife.bind(this);
 
         id = getIntent().getIntExtra("id", 0);
-        rvStories = (RecyclerView) findViewById(R.id.rvStories);
-        ivBackground = (ImageView) findViewById(R.id.ivBackground);
-        tvDescription = (TextView) findViewById(R.id.tvDescription);
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
         //已经在xml中设置
 //        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
 //        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);

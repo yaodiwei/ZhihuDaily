@@ -13,7 +13,6 @@ import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Comment;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/8/30.

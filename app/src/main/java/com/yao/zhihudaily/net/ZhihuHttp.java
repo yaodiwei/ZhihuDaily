@@ -4,6 +4,8 @@ import com.yao.zhihudaily.model.CommentJson;
 import com.yao.zhihudaily.model.DailiesJson;
 import com.yao.zhihudaily.model.DailyJson;
 import com.yao.zhihudaily.model.HotJson;
+import com.yao.zhihudaily.model.RecommendsJson;
+import com.yao.zhihudaily.model.SectionJson;
 import com.yao.zhihudaily.model.SectionsJson;
 import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.model.ThemeJson;
@@ -106,6 +108,21 @@ public class ZhihuHttp {
 
     public void getSections(Subscriber<SectionsJson> subscriber) {
         Observable observable = zhihuApi.getSections();
+        toSubscribe(observable, subscriber);
+    }
+
+    public void getSection(Subscriber<SectionJson> subscriber, String id) {
+        Observable observable = zhihuApi.getSection(id);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void getSectionBefore(Subscriber<SectionJson> subscriber, String id, String timestamp) {
+        Observable observable = zhihuApi.getSectionBefore(id, timestamp);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void getRecommends(Subscriber<RecommendsJson> subscriber, String id) {
+        Observable observable = zhihuApi.getRecommends(id);
         toSubscribe(observable, subscriber);
     }
 

@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -35,8 +37,9 @@ import rx.schedulers.Schedulers;
 public class HotMainFragment extends MainFragment {
 
     private static final String TAG = "HotMainFragment";
+    @BindView(R.id.rvHots)
+    RecyclerView rvHots;
 
-    private RecyclerView rvHots;
 
     private HotAdapter hotAdapter;
 
@@ -45,14 +48,14 @@ public class HotMainFragment extends MainFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_hot, container, false);
-
-        rvHots = (RecyclerView) view.findViewById(R.id.rvHots);
+        ButterKnife.bind(this, view);
 
         rvHots.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
         rvHots.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         rvHots.setAdapter(hotAdapter = new HotAdapter(this));
 
         getHot();
+
 
         return view;
     }
@@ -89,11 +92,12 @@ public class HotMainFragment extends MainFragment {
                 try {
                     Response response = OkHttpSync.get(UrlConstants.HOT);
                     if (response.isSuccessful()) {
-                        Type listType = new TypeToken<ArrayList<Hot>>(){}.getType();
+                        Type listType = new TypeToken<ArrayList<Hot>>() {
+                        }.getType();
                         String responseString = response.body().string();
-                        responseString = responseString.substring(10, responseString.length()-1);
+                        responseString = responseString.substring(10, responseString.length() - 1);
                         ArrayList<Hot> hots = new Gson().fromJson(responseString, listType);
-                        Log.e("YAO", "HotMainFragment.java - call() ---------- " + hots );
+                        Log.e("YAO", "HotMainFragment.java - call() ---------- " + hots);
                         hotAdapter.addList(hots);
                         subscriber.onCompleted();
                     } else {

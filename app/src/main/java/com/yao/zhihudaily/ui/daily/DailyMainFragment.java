@@ -22,6 +22,9 @@ import com.yao.zhihudaily.ui.MainFragment;
 
 import java.io.IOException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -35,9 +38,11 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
 
     private static final String TAG = "DailyMainFragment";
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-
-    private RecyclerView rvDailies;
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.rvDailies)
+    RecyclerView rvDailies;
+    private Unbinder unbinder;
 
     private DailyAdapter dailyAdapter;
 
@@ -53,12 +58,9 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.e("YAO", "DailyMainFragment.java - onCreateView() ---------- onCreateView " );
         View view = inflater.inflate(R.layout.fragment_daily, container, false);
-
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
-        rvDailies = (RecyclerView) view.findViewById(R.id.rvDailies);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
 
         rvDailies.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
         rvDailies.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
@@ -69,7 +71,6 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
                 getDailies(startDate);
             }
         });
-
         getDailies(null);
 
         return view;
@@ -132,14 +133,13 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
         //如果没有这个置空,当没有设置fragment缓存时,会执行destroyView方法.但是成员变量并不会摧毁,依然有值
         // 下次再进来时,会得出endDate不是空的情况,从而跳过"首次加载这个界面"这个逻辑
         endDate = null;
+        unbinder.unbind();
     }
 
     /**
-     *
-     * @param tartgetDate
-     * targetDate为空表示首次刷新或者下拉刷新, 获取最新数据
-     * 不为空表示加载更多, 获取指定日期历史数据
-     * 此为纯RxJava
+     * @param tartgetDate targetDate为空表示首次刷新或者下拉刷新, 获取最新数据
+     *                    不为空表示加载更多, 获取指定日期历史数据
+     *                    此为纯RxJava
      */
     @Deprecated
     private void getDailiesOld(final String tartgetDate) {

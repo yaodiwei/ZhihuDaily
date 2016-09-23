@@ -3,6 +3,7 @@ package com.yao.zhihudaily;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,6 @@ import android.view.MenuItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 import com.yao.zhihudaily.ui.MainFragment;
 import com.yao.zhihudaily.ui.MainViewPagerAdapter;
 import com.yao.zhihudaily.ui.daily.DailyMainFragment;
@@ -23,8 +23,22 @@ import com.yao.zhihudaily.ui.theme.ThemeMainFragment;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;//适配BottomNavigation的ViewPager
+    @BindView(R.id.bottomNavigation)
+    AHBottomNavigation bottomNavigation;//底部的BottomNavigation
+    @BindView(R.id.navigationView)
+    NavigationView navigationView;
+    @BindView(R.id.drawerLayout)
+    DrawerLayout drawerLayout;
 
     private MainFragment currentFragment;
     private MainViewPagerAdapter adapter;
@@ -34,25 +48,20 @@ public class MainActivity extends AppCompatActivity
     private boolean useMenuResource = true;
     private int[] tabColors;
 
-    // UI
-    private AHBottomNavigationViewPager viewPager;//适配BottomNavigation的ViewPager
-    private AHBottomNavigation bottomNavigation;//底部的BottomNavigation
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -60,9 +69,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initView() {
-        viewPager = (AHBottomNavigationViewPager) findViewById(R.id.viewPager);
-        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
-
         if (useMenuResource) {//方式一:通过menu菜单去完成
             tabColors = getApplicationContext().getResources().getIntArray(R.array.tab_colors);
             navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_3);
@@ -130,9 +136,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -180,8 +185,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 }

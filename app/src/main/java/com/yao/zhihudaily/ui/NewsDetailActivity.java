@@ -16,8 +16,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.yao.zhihudaily.R;
-import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.model.DailyJson;
+import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
@@ -26,6 +26,8 @@ import com.yao.zhihudaily.util.HtmlUtil;
 
 import java.io.IOException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -38,29 +40,34 @@ import rx.schedulers.Schedulers;
 public class NewsDetailActivity extends Activity {
 
     private static final String TAG = "NewsDetailActivity";
-    private WebView webView;
-    private TextView tvTitle, tvSource;
-    private ImageView ivImage;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
-
+    @BindView(R.id.ivImage)
+    ImageView ivImage;
+    @BindView(R.id.tvTitle)
+    TextView tvTitle;
+    @BindView(R.id.tvSource)
+    TextView tvSource;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.collapsingToolbarLayout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.webView)
+    WebView webView;
 
     private StoryExtra storyExtra;
-    private Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
+        ButterKnife.bind(this);
 
         final int id = getIntent().getIntExtra("id", 0);
 
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
         //也可以在xml中设置
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedDisappearAppBar);
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
 
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
         toolbar.inflateMenu(R.menu.new_detail_menu);//设置右上角的填充菜单
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -86,11 +93,6 @@ public class NewsDetailActivity extends Activity {
                 return true;
             }
         });
-
-        webView = (WebView) findViewById(R.id.webView);
-        tvTitle = (TextView) findViewById(R.id.tvTitle);
-        tvSource = (TextView) findViewById(R.id.tvSource);
-        ivImage = (ImageView) findViewById(R.id.ivImage);
 
         getNews(id);
         getStoryExtra(id);
@@ -158,6 +160,7 @@ public class NewsDetailActivity extends Activity {
 
     /**
      * 获取新闻
+     *
      * @param id
      */
     @Deprecated
@@ -169,7 +172,7 @@ public class NewsDetailActivity extends Activity {
             public void call(Subscriber<? super DailyJson> subscriber) {
                 try {
                     Response response = OkHttpSync.get(String.format(UrlConstants.NEWS, id));
-                    Log.e("YAO", "NewsDetailActivity.java - call() ---------- id" + id );
+                    Log.e("YAO", "NewsDetailActivity.java - call() ---------- id" + id);
                     if (response.isSuccessful()) {
                         String json = response.body().string();
                         DailyJson dailyJson = new Gson().fromJson(json, DailyJson.class);
@@ -220,6 +223,7 @@ public class NewsDetailActivity extends Activity {
 
     /**
      * 获取长评论数,点赞总数,短评论数,评论总数
+     *
      * @param id
      */
     @Deprecated
@@ -261,6 +265,5 @@ public class NewsDetailActivity extends Activity {
                     }
                 });
     }
-
 
 }

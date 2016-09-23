@@ -23,6 +23,8 @@ import com.yao.zhihudaily.tool.DividerItemDecoration;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -35,8 +37,9 @@ import rx.schedulers.Schedulers;
 public class CommentsFragment extends Fragment {
 
     private static final String TAG = "CommentsFragment";
+    @BindView(R.id.rvComments)
+    RecyclerView rvComments;
 
-    private RecyclerView rvComments;
     private ArrayList<Comment> comments;
     private CommentAdapter commentAdapter;
     private LinearLayoutManager linearLayoutManager;
@@ -58,8 +61,6 @@ public class CommentsFragment extends Fragment {
         count = bundle.getInt("count");
 
 
-
-        rvComments = (RecyclerView) view.findViewById(R.id.rvComments);
         rvComments.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
         rvComments.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         rvComments.setAdapter(commentAdapter = new CommentAdapter(getActivity()));
@@ -69,6 +70,7 @@ public class CommentsFragment extends Fragment {
                 private int lastVisibleItemPosition;
                 private int visibleItemCount;
                 private int totalItemCount;
+
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
@@ -81,14 +83,15 @@ public class CommentsFragment extends Fragment {
                         //加载更多
                         final Snackbar snackbar = Snackbar.make(rvComments, "如想查看更多评论\n    请下载正版知乎日报.", Snackbar.LENGTH_SHORT);
                         snackbar.setAction("关闭", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        snackbar.dismiss();
-                                    }
-                                });
+                            @Override
+                            public void onClick(View view) {
+                                snackbar.dismiss();
+                            }
+                        });
                         snackbar.show();
                     }
                 }
+
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
@@ -98,6 +101,7 @@ public class CommentsFragment extends Fragment {
 
         getComments(url);
 
+        ButterKnife.bind(this, view);
         return view;
     }
 

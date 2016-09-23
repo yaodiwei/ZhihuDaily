@@ -14,33 +14,38 @@ import com.yao.zhihudaily.net.UrlConstants;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Administrator on 2016/8/30.
  */
 public class CommentsActivity extends Activity {
 
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     private int id;
     private StoryExtra storyExtra;
-    private ViewPager viewPager;
     private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
-    private TabLayout tabLayout;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
+        ButterKnife.bind(this);
 
         id = getIntent().getIntExtra("id", 0);
         storyExtra = (StoryExtra) getIntent().getSerializableExtra("storyExtra");
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         initToolbar(toolbar);
 
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
-        //
         ArrayList<String> tabList = new ArrayList<>();
         tabList.add("短评论(" + storyExtra.getShortComments() + ")");
         tabList.add("长评论(" + storyExtra.getLongComments() + ")");
@@ -79,17 +84,15 @@ public class CommentsActivity extends Activity {
     private void initToolbar(Toolbar toolbar) {
         toolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
         toolbar.setTitle("共" + storyExtra.getShortComments() + "条");//设置主标题
-        toolbar.setNavigationOnClickListener(new View.OnClickListener()
-        {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 finish();
             }
         });
     }
 
-    private ViewPager.OnPageChangeListener pageListener = new ViewPager.OnPageChangeListener(){
+    private ViewPager.OnPageChangeListener pageListener = new ViewPager.OnPageChangeListener() {
 
 
         @Override
