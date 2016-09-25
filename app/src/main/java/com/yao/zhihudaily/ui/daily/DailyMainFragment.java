@@ -5,12 +5,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.DailiesJson;
 import com.yao.zhihudaily.net.OkHttpSync;
@@ -62,6 +62,7 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
         unbinder = ButterKnife.bind(this, view);
         ButterKnife.bind(this, view);
 
+        swipeRefreshLayout.setOnRefreshListener(this);
         rvDailies.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
         rvDailies.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         rvDailies.setAdapter(dailyAdapter = new DailyAdapter(this));
@@ -88,7 +89,7 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG, "onError: " + e.toString());
+                Logger.e(e, "Subscriber onError()");
             }
 
             @Override
@@ -98,6 +99,7 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
                     endDate = dailiesJson.getDate();
                     dailyAdapter.addList(dailiesJson.getStories());
                     subscriber.onCompleted();
+                    throw new ArithmeticException();
                 } else if (tartgetDate == null) { //表示下拉刷新
                     if (endDate.equals(dailiesJson.getDate())) { //App的最晚时间 等于 下拉新获取的时间
                         swipeRefreshLayout.setRefreshing(false);
@@ -196,7 +198,7 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e.toString());
+                        Logger.e(e, "Subscriber onError()");
                     }
 
                     @Override

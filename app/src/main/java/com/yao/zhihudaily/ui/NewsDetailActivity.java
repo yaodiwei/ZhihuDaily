@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.DailyJson;
 import com.yao.zhihudaily.model.StoryExtra;
@@ -108,7 +108,7 @@ public class NewsDetailActivity extends Activity {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG, "onError: " + e.toString());
+                Logger.e(e, "Subscriber onError()");
             }
 
             @Override
@@ -146,7 +146,7 @@ public class NewsDetailActivity extends Activity {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG, "onError: " + e.toString());
+                Logger.e(e, "Subscriber onError()");
             }
 
             @Override
@@ -172,7 +172,6 @@ public class NewsDetailActivity extends Activity {
             public void call(Subscriber<? super DailyJson> subscriber) {
                 try {
                     Response response = OkHttpSync.get(String.format(UrlConstants.NEWS, id));
-                    Log.e("YAO", "NewsDetailActivity.java - call() ---------- id" + id);
                     if (response.isSuccessful()) {
                         String json = response.body().string();
                         DailyJson dailyJson = new Gson().fromJson(json, DailyJson.class);
@@ -195,7 +194,7 @@ public class NewsDetailActivity extends Activity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e.toString());
+                        Logger.e(e, "Subscriber onError()");
                     }
 
                     @Override
@@ -256,7 +255,7 @@ public class NewsDetailActivity extends Activity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e.toString());
+                        Logger.e(e, "Subscriber onError()");
                     }
 
                     @Override

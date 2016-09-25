@@ -10,9 +10,9 @@
 
     <ImageView
         android:id="@+id/ivAvatar"
-        android:layout_width="70dp"
+        android:layout_width="@dimen/avatar_radius"
         android:src="@mipmap/demo_avatar"
-        android:layout_height="70dp" />
+        android:layout_height="@dimen/avatar_radius" />
 
     <TextView
         android:id="@+id/tvAuthor"

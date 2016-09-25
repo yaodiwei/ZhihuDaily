@@ -1,6 +1,10 @@
 package com.yao.zhihudaily.ui.daily;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Comment;
+import com.yao.zhihudaily.tool.GlideCircleTransform;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/8/30.
@@ -26,10 +35,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
     private ArrayList<Comment> comments = new ArrayList<>();
     private LayoutInflater inflater;
     private Context ctx;
+    private GlideCircleTransform glideCircleTransform;
 
     public CommentAdapter(Context ctx) {
         this.ctx = ctx;
         inflater = LayoutInflater.from(ctx);
+        glideCircleTransform = new GlideCircleTransform(ctx);
     }
 
     public void addList(ArrayList<Comment> comments) {
@@ -47,9 +58,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
     }
 
     @Override
-    public void onBindViewHolder(CommentAdapter.ShortCommentViewHolder holder, int position) {
+    public void onBindViewHolder(final CommentAdapter.ShortCommentViewHolder holder, int position) {
         Comment c = comments.get(position);
-        Glide.with(ctx).load(c.getAvatar()).into(holder.ivAvatar);
+        BitmapImageViewTarget target = new BitmapImageViewTarget(holder.ivAvatar){
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable = RoundedBitmapDrawableFactory.create(ctx.getResources(), resource);
+                circularBitmapDrawable.setCircular(true);
+                holder.ivAvatar.setImageDrawable(circularBitmapDrawable);
+            }
+        };
+        Glide.with(ctx).load(c.getAvatar()).asBitmap().centerCrop().into(target);
+        Glide.with(ctx).load(c.getAvatar()).transform(glideCircleTransform).into(holder.ivAvatar);
         holder.tvAuthor.setText(c.getAuthor());
         holder.tvContent.setText(c.getContent());
         holder.tvTime.setText(c.getTimeStr());
@@ -77,25 +97,26 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
 
     class ShortCommentViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.ivAvatar)
         ImageView ivAvatar;
+        @BindView(R.id.tvAuthor)
         TextView tvAuthor;
+        @BindView(R.id.tvContent)
         TextView tvContent;
+        @BindView(R.id.tvTime)
         TextView tvTime;
+        @BindView(R.id.tvLikes)
         TextView tvLikes;
+        @Nullable
+        @BindView(R.id.tvReplyAuthor)
         TextView tvReplyAuthor;
+        @Nullable
+        @BindView(R.id.tvReplyContent)
         TextView tvReplyContent;
 
         public ShortCommentViewHolder(View itemView, int type) {
             super(itemView);
-            ivAvatar = (ImageView) itemView.findViewById(R.id.ivAvatar);
-            tvAuthor = (TextView) itemView.findViewById(R.id.tvAuthor);
-            tvContent = (TextView) itemView.findViewById(R.id.tvContent);
-            tvTime = (TextView) itemView.findViewById(R.id.tvTime);
-            tvLikes = (TextView) itemView.findViewById(R.id.tvLikes);
-            if (type == COMMENT_WITH_REPLY) {
-                tvReplyAuthor = (TextView) itemView.findViewById(R.id.tvReplyAuthor);
-                tvReplyContent = (TextView) itemView.findViewById(R.id.tvReplyContent);
-            }
+            ButterKnife.bind(this, itemView);
         }
     }
 }

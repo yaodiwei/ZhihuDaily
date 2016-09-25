@@ -27,7 +27,6 @@ public class OkHttpAsync {
 
     static
     {
-        Log.e(TAG, "static initializer: OkHttpAsync");
         client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS).build();
     }

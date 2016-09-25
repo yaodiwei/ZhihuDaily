@@ -2,6 +2,7 @@ package com.yao.zhihudaily.ui.theme;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.yao.zhihudaily.tool.OnItemClickListener;
 import com.yao.zhihudaily.ui.NewsDetailActivity;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/9/10.
@@ -83,15 +87,16 @@ public class ThemeStoryAdapter extends RecyclerView.Adapter<ThemeStoryAdapter.St
     }
 
     class StoryHolder extends RecyclerView.ViewHolder {
+
+        @Nullable
+        @BindView(R.id.iv)
         ImageView iv;
+        @BindView(R.id.tvTitle)
         TextView tvTitle;
 
         public StoryHolder(View view, int type) {
             super(view);
-            tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-            if (type == 1) {
-                iv = (ImageView) view.findViewById(R.id.iv);
-            }
+            ButterKnife.bind(this, itemView);
         }
     }
 

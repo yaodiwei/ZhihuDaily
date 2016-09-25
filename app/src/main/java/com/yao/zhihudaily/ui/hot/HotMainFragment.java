@@ -3,13 +3,13 @@ package com.yao.zhihudaily.ui.hot;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Hot;
 import com.yao.zhihudaily.model.HotJson;
@@ -70,7 +70,7 @@ public class HotMainFragment extends MainFragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG, "onError: " + e.toString());
+                Logger.e(e, "Subscriber onError()");
             }
 
             @Override
@@ -97,7 +97,6 @@ public class HotMainFragment extends MainFragment {
                         String responseString = response.body().string();
                         responseString = responseString.substring(10, responseString.length() - 1);
                         ArrayList<Hot> hots = new Gson().fromJson(responseString, listType);
-                        Log.e("YAO", "HotMainFragment.java - call() ---------- " + hots);
                         hotAdapter.addList(hots);
                         subscriber.onCompleted();
                     } else {
@@ -119,7 +118,7 @@ public class HotMainFragment extends MainFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e.toString());
+                        Logger.e(e, "Subscriber onError()");
                     }
 
                     @Override

@@ -6,12 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Comment;
 import com.yao.zhihudaily.model.CommentJson;
@@ -53,6 +53,7 @@ public class CommentsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_short_comments, null);
+        ButterKnife.bind(this, view);
 
         Bundle bundle = getArguments();
         id = bundle.getInt("id", 0);
@@ -101,7 +102,6 @@ public class CommentsFragment extends Fragment {
 
         getComments(url);
 
-        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -115,7 +115,7 @@ public class CommentsFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG, "onError: " + e.toString());
+                Logger.e(e, "Subscriber onError()");
             }
 
             @Override
@@ -168,7 +168,7 @@ public class CommentsFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("YAO", "onError: " + e.toString());
+                        Logger.e(e, "Subscriber onError()");
                     }
 
                     @Override

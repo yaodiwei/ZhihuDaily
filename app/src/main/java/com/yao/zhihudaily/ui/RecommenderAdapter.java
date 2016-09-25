@@ -1,4 +1,4 @@
-package com.yao.zhihudaily.ui.theme;
+package com.yao.zhihudaily.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,10 +12,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Recommender;
+import com.yao.zhihudaily.tool.GlideCircleTransform;
 import com.yao.zhihudaily.tool.OnItemClickListener;
-import com.yao.zhihudaily.ui.ProfilePageActivity;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/9/16.
@@ -55,7 +58,7 @@ public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.
         holder.tvName.setText(recommender.getName());
         holder.tvBio.setText(recommender.getBio());
         if (recommender.getAvatar() != null) {
-            Glide.with(aty).load(recommender.getAvatar()).into(holder.iv);
+            Glide.with(aty).load(recommender.getAvatar()).transform(new GlideCircleTransform(aty)).into(holder.iv);
         }
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(listener);
@@ -68,15 +71,17 @@ public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.
     }
 
     class RecommenderHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.iv)
         ImageView iv;
+        @BindView(R.id.tvName)
         TextView tvName;
+        @BindView(R.id.tvBio)
         TextView tvBio;
 
         public RecommenderHolder(View view) {
             super(view);
-            iv = (ImageView) view.findViewById(R.id.iv);
-            tvName = (TextView) view.findViewById(R.id.tvName);
-            tvBio = (TextView) view.findViewById(R.id.tvBio);
+            ButterKnife.bind(this, view);
         }
     }
 

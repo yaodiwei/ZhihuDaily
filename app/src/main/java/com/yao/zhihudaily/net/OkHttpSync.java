@@ -28,7 +28,6 @@ public class OkHttpSync {
 
     static
     {
-        Log.e(TAG, "static initializer: OkHttpSync");
         client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS).build();
     }

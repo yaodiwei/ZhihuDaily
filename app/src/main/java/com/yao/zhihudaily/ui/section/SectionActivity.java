@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.SectionJson;
 import com.yao.zhihudaily.net.OkHttpSync;
@@ -90,7 +91,7 @@ public class SectionActivity extends Activity {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG, "onError: " + e.toString());
+                Logger.e(e, "Subscriber onError()");
             }
 
             @Override
@@ -136,7 +137,6 @@ public class SectionActivity extends Activity {
                     } else if (response.isSuccessful()) {
                         sectionJson = new Gson().fromJson(response.body().string(), SectionJson.class);
                         sectionStoryAdapter.addList(sectionJson.getStories());
-                        Log.e("YAO", "SectionActivity.java - call() ---------- sectionJson" + sectionJson.getTimestamp());
                         subscriber.onCompleted();
                     } else {
                         subscriber.onError(new Exception("error"));
@@ -160,7 +160,7 @@ public class SectionActivity extends Activity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e.toString());
+                        Logger.e(e, "Subscriber onError()");
                     }
 
                     @Override

@@ -16,7 +16,9 @@ import com.yao.zhihudaily.model.Theme;
 import com.yao.zhihudaily.tool.OnItemClickListener;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/9/9.
@@ -58,15 +60,17 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeHolder>
     }
 
     class ThemeHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.iv)
         ImageView iv;
+        @BindView(R.id.tvName)
         TextView tvName;
+        @BindView(R.id.tvDescription)
         TextView tvDescription;
 
         public ThemeHolder(View view) {
             super(view);
-            iv = (ImageView) view.findViewById(R.id.iv);
-            tvName = (TextView) view.findViewById(R.id.tvName);
-            tvDescription = (TextView) view.findViewById(R.id.tvDescription);
+            ButterKnife.bind(this, itemView);
         }
     }
 

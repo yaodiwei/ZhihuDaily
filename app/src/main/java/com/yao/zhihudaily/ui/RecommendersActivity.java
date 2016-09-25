@@ -5,17 +5,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.RecommendsJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
-import com.yao.zhihudaily.ui.theme.RecommenderAdapter;
 
 import java.io.IOException;
 
@@ -78,7 +77,7 @@ public class RecommendersActivity extends Activity {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG, "onError: " + e.toString());
+                Logger.e(e, "Subscriber onError()");
             }
 
             @Override
@@ -123,7 +122,7 @@ public class RecommendersActivity extends Activity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e.toString());
+                        Logger.e(e, "Subscriber onError()");
                     }
 
                     @Override

@@ -17,6 +17,9 @@ import com.yao.zhihudaily.ui.NewsDetailActivity;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Administrator on 2016/9/10.
  */
@@ -67,15 +70,17 @@ public class SectionStoryAdapter extends RecyclerView.Adapter<SectionStoryAdapte
     }
 
     class StoryHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.iv)
         ImageView iv;
+        @BindView(R.id.tvTitle)
         TextView tvTitle;
+        @BindView(R.id.tvTime)
         TextView tvTime;
 
         public StoryHolder(View view) {
             super(view);
-            iv = (ImageView) view.findViewById(R.id.iv);
-            tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-            tvTime = (TextView) view.findViewById(R.id.tvTime);
+            ButterKnife.bind(this, itemView);
         }
     }
 
