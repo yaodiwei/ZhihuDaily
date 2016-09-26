@@ -1,5 +1,6 @@
 package com.yao.zhihudaily;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +17,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.yao.zhihudaily.ui.MainFragment;
 import com.yao.zhihudaily.ui.MainViewPagerAdapter;
+import com.yao.zhihudaily.ui.SoftwareIntroductionActivity;
 import com.yao.zhihudaily.ui.daily.DailyMainFragment;
 import com.yao.zhihudaily.ui.hot.HotMainFragment;
 import com.yao.zhihudaily.ui.section.SectionMainFragment;
@@ -59,6 +61,8 @@ public class MainActivity extends AppCompatActivity
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.setDrawerIndicatorEnabled(false);//隐藏左上角的DrawerLayout图标
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);//暂时关闭侧边栏,因为没有什么业务好写
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -159,6 +163,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SoftwareIntroductionActivity.class));
             return true;
         }
 
