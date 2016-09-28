@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
@@ -18,6 +19,7 @@ import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 import com.yao.zhihudaily.tool.RecyclerViewOnLoadMoreListener;
+import com.yao.zhihudaily.tool.StateTool;
 import com.yao.zhihudaily.ui.MainFragment;
 
 import java.io.IOException;
@@ -42,6 +44,9 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.rvDailies)
     RecyclerView rvDailies;
+    @BindView(R.id.linearLayout)
+    LinearLayout linearLayout;
+
     private Unbinder unbinder;
 
     private DailyAdapter dailyAdapter;
@@ -56,11 +61,23 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
 
     private Subscriber<DailiesJson> subscriber;
 
+    private StateTool stateTool;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_daily, container, false);
         unbinder = ButterKnife.bind(this, view);
         ButterKnife.bind(this, view);
+
+        stateTool = new StateTool(linearLayout);
+        stateTool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endDate = null;
+                stateTool.showProgressView();
+                getDailies(null);
+            }
+        });
 
         swipeRefreshLayout.setOnRefreshListener(this);
         rvDailies.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
@@ -72,53 +89,61 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
                 getDailies(startDate);
             }
         });
+
+        stateTool.showProgressView();
         getDailies(null);
 
         return view;
     }
 
-    private void getDailies(final String tartgetDate) {
+    private void getDailies(final String targetDate) {
         subscriber = new Subscriber<DailiesJson>() {
             @Override
-            public void onCompleted() {
-                dailyAdapter.notifyDataSetChanged();
-                if (tartgetDate != null) {
-                    listener.setLoading(false);
-                }
-            }
+            public void onCompleted() {}
 
             @Override
             public void onError(Throwable e) {
                 Logger.e(e, "Subscriber onError()");
+                if (targetDate == null) {
+                    stateTool.showErrorView();
+                }
             }
 
             @Override
             public void onNext(DailiesJson dailiesJson) {
+                if (dailiesJson.getStories().size() == 0) {
+                    stateTool.showEmptyView();
+                    return;
+                }
                 if (TextUtils.isEmpty(endDate)) { //如果是首次加载这个界面
                     startDate = dailiesJson.getDate();
                     endDate = dailiesJson.getDate();
                     dailyAdapter.addList(dailiesJson.getStories());
-                    subscriber.onCompleted();
-                    throw new ArithmeticException();
-                } else if (tartgetDate == null) { //表示下拉刷新
+                    dailyAdapter.notifyDataSetChanged();
+                    stateTool.showContentView();
+                } else if (targetDate == null) { //表示下拉刷新
                     if (endDate.equals(dailiesJson.getDate())) { //App的最晚时间 等于 下拉新获取的时间
                         swipeRefreshLayout.setRefreshing(false);
+                        stateTool.showEmptyView();
                     } else { ////App的最晚时间 不等于 下拉新获取的时间
                         endDate = dailiesJson.getDate();
                         dailyAdapter.addListToHeader(dailiesJson.getStories());
-                        subscriber.onCompleted();
+                        dailyAdapter.notifyDataSetChanged();
+                        stateTool.showContentView();
                     }
                 } else { //表示上拉加载
                     startDate = dailiesJson.getDate();
                     dailyAdapter.addList(dailiesJson.getStories());
-                    subscriber.onCompleted();
+                    dailyAdapter.notifyDataSetChanged();
+                    listener.setLoading(false);
+                    stateTool.showContentView();
                 }
             }
         };
-        if (tartgetDate == null) {
+        if (targetDate == null) {
             ZhihuHttp.getZhihuHttp().getDailies(subscriber);
         } else {
-            ZhihuHttp.getZhihuHttp().getDailiesBefore(subscriber, tartgetDate);
+            ZhihuHttp.getZhihuHttp().getDailiesBefore(subscriber, targetDate);
         }
 
     }
