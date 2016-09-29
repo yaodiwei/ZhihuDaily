@@ -17,15 +17,16 @@
             android:name="com.yao.zhihudaily.tool.MyGlideModule"
             android:value="GlideModule" />
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".ui.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.NewsDetailActivity"/>
         <activity android:name=".ui.daily.CommentsActivity"/>
         <activity android:name=".ui.theme.ThemeActivity"/>

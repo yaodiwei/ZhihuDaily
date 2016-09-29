@@ -1,7 +1,5 @@
 package com.yao.zhihudaily.net;
 
-import android.util.Log;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -19,17 +17,14 @@ import okhttp3.Response;
  */
 public class OkHttpSync {
 
-    private static final String TAG = "OkHttpSync";
-
     public static final MediaType MEDIA_TYPE_NONE = MediaType.parse("application/x-; charset=utf-8");
     public static final MediaType MEDIA_TYPE_UNKNOWN = MediaType.parse("application/octet-stream; charset=utf-8");
-
+    private static final String TAG = "OkHttpSync";
     private static final OkHttpClient client;
 
-    static
-    {
+    static {
         client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS).build();
+                .readTimeout(30, TimeUnit.SECONDS).build();
     }
 
     public static Response get(String url) throws IOException {
@@ -44,7 +39,7 @@ public class OkHttpSync {
         return postFile(client, url, file);
     }
 
-    public static Response postFiles(String url, FileInput ...fileInputs) throws IOException {
+    public static Response postFiles(String url, FileInput... fileInputs) throws IOException {
         return postFiles(client, url, fileInputs);
     }
 
@@ -65,7 +60,7 @@ public class OkHttpSync {
         return okHttpClient.newCall(request).execute();
     }
 
-    public static Response postFiles(OkHttpClient okHttpClient, String url, FileInput ...fileInputs) throws IOException {
+    public static Response postFiles(OkHttpClient okHttpClient, String url, FileInput... fileInputs) throws IOException {
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         for (FileInput fileInput : fileInputs) {
             builder.addFormDataPart(fileInput.key, fileInput.name, RequestBody.create(MEDIA_TYPE_UNKNOWN, fileInput.file));
@@ -75,24 +70,19 @@ public class OkHttpSync {
         return okHttpClient.newCall(request).execute();
     }
 
-
-
-    public static class FileInput
-    {
+    public static class FileInput {
         public String key;
         public String name;
         public File file;
 
-        public FileInput(String key, String name, File file)
-        {
+        public FileInput(String key, String name, File file) {
             this.key = key;
             this.name = name;
             this.file = file;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return "FileInput{" +
                     "key='" + key + '\'' +
                     ", name='" + name + '\'' +

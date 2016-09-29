@@ -1,5 +1,6 @@
-package com.yao.zhihudaily;
+package com.yao.zhihudaily.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -7,7 +8,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +15,7 @@ import android.view.MenuItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.yao.zhihudaily.ui.MainFragment;
-import com.yao.zhihudaily.ui.MainViewPagerAdapter;
-import com.yao.zhihudaily.ui.SoftwareIntroductionActivity;
+import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.ui.daily.DailyMainFragment;
 import com.yao.zhihudaily.ui.hot.HotMainFragment;
 import com.yao.zhihudaily.ui.section.SectionMainFragment;
@@ -28,7 +26,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar)
@@ -57,8 +55,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.setDrawerIndicatorEnabled(false);//隐藏左上角的DrawerLayout图标
@@ -67,7 +63,6 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-
 
         initView();
     }

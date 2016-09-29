@@ -1,5 +1,7 @@
 package com.yao.zhihudaily.tool;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -18,14 +20,18 @@ import android.widget.TextView;
 
 public class StateTool {
 
+    /**
+     * 一大堆静态变量,根据项目需要可以随意修改.比如项目全部用同一张错误页面的图片.
+     * 在一个项目中如果用好几张不同的错误页面图片,可以考虑改成成员变量.
+     */
     //内容字体的大小,单位SP
     private static int CONTENT_TEXT_SIZE = 20;
     //提示字体的大小,单位SP
     private static int TIP_TEXT_SIZE = 12;
 
-    //空页面图片,默认用的安卓sdk里面的图片,严重建议替换
+    //空页面图片,默认用的安卓sdk里面的图片,严重建议替换成一个256px左右的图片
     private static  int emptyImageResId = android.R.drawable.ic_menu_close_clear_cancel;
-    //错误页面图片,默认用的安卓sdk里面的图片,严重建议替换
+    //错误页面图片,默认用的安卓sdk里面的图片,严重建议替换成一个256px左右的图片
     private static  int errorImageResId = android.R.drawable.ic_menu_search;
 
     //空页面文字
@@ -38,7 +44,12 @@ public class StateTool {
     private static String reloadText = "点击重载";
 
     //图片的宽和高 可以用ViewGroup.LayoutParams.WRAP_CONTENT
-    private static int imageSidesLength = 256;
+    private static int imageSidesLength = 128;
+    //等待,错误,空页面提示的向上偏移
+    private static int offset = 0;
+
+    //使用淡入淡出动画
+    private static boolean useAlphaAnimator = true;
 
     private ViewGroup root;
     private Context ctx;
@@ -64,7 +75,7 @@ public class StateTool {
         paramsChildrenWrapContent =  new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         paramsChildrenImage =  new LinearLayout.LayoutParams(imageSidesLength, imageSidesLength);
         paramsChildrenMarginBottom50 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        paramsChildrenMarginBottom50.setMargins(0, 0, 0, 500);//不margin不居中
+        paramsChildrenMarginBottom50.setMargins(0, 0, 0, offset);//不margin不居中
 
         initEmptyView();
         initErrorView();
@@ -84,8 +95,13 @@ public class StateTool {
     }
 
     public void showEmptyView(){
-        currentView.setVisibility(View.GONE);
-        emptyView.setVisibility(View.VISIBLE);
+        if (useAlphaAnimator) {
+            alphaShow(currentView);
+            alphaShow(emptyView);
+        } else {
+            currentView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
         currentView = emptyView;
     }
 
@@ -110,6 +126,48 @@ public class StateTool {
     public void setOnClickListener(View.OnClickListener onClickListener) {
         emptyView.setOnClickListener(onClickListener);
         errorView.setOnClickListener(onClickListener);
+    }
+
+    private void alphaShow(final View v){
+        ObjectAnimator oa = ObjectAnimator.ofFloat(v, "alpha", 0, 1);
+        oa.setDuration(500);
+        oa.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {}
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                v.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
+        oa.start();
+    }
+
+    private void alphaHide(final View v){
+        ObjectAnimator oa = ObjectAnimator.ofFloat(v, "alpha", 1, 0);
+        oa.setDuration(500);
+        oa.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {}
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                v.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
+        oa.start();
     }
 
     private void initEmptyView() {

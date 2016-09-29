@@ -124,7 +124,6 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
                 } else if (targetDate == null) { //表示下拉刷新
                     if (endDate.equals(dailiesJson.getDate())) { //App的最晚时间 等于 下拉新获取的时间
                         swipeRefreshLayout.setRefreshing(false);
-                        stateTool.showEmptyView();
                     } else { ////App的最晚时间 不等于 下拉新获取的时间
                         endDate = dailiesJson.getDate();
                         dailyAdapter.addListToHeader(dailiesJson.getStories());

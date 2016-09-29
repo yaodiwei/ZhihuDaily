@@ -1,7 +1,6 @@
 package com.yao.zhihudaily.tool;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
@@ -12,9 +11,6 @@ import com.bumptech.glide.load.engine.cache.DiskLruCacheFactory;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 import com.bumptech.glide.module.GlideModule;
-import com.yao.zhihudaily.App;
-
-import java.io.File;
 
 /**
  * Created by Administrator on 2016/9/24.
@@ -40,7 +36,7 @@ public class MyGlideModule implements GlideModule {
 
         //设置硬盘缓存大小
         int cacheSize100MegaBytes = 100*1024*1024;
-        String path = Environment.getExternalStorageDirectory() + File.separator + App.app.getPackageName() + File.separator + "image_cache";
+        String path = Constants.STORAGE_DIR + "image_cache";
         Log.d("YAO", "MyGlideModule.java - applyOptions() ---------- path" + path );
         builder.setDiskCache(new DiskLruCacheFactory(path, cacheSize100MegaBytes));
     }

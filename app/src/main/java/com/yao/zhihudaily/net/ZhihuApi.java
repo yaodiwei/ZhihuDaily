@@ -7,6 +7,7 @@ import com.yao.zhihudaily.model.HotJson;
 import com.yao.zhihudaily.model.RecommendsJson;
 import com.yao.zhihudaily.model.SectionJson;
 import com.yao.zhihudaily.model.SectionsJson;
+import com.yao.zhihudaily.model.StartImageJson;
 import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.model.ThemeJson;
 import com.yao.zhihudaily.model.ThemesJson;
@@ -20,6 +21,9 @@ import rx.Observable;
  */
 
 public interface ZhihuApi {
+
+    @GET("4/start-image/1080*1776")
+    Observable<StartImageJson> getStartImage();
 
     @GET("4/news/latest")
     Observable<DailiesJson> getDailies();

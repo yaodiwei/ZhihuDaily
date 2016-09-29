@@ -1,8 +1,9 @@
 package com.yao.zhihudaily.net;
 
-import android.util.Log;
-
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Callback;
@@ -12,6 +13,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/7/23.
@@ -78,7 +80,44 @@ public class OkHttpAsync {
         okHttpClient.newCall(request).enqueue(callback);
     }
 
+    public static File saveFile(Response response, String destFileDir, String destFileName) throws IOException {
+        InputStream is = null;
+        byte[] buf = new byte[2048];
+        int len = 0;
+        FileOutputStream fos = null;
+        try {
+            is = response.body().byteStream();
+            //total:文件总长度  sum:当前文件已下载长度
+            final long total = response.body().contentLength();
+            long sum = 0;
 
+            File dir = new File(destFileDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            File file = new File(dir, destFileName);
+            fos = new FileOutputStream(file);
+            while ((len = is.read(buf)) != -1) {
+                sum += len;
+                fos.write(buf, 0, len);
+            }
+            fos.flush();
+
+            return file;
+
+        } finally {
+            try {
+                response.body().close();
+                if (is != null) is.close();
+            } catch (IOException e) {
+            }
+            try {
+                if (fos != null) fos.close();
+            } catch (IOException e) {
+            }
+
+        }
+    }
 
     public static class FileInput
     {

@@ -7,6 +7,7 @@ import com.yao.zhihudaily.model.HotJson;
 import com.yao.zhihudaily.model.RecommendsJson;
 import com.yao.zhihudaily.model.SectionJson;
 import com.yao.zhihudaily.model.SectionsJson;
+import com.yao.zhihudaily.model.StartImageJson;
 import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.model.ThemeJson;
 import com.yao.zhihudaily.model.ThemesJson;
@@ -59,6 +60,11 @@ public class ZhihuHttp {
 
     public static ZhihuHttp getZhihuHttp() {
         return zhihuHttp;
+    }
+
+    public void getStartImage(Subscriber<StartImageJson> subscriber) {
+        Observable observable = zhihuApi.getStartImage();
+        toSubscribe(observable, subscriber);
     }
 
     public void getDailies(Subscriber<DailiesJson> subscriber) {
