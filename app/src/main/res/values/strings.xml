@@ -4,7 +4,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">软件介绍</string>
+    <string name="action_settings">通用设置</string>
+    <string name="action_introduce">软件介绍</string>
 
     <string name="daily">日报</string>
     <string name="theme">主题</string>

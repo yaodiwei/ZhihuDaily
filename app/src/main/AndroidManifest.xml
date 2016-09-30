@@ -34,6 +34,7 @@
         <activity android:name=".ui.RecommendersActivity"/>
         <activity android:name=".ui.ProfilePageActivity"/>
         <activity android:name=".ui.SoftwareIntroductionActivity"/>
+        <activity android:name=".ui.SettingsActivity"/>
 
     </application>
 

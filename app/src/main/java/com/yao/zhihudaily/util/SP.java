@@ -1,4 +1,4 @@
-package com.yao.zhihudaily.tool;
+package com.yao.zhihudaily.util;
 
 import android.content.Context;
 

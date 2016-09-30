@@ -1,6 +1,7 @@
 package com.yao.zhihudaily.tool;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.TypedValue;
@@ -131,20 +132,11 @@ public class StateTool {
     private void alphaShow(final View v){
         ObjectAnimator oa = ObjectAnimator.ofFloat(v, "alpha", 0, 1);
         oa.setDuration(500);
-        oa.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {}
-
+        oa.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 v.setVisibility(View.VISIBLE);
             }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {}
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {}
         });
         oa.start();
     }
@@ -152,20 +144,11 @@ public class StateTool {
     private void alphaHide(final View v){
         ObjectAnimator oa = ObjectAnimator.ofFloat(v, "alpha", 1, 0);
         oa.setDuration(500);
-        oa.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {}
-
+        oa.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 v.setVisibility(View.GONE);
             }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {}
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {}
         });
         oa.start();
     }

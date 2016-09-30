@@ -21,7 +21,7 @@ import com.yao.zhihudaily.model.StartImageJson;
 import com.yao.zhihudaily.net.OkHttpAsync;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.Constants;
-import com.yao.zhihudaily.tool.SP;
+import com.yao.zhihudaily.util.SP;
 
 import java.io.File;
 import java.io.IOException;
