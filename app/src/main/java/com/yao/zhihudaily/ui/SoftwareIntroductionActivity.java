@@ -1,11 +1,11 @@
 package com.yao.zhihudaily.ui;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 
 import butterknife.BindView;
@@ -17,6 +17,9 @@ import butterknife.ButterKnife;
 
 public class SoftwareIntroductionActivity extends Activity {
 
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.iv1)
     ImageView iv1;
     @BindView(R.id.iv2)
@@ -30,8 +33,14 @@ public class SoftwareIntroductionActivity extends Activity {
         setContentView(R.layout.activity_software_introduction);
         ButterKnife.bind(this);
 
-        Glide.with(this).load(Uri.parse("file:///android_asset/PullDownRefresh.gif")).asGif().into(iv1);
-        Glide.with(this).load(Uri.parse("file:///android_asset/PullDownRefresh.gif")).asGif().into(iv2);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+//        Glide.with(this).load(Uri.parse("file:///android_asset/PullDownRefresh.gif")).asGif().into(iv1);
+//        Glide.with(this).load(Uri.parse("file:///android_asset/PullDownRefresh.gif")).asGif().into(iv2);
 
     }
 }

@@ -33,4 +33,6 @@ public interface UrlConstants {
 
     String EDITOR = "http://news-at.zhihu.com/api/4/editor/%1$s/profile-page/android";
 
+    String STORY_SHARE = "http://daily.zhihu.com/story/%1$s";
+
 }

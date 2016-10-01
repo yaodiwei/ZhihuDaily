@@ -82,6 +82,11 @@ public class NewsDetailActivity extends Activity {
                 switch (item.getItemId()) {
                     case R.id.itemShare:
                         Toast.makeText(NewsDetailActivity.this, "点击分享", Toast.LENGTH_SHORT).show();
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, "发现一篇好文章分享给你，地址:" + String.format(UrlConstants.STORY_SHARE, id));
+                        sendIntent.setType("text/plain");
+                        startActivity(sendIntent);
                         break;
                     case R.id.itemComment:
                         Intent intent = new Intent(NewsDetailActivity.this, CommentsActivity.class);

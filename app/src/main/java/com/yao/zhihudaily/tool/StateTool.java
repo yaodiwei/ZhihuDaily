@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.yao.zhihudaily.R;
+
 
 /**
  * Created by Administrator on 2016/9/28.
@@ -30,10 +32,10 @@ public class StateTool {
     //提示字体的大小,单位SP
     private static int TIP_TEXT_SIZE = 12;
 
-    //空页面图片,默认用的安卓sdk里面的图片,严重建议替换成一个256px左右的图片
-    private static  int emptyImageResId = android.R.drawable.ic_menu_close_clear_cancel;
-    //错误页面图片,默认用的安卓sdk里面的图片,严重建议替换成一个256px左右的图片
-    private static  int errorImageResId = android.R.drawable.ic_menu_search;
+    //空页面图片,默认用的安卓sdk里面的图片,严重建议替换成一个256px左右的图片 默认使用android.R.drawable.ic_menu_close_clear_cancel
+    private static  int emptyImageResId = R.mipmap.empty;
+    //错误页面图片,默认用的安卓sdk里面的图片,严重建议替换成一个256px左右的图片 默认使用android.R.drawable.ic_menu_search
+    private static  int errorImageResId = R.mipmap.error;
 
     //空页面文字
     private static String emptyText = "空页面";

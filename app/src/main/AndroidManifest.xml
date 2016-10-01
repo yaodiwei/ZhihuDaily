@@ -26,7 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.MainActivity" >
+
+        </activity>
         <activity android:name=".ui.NewsDetailActivity"/>
         <activity android:name=".ui.daily.CommentsActivity"/>
         <activity android:name=".ui.theme.ThemeActivity"/>
@@ -34,7 +36,9 @@
         <activity android:name=".ui.RecommendersActivity"/>
         <activity android:name=".ui.ProfilePageActivity"/>
         <activity android:name=".ui.SoftwareIntroductionActivity"/>
-        <activity android:name=".ui.SettingsActivity"/>
+        <activity android:name=".ui.SettingsActivity">
+
+        </activity>
 
     </application>
 
