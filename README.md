@@ -9,6 +9,8 @@
 <img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/5_专栏详细.jpg" width="270" height="480" alt="5_专栏详细"/>
 <img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/6_故事详情.jpg" width="270" height="480" alt="6_故事详情"/>
 <img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/7_评论.jpg" width="270" height="480" alt="7_评论"/>
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/8_通用设置.jpg" width="270" height="480" alt="8_通用设置"/>
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/9_软件介绍.jpg" width="270" height="480" alt="9_软件介绍"/>
 
 ## 软件介绍
 
