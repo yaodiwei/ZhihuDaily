@@ -64,7 +64,10 @@ public class ZhihuHttp {
 
     public void getStartImage(Subscriber<StartImageJson> subscriber) {
         Observable observable = zhihuApi.getStartImage();
-        toSubscribe(observable, subscriber);
+        observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(subscriber);
     }
 
     public void getDailies(Subscriber<DailiesJson> subscriber) {

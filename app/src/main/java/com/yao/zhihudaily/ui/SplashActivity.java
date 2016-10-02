@@ -133,6 +133,7 @@ public class SplashActivity extends Activity {
             }
         };
 
+        //这个的返回不能在UI线程中执行,应该是IO线程
         ZhihuHttp.getZhihuHttp().getStartImage(subscriber);
     }
 }
