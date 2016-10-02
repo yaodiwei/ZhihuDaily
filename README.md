@@ -2,7 +2,13 @@
 
 界面一般,但是轻量级,没广告,不推送,没后台的知乎日报.
 
-![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/1_封面.jpg)
+![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/1_封面.jpg =270x480)
+![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/2_日报.jpg =270x480)
+![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/3_所有主题.jpg =270x480)
+![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/4_主题详细.jpg =270x480)
+![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/5_专栏详细.jpg =270x480)
+![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/6_故事详情.jpg =270x480)
+![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/7_评论.jpg =270x480)
 
 ## 软件介绍
 
