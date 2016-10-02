@@ -3,13 +3,12 @@
 界面一般,但是轻量级,没广告,不推送,没后台的知乎日报.
 
 <img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/1_封面.jpg" width="270" height="480" alt="1_封面"/>
-![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/1_封面.jpg)
-![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/2_日报.jpg)
-![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/3_所有主题.jpg)
-![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/4_主题详细.jpg)
-![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/5_专栏详细.jpg)
-![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/6_故事详情.jpg)
-![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/7_评论.jpg)
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/2_日报.jpg" width="270" height="480" alt="2_日报"/>
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/3_所有主题.jpg" width="270" height="480" alt="3_所有主题"/>
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/4_主题详细.jpg" width="270" height="480" alt="4_主题详细"/>
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/5_专栏详细.jpg" width="270" height="480" alt="5_专栏详细"/>
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/6_故事详情.jpg" width="270" height="480" alt="6_故事详情"/>
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/7_评论.jpg" width="270" height="480" alt="7_评论"/>
 
 ## 软件介绍
 
