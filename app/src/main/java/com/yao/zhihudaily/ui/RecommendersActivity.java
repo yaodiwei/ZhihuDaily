@@ -2,6 +2,7 @@ package com.yao.zhihudaily.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,7 @@ import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
+import com.yao.zhihudaily.tool.StateTool;
 
 import java.io.IOException;
 
@@ -36,11 +38,15 @@ public class RecommendersActivity extends Activity {
     Toolbar toolbar;
     @BindView(R.id.rvRecommenders)
     RecyclerView rvRecommenders;
+    @BindView(R.id.rootView)
+    CoordinatorLayout rootView;
 
     private RecommendsJson recommendsJson;
     private int id;
     private RecommenderAdapter recommenderAdapter;
     private LinearLayoutManager linearLayoutManager;
+
+    private StateTool stateTool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,8 @@ public class RecommendersActivity extends Activity {
                 finish();
             }
         });
+
+        stateTool = new StateTool(rootView, 1);
 
         recommenderAdapter = new RecommenderAdapter(this);
         rvRecommenders.setAdapter(recommenderAdapter);
@@ -77,16 +85,23 @@ public class RecommendersActivity extends Activity {
 
             @Override
             public void onError(Throwable e) {
+                stateTool.showErrorView();
                 Logger.e(e, "Subscriber onError()");
             }
 
             @Override
             public void onNext(RecommendsJson recommendsJson) {
+                if (recommendsJson.getItems() == null) {
+                    stateTool.showEmptyView();
+                    return;
+                }
                 recommenderAdapter.addList(recommendsJson.getItems().get(0).getRecommenders());
                 recommenderAdapter.notifyDataSetChanged();
+                stateTool.showContentView();
             }
         };
 
+        stateTool.showProgressView();
         ZhihuHttp.getZhihuHttp().getRecommends(subscriber, id);
     }
 

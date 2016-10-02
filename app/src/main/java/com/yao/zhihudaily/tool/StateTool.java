@@ -52,7 +52,7 @@ public class StateTool {
     private static int offset = 0;
 
     //使用淡入淡出动画
-    private static boolean useAlphaAnimator = true;
+    private static boolean useAlphaAnimator = false;
 
     private ViewGroup root;
     private Context ctx;
@@ -66,13 +66,37 @@ public class StateTool {
     private LinearLayout.LayoutParams paramsChildrenImage;
     private LinearLayout.LayoutParams paramsChildrenMarginBottom50;
 
+    /**
+     * 如果有多个孩子,调用此方法
+     * @param root
+     */
     public StateTool(ViewGroup root) {
         this.root = root;
-        ctx = root.getContext();
         if (root.getChildCount() > 1) {
             throw new RuntimeException("root view's children more than 1");
         }
         contentView = root.getChildAt(0);
+
+        init();
+    }
+
+    /**
+     * 如果有多个孩子,调用此方法
+     * @param root
+     * @param index 传孩子的位置
+     */
+    public StateTool(ViewGroup root, int index) {
+        this.root = root;
+        if (root.getChildCount() < index + 1) {
+            throw new RuntimeException("Invalid index " + index +", size is " + root.getChildCount());
+        }
+        contentView = root.getChildAt(index);
+
+        init();
+    }
+
+    private void init() {
+        ctx = root.getContext();
         currentView = contentView;
 
         paramsChildrenWrapContent =  new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -99,7 +123,7 @@ public class StateTool {
 
     public void showEmptyView(){
         if (useAlphaAnimator) {
-            alphaShow(currentView);
+            alphaHide(currentView);
             alphaShow(emptyView);
         } else {
             currentView.setVisibility(View.GONE);
