@@ -58,7 +58,7 @@ public class SettingsActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.settingSplash:
-                SP.put(SP.SPLASH, !settingSplash.isChecked());
+                SP.put(SP.SPLASH, settingSplash.isChecked());
                 break;
             case R.id.rlClearCache:
                 FileUtil.delete(new File(Constants.STORAGE_DIR));
