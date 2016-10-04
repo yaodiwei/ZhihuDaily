@@ -1,6 +1,5 @@
 package com.yao.zhihudaily.ui.theme;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +18,7 @@ import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
+import com.yao.zhihudaily.ui.BaseActivity;
 
 import java.io.IOException;
 
@@ -34,7 +34,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/9/10.
  */
-public class ThemeActivity extends Activity {
+public class ThemeActivity extends BaseActivity {
 
     private static final String TAG = "ThemeActivity";
     @BindView(R.id.ivBackground)

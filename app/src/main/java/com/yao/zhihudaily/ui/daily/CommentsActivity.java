@@ -1,6 +1,5 @@
 package com.yao.zhihudaily.ui.daily;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,6 +10,7 @@ import android.view.View;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.net.UrlConstants;
+import com.yao.zhihudaily.ui.BaseActivity;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/8/30.
  */
-public class CommentsActivity extends Activity {
+public class CommentsActivity extends BaseActivity {
 
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;

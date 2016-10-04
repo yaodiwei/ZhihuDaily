@@ -1,6 +1,5 @@
 package com.yao.zhihudaily.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,7 +30,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/9/16.
  */
-public class RecommendersActivity extends Activity {
+public class RecommendersActivity extends BaseActivity {
 
     private static final String TAG = "RecommendersActivity";
     @BindView(R.id.toolbar)

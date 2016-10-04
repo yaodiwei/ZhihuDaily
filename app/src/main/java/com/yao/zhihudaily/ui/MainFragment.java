@@ -2,6 +2,7 @@ package com.yao.zhihudaily.ui;
 
 import android.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -16,6 +17,17 @@ public abstract class MainFragment extends Fragment {
     private FrameLayout fragmentContainer;
     private RecyclerView recyclerView;
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i("YAO", "MainFragment.java - onPause() ---------- Fragment:" + this.getClass().getName() );
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("YAO", "MainFragment.java - onResume() ---------- Fragment:" + this.getClass().getName() );
+    }
 
     /**
      * Refresh

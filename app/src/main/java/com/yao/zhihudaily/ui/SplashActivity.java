@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -38,7 +37,7 @@ import rx.Subscriber;
  * Created by Administrator on 2016/9/29.
  */
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseActivity {
 
     public static final String START_IMAGE = "startImage";
     public static final String START_TEXT = "startText";
@@ -64,6 +63,7 @@ public class SplashActivity extends Activity {
         }
 
         getStartImage();
+
 
         SimpleTarget target = new SimpleTarget<Bitmap>() {
             @Override

@@ -1,6 +1,5 @@
 package com.yao.zhihudaily.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -23,7 +22,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/1.
  */
 
-public class SettingsActivity extends Activity implements View.OnClickListener {
+public class SettingsActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

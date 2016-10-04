@@ -1,6 +1,5 @@
 package com.yao.zhihudaily.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,7 +14,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/9/17.
  */
-public class ProfilePageActivity extends Activity {
+public class ProfilePageActivity extends BaseActivity {
 
 
     @BindView(R.id.toolbar)

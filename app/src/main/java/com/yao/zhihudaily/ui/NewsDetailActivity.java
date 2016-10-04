@@ -1,6 +1,5 @@
 package com.yao.zhihudaily.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -37,7 +36,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/7/28.
  */
-public class NewsDetailActivity extends Activity {
+public class NewsDetailActivity extends BaseActivity {
 
     private static final String TAG = "NewsDetailActivity";
     @BindView(R.id.ivImage)

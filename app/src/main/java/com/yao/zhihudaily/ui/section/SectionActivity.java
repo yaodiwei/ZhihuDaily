@@ -1,11 +1,9 @@
 package com.yao.zhihudaily.ui.section;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -17,6 +15,7 @@ import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 import com.yao.zhihudaily.tool.RecyclerViewOnLoadMoreListener;
+import com.yao.zhihudaily.ui.BaseActivity;
 
 import java.io.IOException;
 
@@ -32,7 +31,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/9/13.
  */
-public class SectionActivity extends Activity {
+public class SectionActivity extends BaseActivity {
 
     private static final String TAG = "SectionActivity";
     @BindView(R.id.toolbar)
