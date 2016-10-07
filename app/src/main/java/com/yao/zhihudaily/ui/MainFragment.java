@@ -7,6 +7,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yao.zhihudaily.R;
 
 /**
@@ -20,12 +21,14 @@ public abstract class MainFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
         Log.i("YAO", "MainFragment.java - onPause() ---------- Fragment:" + this.getClass().getName() );
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
         Log.i("YAO", "MainFragment.java - onResume() ---------- Fragment:" + this.getClass().getName() );
     }
 

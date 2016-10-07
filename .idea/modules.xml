@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/UmengPushSDK/UmengPushSDK.iml" filepath="$PROJECT_DIR$/UmengPushSDK/UmengPushSDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/ZhihuDaily.iml" filepath="$PROJECT_DIR$/ZhihuDaily.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

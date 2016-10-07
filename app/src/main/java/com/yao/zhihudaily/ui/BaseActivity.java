@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
+
+import static anetwork.channel.http.NetworkSdkSetting.context;
 
 /**
  * Created by Administrator on 2016/10/1.
@@ -15,6 +18,7 @@ public abstract class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PushAgent.getInstance(context).onAppStart();
     }
 
     @Override
