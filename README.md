@@ -1,6 +1,6 @@
 # 知乎日报
 
-界面一般,但是轻量级,没广告,不推送,没后台的知乎日报.
+界面一般,但是轻量级,没广告的知乎日报.
 
 <img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/1_封面.jpg" width="270" height="480" alt="1_封面"/>
 <img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/2_日报.jpg" width="270" height="480" alt="2_日报"/>
