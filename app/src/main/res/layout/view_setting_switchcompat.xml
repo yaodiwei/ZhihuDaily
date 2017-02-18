@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rlSplash"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_listview_item"
-    android:gravity="center_vertical"
+    android:background="@drawable/selector_setting_switchcompat"
     android:minHeight="?android:listPreferredItemHeight"
     android:padding="16dp">
 
@@ -14,27 +13,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        tools:text="启动时画报"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        tools:text="某某开关"/>
 
     <TextView
         android:id="@+id/tvDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvTitle"
-        tools:text="启动App时展示画报"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
         android:textColor="#888888"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:text="开启和关闭的描述"/>
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/sc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:clickable="false"
-        android:orientation="vertical">
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true">
 
     </android.support.v7.widget.SwitchCompat>
 

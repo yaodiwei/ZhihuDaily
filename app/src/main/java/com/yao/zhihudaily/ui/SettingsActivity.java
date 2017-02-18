@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.tool.Constants;
-import com.yao.zhihudaily.ui.view.SettingItemView;
+import com.yao.zhihudaily.ui.view.SettingSwitchCompat;
 import com.yao.zhihudaily.util.FileUtil;
 import com.yao.zhihudaily.util.SP;
 import com.yao.zhihudaily.util.T;
@@ -17,6 +17,7 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 /**
  * Created by Administrator on 2016/10/1.
@@ -27,7 +28,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.settingSplash)
-    SettingItemView settingSplash;
+    SettingSwitchCompat settingSwitchCompat;
     @BindView(R.id.tvClearCache)
     TextView tvClearCache;
     @BindView(R.id.tvCacheSize)
@@ -47,8 +48,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 finish();
             }
         });
-        settingSplash.setChecked(SP.getBoolean(SP.SPLASH, true));
-        settingSplash.setOnClickListener(this);
+        settingSwitchCompat.setChecked(SP.getBoolean(SP.SPLASH, true));
+        settingSwitchCompat.setOnClickListener(this);
         tvCacheSize.setText(FileUtil.formetFileSize(FileUtil.getFileSize(new File(Constants.STORAGE_DIR))));
         rlClearCache.setOnClickListener(this);
     }
@@ -57,7 +58,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.settingSplash:
-                SP.put(SP.SPLASH, settingSplash.isChecked());
+                SP.put(SP.SPLASH, settingSwitchCompat.isChecked());
                 break;
             case R.id.rlClearCache:
                 FileUtil.delete(new File(Constants.STORAGE_DIR));

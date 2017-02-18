@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="SettingItemView">
+    <declare-styleable name="SettingSwitchCompat">
         <attr name="setting_title" format="string" />
         <attr name="desc_on" format="string" />
         <attr name="desc_off" format="string" />

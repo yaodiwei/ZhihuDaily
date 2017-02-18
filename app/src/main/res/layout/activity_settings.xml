@@ -34,7 +34,7 @@
                 android:text="基本设置"
                 android:textColor="@color/settings_blue" />
 
-            <com.yao.zhihudaily.ui.view.SettingItemView
+            <com.yao.zhihudaily.ui.view.SettingSwitchCompat
                 android:id="@+id/settingSplash"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

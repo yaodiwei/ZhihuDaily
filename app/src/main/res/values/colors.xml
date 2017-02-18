@@ -38,6 +38,7 @@
 
     <color name="gray_de">#666666</color>
     <color name="list_item_press">#216b74ff</color>
+    <color name="setting_switchcompat_press">#216b74ff</color>
 
     <!-- 设置里深蓝色字体 -->
     <color name="settings_blue">#0077D1</color>

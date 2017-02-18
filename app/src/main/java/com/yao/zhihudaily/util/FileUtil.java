@@ -28,11 +28,13 @@ public class FileUtil {
     {
         long size = 0;
         File flist[] = f.listFiles();
-        for (int i = 0; i < flist.length; i++) {
-            if (flist[i].isDirectory()) {
-                size = size + getFileSize(flist[i]);
-            } else {
-                size = size + flist[i].length();
+        if (flist != null) {
+            for (int i = 0; i < flist.length; i++) {
+                if (flist[i].isDirectory()) {
+                    size = size + getFileSize(flist[i]);
+                } else {
+                    size = size + flist[i].length();
+                }
             }
         }
         return size;
