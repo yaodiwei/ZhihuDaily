@@ -2,15 +2,23 @@
 
 界面一般,但是轻量级,没广告的知乎日报.
 
-<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/1_封面.jpg" width="270" height="480" alt="1_封面"/>
-<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/2_日报.jpg" width="270" height="480" alt="2_日报"/>
-<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/3_所有主题.jpg" width="270" height="480" alt="3_所有主题"/>
-<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/4_主题详细.jpg" width="270" height="480" alt="4_主题详细"/>
-<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/5_专栏详细.jpg" width="270" height="480" alt="5_专栏详细"/>
-<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/6_故事详情.jpg" width="270" height="480" alt="6_故事详情"/>
-<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/7_评论.jpg" width="270" height="480" alt="7_评论"/>
-<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/8_通用设置.jpg" width="270" height="480" alt="8_通用设置"/>
-<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/9_软件介绍.jpg" width="270" height="480" alt="9_软件介绍"/>
+## 首页
+![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/首页.gif)
+
+## 内容
+![image](https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/内容.gif)
+
+<br><br>
+
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/1_封面.jpg" width="270" height="480" alt="1_封面"/>&emsp
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/2_日报.jpg" width="270" height="480" alt="2_日报"/>&emsp
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/3_所有主题.jpg" width="270" height="480" alt="3_所有主题"/>&emsp<br>
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/4_主题详细.jpg" width="270" height="480" alt="4_主题详细"/>&emsp
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/5_专栏详细.jpg" width="270" height="480" alt="5_专栏详细"/>&emsp
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/6_故事详情.jpg" width="270" height="480" alt="6_故事详情"/>&emsp<br>
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/7_评论.jpg" width="270" height="480" alt="7_评论"/>&emsp
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/8_通用设置.jpg" width="270" height="480" alt="8_通用设置"/>&emsp
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/9_软件介绍.jpg" width="270" height="480" alt="9_软件介绍"/>&emsp<br>
 
 ## 软件介绍
 

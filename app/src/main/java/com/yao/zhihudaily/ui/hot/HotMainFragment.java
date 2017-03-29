@@ -16,7 +16,7 @@ import com.yao.zhihudaily.model.HotJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
-import com.yao.zhihudaily.tool.DividerItemDecoration;
+import com.yao.zhihudaily.tool.SimpleDividerDecoration;
 import com.yao.zhihudaily.ui.MainFragment;
 
 import java.io.IOException;
@@ -51,7 +51,8 @@ public class HotMainFragment extends MainFragment {
         ButterKnife.bind(this, view);
 
         rvHots.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
-        rvHots.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+//        rvHots.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        rvHots.addItemDecoration(new SimpleDividerDecoration(getActivity()));
         rvHots.setAdapter(hotAdapter = new HotAdapter(this));
 
         getHot();

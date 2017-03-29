@@ -17,8 +17,8 @@ import com.yao.zhihudaily.model.DailiesJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
-import com.yao.zhihudaily.tool.DividerItemDecoration;
 import com.yao.zhihudaily.tool.RecyclerViewOnLoadMoreListener;
+import com.yao.zhihudaily.tool.SimpleDividerDecoration;
 import com.yao.zhihudaily.tool.StateTool;
 import com.yao.zhihudaily.ui.MainFragment;
 
@@ -67,7 +67,6 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_daily, container, false);
         unbinder = ButterKnife.bind(this, view);
-        ButterKnife.bind(this, view);
 
         stateTool = new StateTool(linearLayout);
         stateTool.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +80,8 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
 
         swipeRefreshLayout.setOnRefreshListener(this);
         rvDailies.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
-        rvDailies.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+//        rvDailies.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        rvDailies.addItemDecoration(new SimpleDividerDecoration(getActivity()));
         rvDailies.setAdapter(dailyAdapter = new DailyAdapter(this));
         rvDailies.addOnScrollListener(listener = new RecyclerViewOnLoadMoreListener() {
             @Override

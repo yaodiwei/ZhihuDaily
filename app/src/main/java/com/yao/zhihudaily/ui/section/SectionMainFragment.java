@@ -16,7 +16,7 @@ import com.yao.zhihudaily.model.SectionsJson;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
-import com.yao.zhihudaily.tool.DividerItemDecoration;
+import com.yao.zhihudaily.tool.SimpleDividerDecoration;
 import com.yao.zhihudaily.ui.MainFragment;
 
 import java.io.IOException;
@@ -49,7 +49,8 @@ public class SectionMainFragment extends MainFragment {
         rvSections = (RecyclerView) view.findViewById(R.id.rvSections);
 
         rvSections.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
-        rvSections.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+//        rvSections.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        rvSections.addItemDecoration(new SimpleDividerDecoration(getActivity()));
         rvSections.setAdapter(sectionAdapter = new SectionAdapter(this));
 
         getSections();

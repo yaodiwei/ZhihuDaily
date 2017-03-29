@@ -9,4 +9,7 @@
 
     <!-- 头像半径 -->
     <dimen name="avatar_radius">50dp</dimen>
+
+    <!-- 分割线高度 -->
+    <dimen name="divider_height">3dp</dimen>
 </resources>
