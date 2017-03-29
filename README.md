@@ -12,13 +12,13 @@
 
 <img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/1_封面.jpg" width="240" height="426" alt="1_封面"/>&ensp;
 <img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/2_日报.jpg" width="240" height="426" alt="2_日报"/>&ensp;
-<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/3_所有主题.jpg" width="240" height="426" alt="3_所有主题"/>&ensp;<br>
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/3_所有主题.jpg" width="240" height="426" alt="3_所有主题"/>&ensp;<br><br><br>
 <img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/4_主题详细.jpg" width="240" height="426" alt="4_主题详细"/>&ensp;
 <img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/5_专栏详细.jpg" width="240" height="426" alt="5_专栏详细"/>&ensp;
-<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/6_故事详情.jpg" width="240" height="426" alt="6_故事详情"/>&ensp;<br>
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/6_故事详情.jpg" width="240" height="426" alt="6_故事详情"/>&ensp;<br><br><br>
 <img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/7_评论.jpg" width="240" height="426" alt="7_评论"/>&ensp;
 <img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/8_通用设置.jpg" width="240" height="426" alt="8_通用设置"/>&ensp;
-<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/9_软件介绍.jpg" width="240" height="426" alt="9_软件介绍"/>&ensp;<br>
+<img src="https://github.com/yaodiwei/ZhihuDaily/blob/master/raw/master/images/9_软件介绍.jpg" width="240" height="426" alt="9_软件介绍"/>&ensp;<br><br><br>
 
 ## 软件介绍
 
