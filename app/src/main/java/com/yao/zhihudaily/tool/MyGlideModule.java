@@ -36,8 +36,7 @@ public class MyGlideModule implements GlideModule {
 
         //设置硬盘缓存大小
         int cacheSize100MegaBytes = 100*1024*1024;
-        String path = Constants.STORAGE_DIR + "image_cache";
-        Log.d("YAO", "MyGlideModule.java - applyOptions() ---------- path" + path );
+        String path = Constants.STORAGE_DIR;
         builder.setDiskCache(new DiskLruCacheFactory(path, cacheSize100MegaBytes));
     }
 

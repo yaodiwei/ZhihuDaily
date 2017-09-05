@@ -17,13 +17,14 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
  * Created by Administrator on 2016/10/1.
  */
 
-public class SettingsActivity extends BaseActivity implements View.OnClickListener {
+public class SettingsActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -49,12 +50,13 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             }
         });
         settingSwitchCompat.setChecked(SP.getBoolean(SP.SPLASH, true));
-        settingSwitchCompat.setOnClickListener(this);
-        tvCacheSize.setText(FileUtil.formetFileSize(FileUtil.getFileSize(new File(Constants.STORAGE_DIR))));
-        rlClearCache.setOnClickListener(this);
+        tvCacheSize.setText(FileUtil.formatFileSize(FileUtil.getFileSize(new File(Constants.STORAGE_DIR))));
     }
 
-    @Override
+    @OnClick({
+            R.id.settingSplash,
+            R.id.rlClearCache
+    })
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.settingSplash:

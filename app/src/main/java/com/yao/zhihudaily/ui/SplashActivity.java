@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,7 +63,7 @@ public class SplashActivity extends BaseActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
 
-        getStartImage();
+//        getStartImage();
 
 
         SimpleTarget target = new SimpleTarget<Bitmap>() {
@@ -97,6 +98,7 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
+    @Deprecated//此api已废弃
     private void getStartImage() {
         Subscriber subscriber = new Subscriber<StartImageJson>() {
 
@@ -107,6 +109,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
                 Logger.e(e, "Subscriber onError()");
+                Log.e("YAO", "SplashActivity.java - onError() ----- e" + e);
             }
 
             @Override

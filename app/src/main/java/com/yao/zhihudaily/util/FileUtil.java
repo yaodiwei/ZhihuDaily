@@ -24,8 +24,7 @@ public class FileUtil {
     }
 
     // 递归
-    public static long getFileSize(File f)//取得文件夹大小
-    {
+    public static long getFileSize(File f) {
         long size = 0;
         File flist[] = f.listFiles();
         if (flist != null) {
@@ -40,7 +39,7 @@ public class FileUtil {
         return size;
     }
 
-    public static String formetFileSize(long fileS) {//转换文件大小
+    public static String formatFileSize(long fileS) {//转换文件大小
         DecimalFormat df = new DecimalFormat("#.00");
         String fileSizeString = "";
         if (fileS < 1024) {

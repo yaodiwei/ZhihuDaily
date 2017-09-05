@@ -12,5 +12,9 @@ import java.io.File;
 
 public class Constants {
 
-    public static final String STORAGE_DIR = Environment.getExternalStorageDirectory() + File.separator + App.app.getPackageName() + File.separator;
+    public static String STORAGE_DIR = Environment.getExternalStorageDirectory() + File.separator + App.app.getPackageName() + File.separator;
+
+    static {
+        STORAGE_DIR = App.app.getExternalCacheDir().getAbsolutePath();
+    }
 }
