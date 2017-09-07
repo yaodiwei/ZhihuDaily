@@ -16,4 +16,12 @@
     <string name="api_github_address"><u>https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90</u></string>
     <string name="open_source_library">com.android.support:appcompat-v7:24.1.0\ncom.android.support:design:24.1.0\ncom.squareup.okhttp3:okhttp:3.3.1\ncom.google.code.gson:gson:2.7\ncom.github.bumptech.glide:glide:3.6.1\ncom.android.support:recyclerview-v7:24.1.0\ncom.android.support:cardview-v7:24.1.1\nio.reactivex:rxjava:1.1.8\nio.reactivex:rxandroid:1.2.1\ncom.github.bumptech.glide:glide:3.6.1\ncom.aurelhubert:ahbottomnavigation:1.4.0\ncom.squareup.retrofit2:retrofit:2.0.0-beta4\ncom.squareup.retrofit2:adapter-rxjava:2.0.0-beta4\ncom.squareup.retrofit2:converter-gson:2.0.0-beta4\ncom.orhanobut:logger:1.15\ncom.jakewharton:butterknife:8.4.0\napt com.jakewharton:butterknife-compiler:8.4.0</string>
     <string name="about_developer">1.转入Android studio的第一个项目,用习惯了的确很爽.\n2.用了最近最潮的RxJava + Retrofit,搭配给力的OkHttp,再来个Glide,在一套下来,在网络简直就是强,无敌.\n3.用了5.0后的Material Design规范和控件.CoordinatorLayout那一套学起来真是不容易,但是配合BottomNavigation用起来显示效果的确好.\n4.之前脑袋有想法,但是没时间整合的一些代码,如StateTool,SettingItemView终于在这个机会整合了一下.感觉不错.\n5.本来就喜欢折腾手机,工作又是写安卓.真想不到有什么比这更好的事情.^.^</string>
+    <string name="permission_storage_rationale">不给权限没法干活啊!</string>
+    <string name="tip">提示</string>
+    <string name="open_permission_dialog">打开权限</string>
+    <string name="ok">好的</string>
+    <string name="cancel">取消</string>
+    <string name="go_to_setting">去设置</string>
+    <string name="permission_storage_failed">没有权限,无法执行此功能, 如需要重新打开, 请前往权限管理界面.</string>
+
 </resources>

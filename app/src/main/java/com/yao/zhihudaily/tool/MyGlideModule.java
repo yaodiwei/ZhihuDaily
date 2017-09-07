@@ -1,7 +1,6 @@
 package com.yao.zhihudaily.tool;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;

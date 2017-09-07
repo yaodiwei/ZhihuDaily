@@ -1,31 +1,44 @@
 package com.yao.zhihudaily.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.ui.daily.DailyMainFragment;
 import com.yao.zhihudaily.ui.hot.HotMainFragment;
 import com.yao.zhihudaily.ui.section.SectionMainFragment;
 import com.yao.zhihudaily.ui.theme.ThemeMainFragment;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final int REQUEST_PERMISSION_STORAGE = 200;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -52,6 +65,78 @@ public class MainActivity extends BaseActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        initView();
+
+        AndPermission.with(this)
+                .requestCode(REQUEST_PERMISSION_STORAGE)
+                .permission(Permission.STORAGE)
+                .rationale(new RationaleListener() {
+                    @Override
+                    public void showRequestPermissionRationale(int requestCode, final Rationale rationale) {
+                        new android.support.v7.app.AlertDialog.Builder(MainActivity.this)
+                                .setTitle(R.string.tip)
+                                .setMessage(R.string.permission_storage_rationale)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.open_permission_dialog, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        rationale.resume();
+                                    }
+                                })
+                                .setNegativeButton(R.string.cancel, null)
+                                .show();
+                    }
+                })
+                .callback(new PermissionListener() {
+                    @Override
+                    public void onSucceed(int requestCode, List<String> grantedPermissions) {
+                        if(requestCode == REQUEST_PERMISSION_STORAGE) {
+                            listStorageDir();
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(int requestCode, List<String> deniedPermissions) {
+                        if(requestCode == REQUEST_PERMISSION_STORAGE) {
+                            new android.support.v7.app.AlertDialog.Builder(MainActivity.this)
+                                    .setTitle(R.string.tip)
+                                    .setMessage(R.string.permission_storage_failed)
+                                    .setCancelable(false)
+                                    .setPositiveButton(R.string.go_to_setting, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            goToSetting();
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.cancel, null)
+                                    .show();
+                        }
+                    }
+                });//.start();
+    }
+
+    private void goToSetting(){
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+        intent.setData(Uri.fromParts("package", getPackageName(), null));
+        startActivity(intent);
+    }
+
+    private void listStorageDir() {
+        File file = Environment.getExternalStorageDirectory();
+        final String[] strings = file.list();
+        if (strings != null && strings.length > 0) {
+            StringBuilder builder = new StringBuilder();
+            for (String str : strings) {
+                builder.append(str + ", ");
+            }
+            builder.substring(0, builder.length()-2);
+            Log.e("YAO", "MainActivity.java - onCreate() ----- builder\n " + builder.toString());
+        }
+    }
+
+    private void initView() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.setDrawerIndicatorEnabled(false);//隐藏左上角的DrawerLayout图标
@@ -61,10 +146,7 @@ public class MainActivity extends BaseActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        initView();
-    }
 
-    private void initView() {
         toolbar.inflateMenu(R.menu.main);//设置右上角的填充菜单
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
