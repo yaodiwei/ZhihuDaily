@@ -55,7 +55,7 @@ public class SectionStoryAdapter extends RecyclerView.Adapter<SectionStoryAdapte
     public void onBindViewHolder(StoryHolder holder, int position) {
         SectionStory sectionStory = stories.get(position);
         holder.tvTitle.setText(sectionStory.getTitle());
-        holder.tvTime.setText(sectionStory.getDate());
+        holder.tvDescription.setText(sectionStory.getDate());
         if (sectionStory.getImages() != null) {
             Glide.with(aty).load(sectionStory.getImages().get(0)).placeholder(R.mipmap.ic_launcher).into(holder.iv);
         }
@@ -75,8 +75,8 @@ public class SectionStoryAdapter extends RecyclerView.Adapter<SectionStoryAdapte
         ImageView iv;
         @BindView(R.id.tvTitle)
         TextView tvTitle;
-        @BindView(R.id.tvTime)
-        TextView tvTime;
+        @BindView(R.id.tvDescription)
+        TextView tvDescription;
 
         public StoryHolder(View view) {
             super(view);
