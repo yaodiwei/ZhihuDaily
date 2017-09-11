@@ -10,25 +10,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.ThemeJson;
-import com.yao.zhihudaily.net.OkHttpSync;
-import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 import com.yao.zhihudaily.ui.BaseActivity;
 
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -50,6 +43,7 @@ public class ThemeActivity extends BaseActivity {
     private int id;
     private ThemeStoryAdapter themeStoryAdapter;
     private LinearLayoutManager linearLayoutManager;
+    private Disposable mDisposable;
 
 
     @Override
@@ -82,17 +76,20 @@ public class ThemeActivity extends BaseActivity {
         getThemeData();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
+    }
+
     private void getThemeData() {
-        Subscriber subscriber = new Subscriber<ThemeJson>() {
+        Observer subscriber = new Observer<ThemeJson>() {
 
             @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Logger.e(e, "Subscriber onError()");
+            public void onSubscribe(@NonNull Disposable d) {
+                mDisposable = d;
             }
 
             @Override
@@ -103,51 +100,18 @@ public class ThemeActivity extends BaseActivity {
                 collapsingToolbarLayout.setTitle(themeJson.getName());
                 tvDescription.setText("        " + themeJson.getDescription());
             }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.e(e, "Subscriber onError()");
+            }
         };
 
         ZhihuHttp.getZhihuHttp().getTheme(subscriber, String.valueOf(id));
-    }
-
-    @Deprecated
-    private void getThemeDataOld() {
-        Observable.create(new Observable.OnSubscribe<ThemeJson>() {
-
-            @Override
-            public void call(Subscriber<? super ThemeJson> subscriber) {
-                try {
-                    Response response = OkHttpSync.get(String.format(UrlConstants.THEME, String.valueOf(id)));
-                    if (response.isSuccessful()) {
-                        themeJson = new Gson().fromJson(response.body().string(), ThemeJson.class);
-                        themeStoryAdapter.addList(themeJson.getStories());
-                        subscriber.onCompleted();
-                    } else {
-                        subscriber.onError(new Exception("error"));
-                    }
-                } catch (IOException e) {
-                    subscriber.onError(e);
-                }
-            }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ThemeJson>() {
-
-                    @Override
-                    public void onCompleted() {
-                        themeStoryAdapter.notifyDataSetChanged();
-                        Glide.with(ThemeActivity.this).load(themeJson.getBackground()).into(ivBackground);
-                        collapsingToolbarLayout.setTitle(themeJson.getName());
-                        tvDescription.setText("        " + themeJson.getDescription());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e(e, "Subscriber onError()");
-                    }
-
-                    @Override
-                    public void onNext(ThemeJson themeJson) {
-                    }
-                });
     }
 }

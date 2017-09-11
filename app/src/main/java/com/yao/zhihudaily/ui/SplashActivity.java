@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +19,7 @@ import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.StartImageJson;
 import com.yao.zhihudaily.net.OkHttpAsync;
+import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.Constants;
 import com.yao.zhihudaily.util.SP;
@@ -29,10 +29,13 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Call;
-import okhttp3.Callback;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import okhttp3.Response;
-import rx.Subscriber;
+
 
 /**
  * Created by Administrator on 2016/9/29.
@@ -49,6 +52,8 @@ public class SplashActivity extends BaseActivity {
     @BindView(R.id.tvAuthor)
     TextView tvAuthor;
 
+    private Disposable mDisposable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (!SP.getBoolean(SP.SPLASH, true)) {
@@ -64,7 +69,6 @@ public class SplashActivity extends BaseActivity {
         }
 
 //        getStartImage();
-
 
         SimpleTarget target = new SimpleTarget<Bitmap>() {
             @Override
@@ -98,45 +102,62 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
+    }
+
     @Deprecated//此api已废弃
     private void getStartImage() {
-        Subscriber subscriber = new Subscriber<StartImageJson>() {
+        ZhihuHttp.getZhihuHttp().getStartImage()
+                .filter(new Predicate<StartImageJson>() {
+                    @Override
+                    public boolean test(@NonNull StartImageJson startImageJson) throws Exception {
+                        //与缓存url的不相等, 才进入下一步进行新url的缓存
+                        return !SP.getString(START_TEXT, "").equals(startImageJson.getText());
+                    }
+                })
+                .map(new Function<StartImageJson, String>() {
+                    @Override
+                    public String apply(@NonNull StartImageJson startImageJson) throws Exception {
+                        SP.put(START_IMAGE, startImageJson.getImg());
+                        SP.put(START_TEXT, startImageJson.getText());
+                        return startImageJson.getImg();
+                    }
+                })
+                .map(new Function<String, Response>() {
+                    @Override
+                    public Response apply(@NonNull String s) throws Exception {
+                        return OkHttpSync.get(s);
+                    }
+                })
+                .subscribe(new Observer<Response>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        mDisposable = d;
+                    }
 
-            @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Logger.e(e, "Subscriber onError()");
-                Log.e("YAO", "SplashActivity.java - onError() ----- e" + e);
-            }
-
-            @Override
-            public void onNext(StartImageJson startImageJson) {
-                //如果本地存的图片就是最新的图片,那么不用下载更新
-                if (SP.getString(START_TEXT, "").equals(startImageJson.getText())) {
-                    return;
-                } else {
-                    SP.put(START_IMAGE, startImageJson.getImg());
-                    SP.put(START_TEXT, startImageJson.getText());
-                    //TODO  改成Rx风格
-                    OkHttpAsync.get(startImageJson.getImg(), new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
+                    @Override
+                    public void onNext(@NonNull Response response) {
+                        try {
                             OkHttpAsync.saveFile(response, Constants.STORAGE_DIR, START_IMAGE_FILE);
+                        } catch (IOException e) {
+                            onError(e);
                         }
-                    });
-                }
-            }
-        };
+                    }
 
-        //这个的返回不能在UI线程中执行,应该是IO线程
-        ZhihuHttp.getZhihuHttp().getStartImage(subscriber);
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Logger.e(e, "Subscriber onError()");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

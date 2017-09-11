@@ -14,14 +14,14 @@ import com.yao.zhihudaily.model.ThemesJson;
 
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2016/9/21.
@@ -48,7 +48,7 @@ public class ZhihuHttp {
                     retrofit = new Retrofit.Builder()
                             .client(okHttpClient)
                             .addConverterFactory(GsonConverterFactory.create())
-                            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .baseUrl(ZHIHU_BASE_URL)
                             .build();
 
@@ -62,84 +62,82 @@ public class ZhihuHttp {
         return zhihuHttp;
     }
 
-    public void getStartImage(Subscriber<StartImageJson> subscriber) {
-        Observable observable = zhihuApi.getStartImage();
-        observable.subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe(subscriber);
+    public Observable<StartImageJson> getStartImage() {
+        return zhihuApi.getStartImage().subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io());
     }
 
-    public void getDailies(Subscriber<DailiesJson> subscriber) {
+    public void getDailies(Observer<DailiesJson> observer) {
         Observable observable = zhihuApi.getDailies();
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
-    public void getDailiesBefore(Subscriber<DailiesJson> subscriber, String date) {
+    public void getDailiesBefore(Observer<DailiesJson> observer, String date) {
         Observable observable = zhihuApi.getDailiesBefore(date);
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
-    public void getNews(Subscriber<DailyJson> subscriber, String id) {
+    public void getNews(Observer<DailyJson> observer, String id) {
         Observable observable = zhihuApi.getNews(id);
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
-    public void getStoryExtra(Subscriber<StoryExtra> subscriber, String id) {
+    public void getStoryExtra(Observer<StoryExtra> observer, String id) {
         Observable observable = zhihuApi.getStoryExtra(id);
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
-    public void getShortComments(Subscriber<CommentJson> subscriber, String id) {
+    public void getShortComments(Observer<CommentJson> observer, String id) {
         Observable observable = zhihuApi.getShortComments(id);
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
-    public void getLongComments(Subscriber<CommentJson> subscriber, String id) {
+    public void getLongComments(Observer<CommentJson> observer, String id) {
         Observable observable = zhihuApi.getLongComments(id);
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
-    public void getThemes(Subscriber<ThemesJson> subscriber) {
+    public void getThemes(Observer<ThemesJson> observer) {
         Observable observable = zhihuApi.getThemes();
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
-    public void getTheme(Subscriber<ThemeJson> subscriber, String id) {
+    public void getTheme(Observer<ThemeJson> observer, String id) {
         Observable observable = zhihuApi.getTheme(id);
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
-    public void getHot(Subscriber<HotJson> subscriber) {
+    public void getHot(Observer<HotJson> observer) {
         Observable observable = zhihuApi.getHot();
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
-    public void getSections(Subscriber<SectionsJson> subscriber) {
+    public void getSections(Observer<SectionsJson> observer) {
         Observable observable = zhihuApi.getSections();
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
-    public void getSection(Subscriber<SectionJson> subscriber, String id) {
+    public void getSection(Observer<SectionJson> observer, String id) {
         Observable observable = zhihuApi.getSection(id);
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
-    public void getSectionBefore(Subscriber<SectionJson> subscriber, String id, String timestamp) {
+    public void getSectionBefore(Observer<SectionJson> observer, String id, String timestamp) {
         Observable observable = zhihuApi.getSectionBefore(id, timestamp);
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
-    public void getRecommends(Subscriber<RecommendsJson> subscriber, String id) {
+    public void getRecommends(Observer<RecommendsJson> observer, String id) {
         Observable observable = zhihuApi.getRecommends(id);
-        toSubscribe(observable, subscriber);
+        toSubscribe(observable, observer);
     }
 
 
-    private void toSubscribe(Observable o, Subscriber s){
-        o.subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
+    private void toSubscribe(Observable observable, Observer observer){
+        observable.subscribeOn(Schedulers.io())
+//                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s);
+                .subscribe(observer);
     }
 }

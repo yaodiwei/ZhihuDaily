@@ -10,26 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Comment;
 import com.yao.zhihudaily.model.CommentJson;
 import com.yao.zhihudaily.model.StoryExtra;
-import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Administrator on 2016/9/4.
@@ -48,6 +43,7 @@ public class CommentsFragment extends Fragment {
     private StoryExtra storyExtra;
     private String url;
     private int count;
+    private Disposable mDisposable;
 
     @Nullable
     @Override
@@ -105,17 +101,20 @@ public class CommentsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
+    }
+
     private void getComments(String url) {
-        Subscriber subscriber = new Subscriber<CommentJson>() {
+        Observer subscriber = new Observer<CommentJson>() {
 
             @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Logger.e(e, "Subscriber onError()");
+            public void onSubscribe(@NonNull Disposable d) {
+                mDisposable = d;
             }
 
             @Override
@@ -125,6 +124,16 @@ public class CommentsFragment extends Fragment {
                 commentAdapter.notifyDataSetChanged();
 //                toolbar.setTitle(toolbar.getTitle() + "(以下展示" + comments.size() + "条)");
             }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.e(e, "Subscriber onError()");
+            }
         };
 
         if (url.endsWith("short-comments")) {
@@ -132,48 +141,5 @@ public class CommentsFragment extends Fragment {
         } else {
             ZhihuHttp.getZhihuHttp().getLongComments(subscriber, String.valueOf(id));
         }
-    }
-
-    @Deprecated
-    private void getCommentsOld() {
-        Observable.create(new Observable.OnSubscribe<CommentJson>() {
-
-            @Override
-            public void call(Subscriber<? super CommentJson> subscriber) {
-                try {
-                    Response response = OkHttpSync.get(String.format(url, String.valueOf(id)));
-                    if (response.isSuccessful()) {
-                        String json = response.body().string();
-                        CommentJson commentJson = new Gson().fromJson(json, CommentJson.class);
-                        comments = commentJson.getComments();
-                        commentAdapter.addList(comments);
-                        subscriber.onCompleted();
-                    } else {
-                        subscriber.onError(new Exception("error"));
-                    }
-                } catch (IOException e) {
-                    subscriber.onError(e);
-                }
-            }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<CommentJson>() {
-
-                    @Override
-                    public void onCompleted() {
-                        commentAdapter.notifyDataSetChanged();
-//                        toolbar.setTitle(toolbar.getTitle() + "(以下展示" + comments.size() + "条)");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e(e, "Subscriber onError()");
-                    }
-
-                    @Override
-                    public void onNext(CommentJson commentJson) {
-                    }
-                });
     }
 }

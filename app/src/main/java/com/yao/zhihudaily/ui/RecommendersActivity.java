@@ -7,25 +7,18 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.RecommendsJson;
-import com.yao.zhihudaily.net.OkHttpSync;
-import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 import com.yao.zhihudaily.tool.StateTool;
 
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Administrator on 2016/9/16.
@@ -46,6 +39,7 @@ public class RecommendersActivity extends BaseActivity {
     private LinearLayoutManager linearLayoutManager;
 
     private StateTool stateTool;
+    private Disposable mDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,18 +68,20 @@ public class RecommendersActivity extends BaseActivity {
         getRecommenders(String.valueOf(id));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
+    }
+
     private void getRecommenders(String id) {
-        Subscriber subscriber = new Subscriber<RecommendsJson>() {
+        Observer subscriber = new Observer<RecommendsJson>() {
 
             @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                stateTool.showErrorView();
-                Logger.e(e, "Subscriber onError()");
+            public void onSubscribe(@NonNull Disposable d) {
+                mDisposable = d;
             }
 
             @Override
@@ -94,54 +90,26 @@ public class RecommendersActivity extends BaseActivity {
                     stateTool.showEmptyView();
                     return;
                 }
-                recommenderAdapter.addList(recommendsJson.getItems().get(0).getRecommenders());
-                recommenderAdapter.notifyDataSetChanged();
-                stateTool.showContentView();
+                if (recommendsJson.getItems() != null && recommendsJson.getItems().size() != 0) {
+                    recommenderAdapter.addList(recommendsJson.getItems().get(0).getRecommenders());
+                    recommenderAdapter.notifyDataSetChanged();
+                    stateTool.showContentView();
+                }
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                stateTool.showErrorView();
+                Logger.e(e, "Subscriber onError()");
             }
         };
 
         stateTool.showProgressView();
         ZhihuHttp.getZhihuHttp().getRecommends(subscriber, id);
-    }
-
-    @Deprecated
-    private void getRecommendersOld() {
-        Observable.create(new Observable.OnSubscribe<RecommendsJson>() {
-
-            @Override
-            public void call(Subscriber<? super RecommendsJson> subscriber) {
-                try {
-                    Response response = OkHttpSync.get(String.format(UrlConstants.RECOMMENDERS, id));
-                    if (response.isSuccessful()) {
-                        String json = response.body().string();
-                        recommendsJson = new Gson().fromJson(json, RecommendsJson.class);
-                        recommenderAdapter.addList(recommendsJson.getItems().get(0).getRecommenders());
-                        subscriber.onCompleted();
-                    } else {
-                        subscriber.onError(new Exception("error"));
-                    }
-                } catch (IOException e) {
-                    subscriber.onError(e);
-                }
-            }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<RecommendsJson>() {
-
-                    @Override
-                    public void onCompleted() {
-                        recommenderAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e(e, "Subscriber onError()");
-                    }
-
-                    @Override
-                    public void onNext(RecommendsJson recommendsJson) {
-                    }
-                });
     }
 }

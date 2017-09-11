@@ -8,25 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.ThemesJson;
-import com.yao.zhihudaily.net.OkHttpSync;
-import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.GridItemDecoration;
 import com.yao.zhihudaily.ui.MainFragment;
 
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Administrator on 2016/7/22.
@@ -39,6 +32,9 @@ public class ThemeMainFragment extends MainFragment {
 
     private GridLayoutManager gridLayoutManager;
     private ThemeAdapter themeAdapter;
+    private Observer mSubscriber;
+
+    private Disposable mDisposable;
 
     @Nullable
     @Override
@@ -57,17 +53,20 @@ public class ThemeMainFragment extends MainFragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
+    }
+
     private void getThemes() {
-        Subscriber subscriber = new Subscriber<ThemesJson>() {
+        Observer mSubscriber = new Observer<ThemesJson>() {
 
             @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Logger.e(e, "Subscriber onError()");
+            public void onSubscribe(@NonNull Disposable d) {
+                mDisposable = d;
             }
 
             @Override
@@ -75,48 +74,18 @@ public class ThemeMainFragment extends MainFragment {
                 themeAdapter.addList(themesJson.getOthers());
                 themeAdapter.notifyDataSetChanged();
             }
-        };
-
-        ZhihuHttp.getZhihuHttp().getThemes(subscriber);
-    }
-
-    @Deprecated
-    private void getThemesOld() {
-        Observable.create(new Observable.OnSubscribe<ThemesJson>() {
 
             @Override
-            public void call(Subscriber<? super ThemesJson> subscriber) {
-                try {
-                    Response response = OkHttpSync.get(UrlConstants.THEMES);
-                    if (response.isSuccessful()) {
-                        ThemesJson themesJson = new Gson().fromJson(response.body().string(), ThemesJson.class);
-                        themeAdapter.addList(themesJson.getOthers());
-                        subscriber.onCompleted();
-                    } else {
-                        subscriber.onError(new Exception("error"));
-                    }
-                } catch (IOException e) {
-                    subscriber.onError(e);
-                }
+            public void onComplete() {
+
             }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ThemesJson>() {
 
-                    @Override
-                    public void onCompleted() {
-                        themeAdapter.notifyDataSetChanged();
-                    }
+            @Override
+            public void onError(Throwable e) {
+                Logger.e(e, "Subscriber onError()");
+            }
+        };
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e(e, "Subscriber onError()");
-                    }
-
-                    @Override
-                    public void onNext(ThemesJson themesJson) {
-                    }
-                });
+        ZhihuHttp.getZhihuHttp().getThemes(mSubscriber);
     }
 }

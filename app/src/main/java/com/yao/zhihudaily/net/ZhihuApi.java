@@ -12,9 +12,12 @@ import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.model.ThemeJson;
 import com.yao.zhihudaily.model.ThemesJson;
 
+import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 /**
  * Created by Administrator on 2016/9/21.
@@ -24,6 +27,10 @@ public interface ZhihuApi {
 
     @GET("4/start-image/1080*1776")
     Observable<StartImageJson> getStartImage();
+
+    @Streaming//注明为流文件，防止retrofit将大文件读入内存
+    @GET
+    Observable<ResponseBody> getStartImageFile(@Url String url);//通过@Url覆盖baseurl
 
     @GET("4/news/latest")
     Observable<DailiesJson> getDailies();

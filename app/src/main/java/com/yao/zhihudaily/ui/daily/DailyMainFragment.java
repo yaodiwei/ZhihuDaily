@@ -10,28 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.DailiesJson;
-import com.yao.zhihudaily.net.OkHttpSync;
-import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.RecyclerViewOnLoadMoreListener;
 import com.yao.zhihudaily.tool.SimpleDividerDecoration;
 import com.yao.zhihudaily.tool.StateTool;
 import com.yao.zhihudaily.ui.MainFragment;
 
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import okhttp3.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Administrator on 2016/7/22.
@@ -59,9 +52,11 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
 
     private RecyclerViewOnLoadMoreListener listener;
 
-    private Subscriber<DailiesJson> subscriber;
+    private Observer<DailiesJson> observer;
 
     private StateTool stateTool;
+
+    private Disposable mDisposable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,16 +92,11 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
     }
 
     private void getDailies(final String targetDate) {
-        subscriber = new Subscriber<DailiesJson>() {
-            @Override
-            public void onCompleted() {}
+        observer = new Observer<DailiesJson>() {
 
             @Override
-            public void onError(Throwable e) {
-                Logger.e(e, "Subscriber onError()");
-                if (targetDate == null) {
-                    stateTool.showErrorView();
-                }
+            public void onSubscribe(@NonNull Disposable d) {
+                mDisposable = d;
             }
 
             @Override
@@ -138,11 +128,22 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
                     stateTool.showContentView();
                 }
             }
+
+            @Override
+            public void onComplete() {}
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.e(e, "Subscriber onError()");
+                if (targetDate == null) {
+                    stateTool.showErrorView();
+                }
+            }
         };
         if (targetDate == null) {
-            ZhihuHttp.getZhihuHttp().getDailies(subscriber);
+            ZhihuHttp.getZhihuHttp().getDailies(observer);
         } else {
-            ZhihuHttp.getZhihuHttp().getDailiesBefore(subscriber, targetDate);
+            ZhihuHttp.getZhihuHttp().getDailiesBefore(observer, targetDate);
         }
 
     }
@@ -160,75 +161,6 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
         // 下次再进来时,会得出endDate不是空的情况,从而跳过"首次加载这个界面"这个逻辑
         endDate = null;
         unbinder.unbind();
-    }
-
-    /**
-     * @param tartgetDate targetDate为空表示首次刷新或者下拉刷新, 获取最新数据
-     *                    不为空表示加载更多, 获取指定日期历史数据
-     *                    此为纯RxJava
-     */
-    @Deprecated
-    private void getDailiesOld(final String tartgetDate) {
-        Observable.create(new Observable.OnSubscribe<Boolean>() {
-
-            @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
-                try {
-                    Response response = null;
-                    if (tartgetDate == null) {
-                        response = OkHttpSync.get(UrlConstants.DAILIES);
-                    } else {
-                        response = OkHttpSync.get(String.format(UrlConstants.DAILIES_BEFORE, tartgetDate));
-                    }
-                    if (response.isSuccessful()) {
-                        DailiesJson dailiesJson = new Gson().fromJson(response.body().string(), DailiesJson.class);
-                        if (TextUtils.isEmpty(endDate)) { //如果是首次加载这个界面
-                            startDate = dailiesJson.getDate();
-                            endDate = dailiesJson.getDate();
-                            dailyAdapter.addList(dailiesJson.getStories());
-                            subscriber.onCompleted();
-                        } else if (tartgetDate == null) { //表示下拉刷新
-                            if (endDate.equals(dailiesJson.getDate())) { //App的最晚时间 等于 下拉新获取的时间
-                                subscriber.onNext(false);
-                            } else { ////App的最晚时间 不等于 下拉新获取的时间
-                                endDate = dailiesJson.getDate();
-                                dailyAdapter.addListToHeader(dailiesJson.getStories());
-                                subscriber.onCompleted();
-                            }
-                        } else { //表示上拉加载
-                            startDate = dailiesJson.getDate();
-                            dailyAdapter.addList(dailiesJson.getStories());
-                            subscriber.onCompleted();
-                        }
-                    } else {
-                        subscriber.onError(new Exception("error"));
-                    }
-                } catch (IOException e) {
-                    subscriber.onError(e);
-                }
-            }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Boolean>() {
-
-                    @Override
-                    public void onCompleted() {
-                        dailyAdapter.notifyDataSetChanged();
-                        if (tartgetDate != null) {
-                            listener.setLoading(false);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e(e, "Subscriber onError()");
-                    }
-
-                    @Override
-                    public void onNext(Boolean isRefreshing) {
-                        swipeRefreshLayout.setRefreshing(isRefreshing);
-                    }
-                });
+        mDisposable.dispose();
     }
 }
