@@ -24,7 +24,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Administrator on 2016/9/21.
+ * @author Yao
+ * @date 2016/9/21
  */
 
 public class ZhihuHttp {
@@ -40,22 +41,16 @@ public class ZhihuHttp {
     private ZhihuApi zhihuApi;
 
     private ZhihuHttp() {
-        if (zhihuHttp == null) {
-            synchronized (ZhihuHttp.this) {
-                if (zhihuHttp == null) {
-                    okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+        okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
 
-                    retrofit = new Retrofit.Builder()
-                            .client(okHttpClient)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                            .baseUrl(ZHIHU_BASE_URL)
-                            .build();
+        retrofit = new Retrofit.Builder()
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(ZHIHU_BASE_URL)
+                .build();
 
-                    zhihuApi = retrofit.create(ZhihuApi.class);
-                }
-            }
-        }
+        zhihuApi = retrofit.create(ZhihuApi.class);
     }
 
     public static ZhihuHttp getZhihuHttp() {
@@ -134,9 +129,8 @@ public class ZhihuHttp {
     }
 
 
-    private void toSubscribe(Observable observable, Observer observer){
+    private void toSubscribe(Observable observable, Observer observer) {
         observable.subscribeOn(Schedulers.io())
-//                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }

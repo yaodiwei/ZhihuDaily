@@ -5,24 +5,32 @@ import com.yao.zhihudaily.model.DailyJson;
 
 import java.util.ArrayList;
 
-public class HtmlUtil
-{
+/**
+ * @author Yao
+ * @date 2016/8/1
+ */
+public class HtmlUtil {
 
-    //css样式,隐藏header
+    /**
+     * css样式,隐藏header
+     */
     private static final String HIDE_HEADER_STYLE = "<style>div.headline{display:none;}</style>";
 
-    //css style tag,需要格式化
+    /**
+     * css style tag,需要格式化
+     */
     private static final String NEEDED_FORMAT_CSS_TAG = "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\"/>";
 
-    // js script tag,需要格式化
+    /**
+     * js script tag,需要格式化
+     */
     private static final String NEEDED_FORMAT_JS_TAG = "<script src=\"%s\"></script>";
 
     public static final String MIME_TYPE = "text/html; charset=utf-8";
 
     public static final String ENCODING = "utf-8";
 
-    private HtmlUtil()
-    {
+    private HtmlUtil() {
 
     }
 
@@ -32,8 +40,7 @@ public class HtmlUtil
      * @param url String
      * @return String
      */
-    public static String createCssTag(String url)
-    {
+    public static String createCssTag(String url) {
 
         return String.format(NEEDED_FORMAT_CSS_TAG, url);
     }
@@ -44,12 +51,10 @@ public class HtmlUtil
      * @param urls ArrayList<String>
      * @return String
      */
-    public static String createCssTag(ArrayList<String> urls)
-    {
+    public static String createCssTag(ArrayList<String> urls) {
 
         final StringBuilder sb = new StringBuilder();
-        for (String url : urls)
-        {
+        for (String url : urls) {
             sb.append(createCssTag(url));
         }
         return sb.toString();
@@ -61,8 +66,7 @@ public class HtmlUtil
      * @param url String
      * @return String
      */
-    public static String createJsTag(String url)
-    {
+    public static String createJsTag(String url) {
 
         return String.format(NEEDED_FORMAT_JS_TAG, url);
     }
@@ -73,12 +77,10 @@ public class HtmlUtil
      * @param urls ArrayList<String>
      * @return String
      */
-    public static String createJsTag(ArrayList<String> urls)
-    {
+    public static String createJsTag(ArrayList<String> urls) {
 
         final StringBuilder sb = new StringBuilder();
-        for (String url : urls)
-        {
+        for (String url : urls) {
             sb.append(createJsTag(url));
         }
         return sb.toString();
@@ -93,8 +95,7 @@ public class HtmlUtil
      * @param js   string
      * @return string
      */
-    private static String createHtmlData(String html, String css, String js)
-    {
+    private static String createHtmlData(String html, String css, String js) {
 
         return css.concat(HIDE_HEADER_STYLE).concat(html).concat(js);
     }
@@ -104,8 +105,7 @@ public class HtmlUtil
      *
      * @return String
      */
-    public static String createHtmlData(DailyJson detail)
-    {
+    public static String createHtmlData(DailyJson detail) {
 
         final String css = HtmlUtil.createCssTag(detail.getCss());
         final String js = HtmlUtil.createJsTag(detail.getJs());

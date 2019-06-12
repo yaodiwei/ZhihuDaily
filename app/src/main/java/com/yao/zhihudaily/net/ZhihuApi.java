@@ -20,7 +20,8 @@ import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 /**
- * Created by Administrator on 2016/9/21.
+ * @author Yao
+ * @date 2016/9/21
  */
 
 public interface ZhihuApi {
@@ -28,7 +29,7 @@ public interface ZhihuApi {
     @GET("4/start-image/1080*1776")
     Observable<StartImageJson> getStartImage();
 
-    @Streaming//注明为流文件，防止retrofit将大文件读入内存
+    @Streaming
     @GET
     Observable<ResponseBody> getStartImageFile(@Url String url);//通过@Url覆盖baseurl
 

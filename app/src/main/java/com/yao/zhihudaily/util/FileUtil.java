@@ -5,34 +5,32 @@ import java.io.FileInputStream;
 import java.text.DecimalFormat;
 
 /**
- * Created by Administrator on 2016/10/2.
+ * @author Yao
+ * @date 2016/10/2
  */
-
 public class FileUtil {
 
     public static long getFileSizes(File f) throws Exception {//取得文件大小
         long s = 0;
         if (f.exists()) {
-            FileInputStream fis = null;
+            FileInputStream fis;
             fis = new FileInputStream(f);
             s = fis.available();
         } else {
-            f.createNewFile();
             System.out.println("文件不存在");
         }
         return s;
     }
 
-    // 递归
     public static long getFileSize(File f) {
         long size = 0;
-        File flist[] = f.listFiles();
-        if (flist != null) {
-            for (int i = 0; i < flist.length; i++) {
-                if (flist[i].isDirectory()) {
-                    size = size + getFileSize(flist[i]);
+        File[] files = f.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    size = size + getFileSize(file);
                 } else {
-                    size = size + flist[i].length();
+                    size = size + file.length();
                 }
             }
         }
@@ -41,7 +39,7 @@ public class FileUtil {
 
     public static String formatFileSize(long fileS) {//转换文件大小
         DecimalFormat df = new DecimalFormat("#.00");
-        String fileSizeString = "";
+        String fileSizeString;
         if (fileS < 1024) {
             fileSizeString = df.format((double) fileS) + "B";
         } else if (fileS < 1048576) {
@@ -54,13 +52,13 @@ public class FileUtil {
         return fileSizeString;
     }
 
-    public static long getlist(File f) {//递归求取目录文件个数
-        long size = 0;
-        File flist[] = f.listFiles();
-        size = flist.length;
-        for (int i = 0; i < flist.length; i++) {
-            if (flist[i].isDirectory()) {
-                size = size + getlist(flist[i]);
+    public static long getFileCount(File f) {//递归求取目录文件个数
+        long size;
+        File[] files = f.listFiles();
+        size = files.length;
+        for (File file : files) {
+            if (file.isDirectory()) {
+                size = size + getFileCount(file);
                 size--;
             }
         }
@@ -73,7 +71,7 @@ public class FileUtil {
             return;
         }
 
-        if(file.isDirectory()){
+        if (file.isDirectory()) {
             File[] childFiles = file.listFiles();
             if (childFiles == null || childFiles.length == 0) {
                 file.delete();

@@ -1,7 +1,8 @@
 package com.yao.zhihudaily.net;
 
 /**
- * Created by Administrator on 2016/7/24.
+ * @author Yao
+ * @date 2016/7/24
  */
 public interface UrlConstants {
 

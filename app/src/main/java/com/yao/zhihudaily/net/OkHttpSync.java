@@ -13,7 +13,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by Administrator on 2016/7/23.
+ * @author Yao
+ * @date 2016/7/23
  */
 public class OkHttpSync {
 

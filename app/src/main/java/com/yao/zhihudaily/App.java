@@ -7,7 +7,8 @@ import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
 /**
- * Created by Administrator on 2016/7/23.
+ * @author Yao
+ * @date 2016/7/23
  */
 public class App extends Application {
 
@@ -20,12 +21,11 @@ public class App extends Application {
         app = this;
 
         //Logger配置
-        Logger
-                .init("Yao")                 // default PRETTYLOGGER or use just init()
-                .methodCount(3)                 // default 2  记录方法调用链的行数,0为隐藏这个模块
-                .hideThreadInfo()               // default shown
-                .logLevel(LogLevel.FULL)        // default LogLevel.FULL
-                .methodOffset(0);                // default 0
+        Logger.init("Yao")// default PRETTYLOGGER or use just init()
+                .methodCount(3)// default 2  记录方法调用链的行数,0为隐藏这个模块
+                .hideThreadInfo()// default shown
+                .logLevel(LogLevel.FULL)// default LogLevel.FULL
+                .methodOffset(0);// default 0
 
 
         umengAnalytics();
@@ -33,7 +33,7 @@ public class App extends Application {
     }
 
     private void umengAnalytics() {
-    /* -------------------- 友盟统计配置 -------------------- */
+        /* -------------------- 友盟统计配置 -------------------- */
         //打开友盟
         MobclickAgent.setDebugMode(true);
 

@@ -16,7 +16,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by Administrator on 2016/7/23.
+ * @author Yao
+ * @date 2016/7/23
  */
 public class OkHttpAsync {
 
@@ -27,19 +28,16 @@ public class OkHttpAsync {
 
     private static final OkHttpClient client;
 
-    static
-    {
+    static {
         client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS).build();
     }
 
-    public static void get(String url, Callback callback)
-    {
+    public static void get(String url, Callback callback) {
         get(client, url, callback);
     }
 
-    public static void postParams(String url, FormBody formBody, Callback callback)
-    {
+    public static void postParams(String url, FormBody formBody, Callback callback) {
         postParams(client, url, formBody, callback);
     }
 
@@ -47,18 +45,16 @@ public class OkHttpAsync {
         postFile(client, url, callback, file);
     }
 
-    public static void postFiles(String url, Callback callback, FileInput ...fileInputs) {
+    public static void postFiles(String url, Callback callback, FileInput... fileInputs) {
         postFiles(client, url, callback, fileInputs);
     }
 
-    public static void get(OkHttpClient okHttpClient, String url, Callback callback)
-    {
+    public static void get(OkHttpClient okHttpClient, String url, Callback callback) {
         Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(callback);
     }
 
-    public static void postParams(OkHttpClient okHttpClient, String url, FormBody formBody, Callback callback)
-    {
+    public static void postParams(OkHttpClient okHttpClient, String url, FormBody formBody, Callback callback) {
         Request request = new Request.Builder().url(url).post(formBody).build();
         okHttpClient.newCall(request).enqueue(callback);
     }
@@ -70,7 +66,7 @@ public class OkHttpAsync {
         okHttpClient.newCall(request).enqueue(callback);
     }
 
-    public static void postFiles(OkHttpClient okHttpClient, String url, Callback callback, FileInput ...fileInputs) {
+    public static void postFiles(OkHttpClient okHttpClient, String url, Callback callback, FileInput... fileInputs) {
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         for (FileInput fileInput : fileInputs) {
             builder.addFormDataPart(fileInput.key, fileInput.name, RequestBody.create(MEDIA_TYPE_UNKNOWN, fileInput.file));
@@ -119,22 +115,19 @@ public class OkHttpAsync {
         }
     }
 
-    public static class FileInput
-    {
+    public static class FileInput {
         public String key;
         public String name;
         public File file;
 
-        public FileInput(String key, String name, File file)
-        {
+        public FileInput(String key, String name, File file) {
             this.key = key;
             this.name = name;
             this.file = file;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return "FileInput{" +
                     "key='" + key + '\'' +
                     ", name='" + name + '\'' +
