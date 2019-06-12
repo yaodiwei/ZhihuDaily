@@ -6,15 +6,14 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.StartImageJson;
@@ -27,6 +26,7 @@ import com.yao.zhihudaily.util.SP;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
@@ -63,19 +63,17 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        if (Build.VERSION.SDK_INT >= 14) {
-            //隐藏navigationBar
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        }
+        //隐藏navigationBar
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
 //        getStartImage();
 
-        SimpleTarget target = new SimpleTarget<Bitmap>() {
+        SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>() {
             @Override
-            public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-                iv.setImageBitmap(bitmap);
-                iv.setPivotX(bitmap.getWidth() * 0.3f);
-                iv.setPivotY(bitmap.getHeight() * 0.25f);
+            public void onResourceReady(@androidx.annotation.NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                iv.setImageBitmap(resource);
+                iv.setPivotX(resource.getWidth() * 0.5f);
+                iv.setPivotY(resource.getHeight() * 0.75f);
                 ObjectAnimator objectAnimatorX = ObjectAnimator.ofFloat(iv, "scaleX", 1, 1.25f);
                 ObjectAnimator objectAnimatorY = ObjectAnimator.ofFloat(iv, "scaleY", 1, 1.25f);
                 AnimatorSet set = new AnimatorSet();
@@ -94,10 +92,10 @@ public class SplashActivity extends BaseActivity {
 
         File file = new File(Constants.STORAGE_DIR, START_IMAGE_FILE);
         if (file.exists()) {
-            Glide.with(this).load(file).asBitmap().into(target);
+            Glide.with(this).asBitmap().load(file).into(target);
             tvAuthor.setText(SP.getString(START_TEXT, ""));
         } else {
-            Glide.with(this).load(R.mipmap.miui7).asBitmap().into(target);
+            Glide.with(this).asBitmap().load(R.mipmap.miui7).into(target);
             tvAuthor.setText("永远相信美好的事情即将发生");
         }
     }

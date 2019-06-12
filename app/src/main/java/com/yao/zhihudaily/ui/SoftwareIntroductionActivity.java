@@ -1,12 +1,12 @@
 package com.yao.zhihudaily.ui;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.yao.zhihudaily.R;
 
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -15,7 +15,6 @@ import butterknife.ButterKnife;
  */
 
 public class SoftwareIntroductionActivity extends BaseActivity {
-
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

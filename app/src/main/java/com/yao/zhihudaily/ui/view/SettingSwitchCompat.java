@@ -1,14 +1,15 @@
 package com.yao.zhihudaily.ui.view;
 
 import android.content.Context;
-import android.support.annotation.StringRes;
-import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yao.zhihudaily.R;
+
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.SwitchCompat;
 
 
 /**

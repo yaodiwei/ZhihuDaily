@@ -1,8 +1,6 @@
 package com.yao.zhihudaily.ui.hot;
 
-import android.app.Fragment;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +16,8 @@ import com.yao.zhihudaily.ui.NewsDetailActivity;
 
 import java.util.ArrayList;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

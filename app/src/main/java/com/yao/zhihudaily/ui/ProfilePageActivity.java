@@ -1,13 +1,13 @@
 package com.yao.zhihudaily.ui;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebView;
 
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.net.UrlConstants;
 
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

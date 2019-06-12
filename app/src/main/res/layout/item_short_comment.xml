@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="14dp"
-    android:paddingRight="14dp"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
     android:paddingTop="9dp"
     android:paddingBottom="9dp">
 
@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/tvAuthor"
-        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
         android:layout_toRightOf="@id/ivAvatar"
         tools:text="叔本华"
         android:textColor="@color/comment"

@@ -1,13 +1,13 @@
 package com.yao.zhihudaily.ui.daily;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.view.ViewGroup;
 
-import com.yao.zhihudaily.tool.FragmentPagerAdapter;
-
 import java.util.ArrayList;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * Created by Administrator on 2016/9/4.

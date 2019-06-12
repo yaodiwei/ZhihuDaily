@@ -1,12 +1,9 @@
 package com.yao.zhihudaily.ui.daily;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.google.android.material.tabs.TabLayout;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.net.UrlConstants;
@@ -14,6 +11,9 @@ import com.yao.zhihudaily.ui.BaseActivity;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -31,7 +31,7 @@ public class CommentsActivity extends BaseActivity {
 
     private int id;
     private StoryExtra storyExtra;
-    private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
+    private ArrayList<Fragment> fragments = new ArrayList<>();
 
 
     @Override
@@ -72,7 +72,7 @@ public class CommentsActivity extends BaseActivity {
 
         fragments.add(shortCommentsFragment);
         fragments.add(longCommentsFragment);
-        CommentPagerAdapter adapter = new CommentPagerAdapter(getFragmentManager(), fragments, tabList);
+        CommentPagerAdapter adapter = new CommentPagerAdapter(getSupportFragmentManager(), fragments, tabList);
 //      mViewPager.setOffscreenPageLimit(0);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(pageListener);

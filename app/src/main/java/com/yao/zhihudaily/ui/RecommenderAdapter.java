@@ -2,7 +2,6 @@ package com.yao.zhihudaily.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import com.yao.zhihudaily.tool.OnItemClickListener;
 
 import java.util.ArrayList;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -58,7 +58,7 @@ public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.
         holder.tvName.setText(recommender.getName());
         holder.tvBio.setText(recommender.getBio());
         if (recommender.getAvatar() != null) {
-            Glide.with(aty).load(recommender.getAvatar()).transform(new GlideCircleTransform(aty)).into(holder.iv);
+            Glide.with(aty).load(recommender.getAvatar()).transform(new GlideCircleTransform()).into(holder.iv);
         }
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(listener);

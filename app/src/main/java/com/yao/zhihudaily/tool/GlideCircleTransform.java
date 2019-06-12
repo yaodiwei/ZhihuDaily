@@ -1,6 +1,5 @@
 package com.yao.zhihudaily.tool;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -9,15 +8,15 @@ import android.graphics.Paint;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
+import java.security.MessageDigest;
+
+import androidx.annotation.NonNull;
+
 /**
  * Created by Administrator on 2016/9/24.
  */
 
 public class GlideCircleTransform extends BitmapTransformation {
-
-    public GlideCircleTransform(Context context) {
-        super(context);
-    }
 
     private static Bitmap circleCrop(BitmapPool pool, Bitmap source) {
         if (source == null) return null;
@@ -49,7 +48,7 @@ public class GlideCircleTransform extends BitmapTransformation {
     }
 
     @Override
-    public String getId() {
-        return getClass().getName();
+    public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
+
     }
 }

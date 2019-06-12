@@ -28,7 +28,7 @@
         android:textSize="14sp"
         tools:text="开启和关闭的描述"/>
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/sc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,6 +36,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true">
 
-    </android.support.v7.widget.SwitchCompat>
+    </androidx.appcompat.widget.SwitchCompat>
 
 </RelativeLayout>

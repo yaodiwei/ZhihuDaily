@@ -1,7 +1,5 @@
 package com.yao.zhihudaily.ui;
 
-import android.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -9,6 +7,9 @@ import android.widget.FrameLayout;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yao.zhihudaily.R;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Administrator on 2016/9/4.

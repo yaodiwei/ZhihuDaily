@@ -2,10 +2,6 @@ package com.yao.zhihudaily.ui.daily;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.Nullable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +16,10 @@ import com.yao.zhihudaily.tool.GlideCircleTransform;
 
 import java.util.ArrayList;
 
+import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -40,7 +40,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
     public CommentAdapter(Context ctx) {
         this.ctx = ctx;
         inflater = LayoutInflater.from(ctx);
-        glideCircleTransform = new GlideCircleTransform(ctx);
+        glideCircleTransform = new GlideCircleTransform();
     }
 
     public void addList(ArrayList<Comment> comments) {
@@ -68,7 +68,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
                 holder.ivAvatar.setImageDrawable(circularBitmapDrawable);
             }
         };
-        Glide.with(ctx).load(c.getAvatar()).asBitmap().centerCrop().into(target);
+        Glide.with(ctx).asBitmap().load(c.getAvatar()).centerCrop().into(target);
         Glide.with(ctx).load(c.getAvatar()).transform(glideCircleTransform).into(holder.ivAvatar);
         holder.tvAuthor.setText(c.getAuthor());
         holder.tvContent.setText(c.getContent());

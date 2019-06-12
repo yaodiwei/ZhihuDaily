@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="14dp"
-    android:paddingRight="14dp"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
     android:paddingTop="9dp"
     android:paddingBottom="9dp">
 
@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/tvAuthor"
-        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
         android:layout_toRightOf="@id/ivAvatar"
         tools:text="叔本华"
         android:textColor="@color/comment"
@@ -43,7 +43,7 @@
 
         <TextView
             android:id="@+id/tvReplyContent"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
             android:textColor="@color/comment_weak"
             tools:text="\@幸福的: 这不你活下来了么。那你到底松手没？"
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
 
     <TextView
         android:id="@+id/tvLikes"
-        android:layout_below="@id/tvReplyContent"
+        android:layout_below="@id/rlReply"
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@id/tvTime"
         tools:text="13"

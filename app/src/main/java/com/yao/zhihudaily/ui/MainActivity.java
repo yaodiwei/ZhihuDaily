@@ -5,18 +5,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.google.android.material.navigation.NavigationView;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -32,6 +27,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -73,7 +74,7 @@ public class MainActivity extends BaseActivity
                 .rationale(new RationaleListener() {
                     @Override
                     public void showRequestPermissionRationale(int requestCode, final Rationale rationale) {
-                        new android.support.v7.app.AlertDialog.Builder(MainActivity.this)
+                        new AlertDialog.Builder(MainActivity.this)
                                 .setTitle(R.string.tip)
                                 .setMessage(R.string.permission_storage_rationale)
                                 .setCancelable(false)
@@ -98,7 +99,7 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void onFailed(int requestCode, List<String> deniedPermissions) {
                         if(requestCode == REQUEST_PERMISSION_STORAGE) {
-                            new android.support.v7.app.AlertDialog.Builder(MainActivity.this)
+                            new AlertDialog.Builder(MainActivity.this)
                                     .setTitle(R.string.tip)
                                     .setMessage(R.string.permission_storage_failed)
                                     .setCancelable(false)
@@ -196,7 +197,7 @@ public class MainActivity extends BaseActivity
         mainFragments.add(themeMainFragment);
         mainFragments.add(hotMainFragment);
         mainFragments.add(sectionMainFragment);
-        adapter = new MainViewPagerAdapter(getFragmentManager(), mainFragments);
+        adapter = new MainViewPagerAdapter(getSupportFragmentManager(), mainFragments);
         viewPager.setAdapter(adapter);
         currentFragment = adapter.getCurrentFragment();
 
