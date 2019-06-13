@@ -88,7 +88,7 @@ public class HotMainFragment extends MainFragment {
             }
         };
 
-        ZhihuHttp.getZhihuHttp().getHot(subscriber);
+        ZhihuHttp.getZhihuHttp().getHot().subscribe(subscriber);
     }
 
 }

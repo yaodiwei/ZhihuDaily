@@ -112,6 +112,6 @@ public class ThemeActivity extends BaseActivity {
             }
         };
 
-        ZhihuHttp.getZhihuHttp().getTheme(subscriber, String.valueOf(id));
+        ZhihuHttp.getZhihuHttp().getTheme(String.valueOf(id)).subscribe(subscriber);
     }
 }

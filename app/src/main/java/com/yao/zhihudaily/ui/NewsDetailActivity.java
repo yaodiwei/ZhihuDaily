@@ -144,7 +144,7 @@ public class NewsDetailActivity extends BaseActivity {
             }
         };
 
-        ZhihuHttp.getZhihuHttp().getNews(subscriber, String.valueOf(id));
+        ZhihuHttp.getZhihuHttp().getNews(String.valueOf(id)).subscribe(subscriber);
     }
 
     private void getStoryExtra(final int id) {
@@ -171,6 +171,6 @@ public class NewsDetailActivity extends BaseActivity {
             }
         };
 
-        ZhihuHttp.getZhihuHttp().getStoryExtra(subscriber, String.valueOf(id));
+        ZhihuHttp.getZhihuHttp().getStoryExtra(String.valueOf(id)).subscribe(subscriber);
     }
 }

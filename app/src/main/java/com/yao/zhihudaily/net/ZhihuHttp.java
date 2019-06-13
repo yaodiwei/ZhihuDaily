@@ -15,7 +15,7 @@ import com.yao.zhihudaily.model.ThemesJson;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
+import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
@@ -58,80 +58,66 @@ public class ZhihuHttp {
     }
 
     public Observable<StartImageJson> getStartImage() {
-        return zhihuApi.getStartImage().subscribeOn(Schedulers.io())
-                .subscribeOn(Schedulers.io())
+        return zhihuApi.getStartImage()
+                .compose(applySchedulers())
                 .observeOn(Schedulers.io());
     }
 
-    public void getDailies(Observer<DailiesJson> observer) {
-        Observable observable = zhihuApi.getDailies();
-        toSubscribe(observable, observer);
+    public Observable<DailiesJson> getDailies() {
+        return zhihuApi.getDailies().compose(applySchedulers());
     }
 
-    public void getDailiesBefore(Observer<DailiesJson> observer, String date) {
-        Observable observable = zhihuApi.getDailiesBefore(date);
-        toSubscribe(observable, observer);
+    public Observable<DailiesJson> getDailiesBefore(String date) {
+        return zhihuApi.getDailiesBefore(date).compose(applySchedulers());
     }
 
-    public void getNews(Observer<DailyJson> observer, String id) {
-        Observable observable = zhihuApi.getNews(id);
-        toSubscribe(observable, observer);
+    public Observable<DailyJson> getNews(String id) {
+        return zhihuApi.getNews(id).compose(applySchedulers());
     }
 
-    public void getStoryExtra(Observer<StoryExtra> observer, String id) {
-        Observable observable = zhihuApi.getStoryExtra(id);
-        toSubscribe(observable, observer);
+    public Observable<StoryExtra> getStoryExtra(String id) {
+        return zhihuApi.getStoryExtra(id).compose(applySchedulers());
     }
 
-    public void getShortComments(Observer<CommentJson> observer, String id) {
-        Observable observable = zhihuApi.getShortComments(id);
-        toSubscribe(observable, observer);
+    public Observable<CommentJson> getShortComments(String id) {
+        return zhihuApi.getShortComments(id).compose(applySchedulers());
     }
 
-    public void getLongComments(Observer<CommentJson> observer, String id) {
-        Observable observable = zhihuApi.getLongComments(id);
-        toSubscribe(observable, observer);
+    public Observable<CommentJson> getLongComments(String id) {
+        return zhihuApi.getLongComments(id).compose(applySchedulers());
     }
 
-    public void getThemes(Observer<ThemesJson> observer) {
-        Observable observable = zhihuApi.getThemes();
-        toSubscribe(observable, observer);
+    public Observable<ThemesJson> getThemes() {
+        return zhihuApi.getThemes().compose(applySchedulers());
     }
 
-    public void getTheme(Observer<ThemeJson> observer, String id) {
-        Observable observable = zhihuApi.getTheme(id);
-        toSubscribe(observable, observer);
+    public Observable<ThemeJson> getTheme(String id) {
+        return zhihuApi.getTheme(id).compose(applySchedulers());
     }
 
-    public void getHot(Observer<HotJson> observer) {
-        Observable observable = zhihuApi.getHot();
-        toSubscribe(observable, observer);
+    public Observable<HotJson> getHot() {
+        return zhihuApi.getHot().compose(applySchedulers());
     }
 
-    public void getSections(Observer<SectionsJson> observer) {
-        Observable observable = zhihuApi.getSections();
-        toSubscribe(observable, observer);
+    public Observable<SectionsJson> getSections() {
+        return zhihuApi.getSections().compose(applySchedulers());
     }
 
-    public void getSection(Observer<SectionJson> observer, String id) {
-        Observable observable = zhihuApi.getSection(id);
-        toSubscribe(observable, observer);
+    public Observable<SectionJson> getSection(String id) {
+        return zhihuApi.getSection(id).compose(applySchedulers());
     }
 
-    public void getSectionBefore(Observer<SectionJson> observer, String id, String timestamp) {
-        Observable observable = zhihuApi.getSectionBefore(id, timestamp);
-        toSubscribe(observable, observer);
+    public Observable<SectionJson> getSectionBefore(String id, String timestamp) {
+        return zhihuApi.getSectionBefore(id, timestamp).compose(applySchedulers());
     }
 
-    public void getRecommends(Observer<RecommendsJson> observer, String id) {
-        Observable observable = zhihuApi.getRecommends(id);
-        toSubscribe(observable, observer);
+    public Observable<RecommendsJson> getRecommends(String id) {
+        return zhihuApi.getRecommends(id).compose(applySchedulers());
     }
 
-
-    private void toSubscribe(Observable observable, Observer observer) {
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
+    private static <T> ObservableTransformer<T, T> applySchedulers() {
+        return upstream -> upstream
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

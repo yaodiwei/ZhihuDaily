@@ -137,9 +137,9 @@ public class CommentsFragment extends Fragment {
         };
 
         if (url.endsWith("short-comments")) {
-            ZhihuHttp.getZhihuHttp().getShortComments(subscriber, String.valueOf(id));
+            ZhihuHttp.getZhihuHttp().getShortComments(String.valueOf(id)).subscribe(subscriber);
         } else {
-            ZhihuHttp.getZhihuHttp().getLongComments(subscriber, String.valueOf(id));
+            ZhihuHttp.getZhihuHttp().getLongComments(String.valueOf(id)).subscribe(subscriber);
         }
     }
 }

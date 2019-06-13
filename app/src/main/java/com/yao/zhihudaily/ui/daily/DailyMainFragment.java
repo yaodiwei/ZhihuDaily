@@ -141,9 +141,9 @@ public class DailyMainFragment extends MainFragment implements SwipeRefreshLayou
             }
         };
         if (targetDate == null) {
-            ZhihuHttp.getZhihuHttp().getDailies(observer);
+            ZhihuHttp.getZhihuHttp().getDailies().subscribe(observer);
         } else {
-            ZhihuHttp.getZhihuHttp().getDailiesBefore(observer, targetDate);
+            ZhihuHttp.getZhihuHttp().getDailiesBefore(targetDate).subscribe(observer);
         }
 
     }

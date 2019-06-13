@@ -77,7 +77,8 @@ public class RecommendersActivity extends BaseActivity {
     }
 
     private void getRecommenders(String id) {
-        Observer subscriber = new Observer<RecommendsJson>() {
+        stateTool.showProgressView();
+        ZhihuHttp.getZhihuHttp().getRecommends(id).subscribe(new Observer<RecommendsJson>() {
 
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -107,9 +108,6 @@ public class RecommendersActivity extends BaseActivity {
                 stateTool.showErrorView();
                 Logger.e(e, "Subscriber onError()");
             }
-        };
-
-        stateTool.showProgressView();
-        ZhihuHttp.getZhihuHttp().getRecommends(subscriber, id);
+        });
     }
 }

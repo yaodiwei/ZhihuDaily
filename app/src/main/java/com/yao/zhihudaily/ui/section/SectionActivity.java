@@ -110,10 +110,10 @@ public class SectionActivity extends BaseActivity {
             }
         };
         if (timestamp == -1) {
-            ZhihuHttp.getZhihuHttp().getSection(subscriber, String.valueOf(id));
+            ZhihuHttp.getZhihuHttp().getSection(String.valueOf(id)).subscribe(subscriber);
         } else if (timestamp == 0) {
         } else {
-            ZhihuHttp.getZhihuHttp().getSectionBefore(subscriber, String.valueOf(id), String.valueOf(timestamp));
+            ZhihuHttp.getZhihuHttp().getSectionBefore(String.valueOf(id), String.valueOf(timestamp)).subscribe(subscriber);
         }
 
     }

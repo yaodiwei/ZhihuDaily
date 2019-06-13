@@ -85,6 +85,6 @@ public class SectionMainFragment extends MainFragment {
             }
         };
 
-        ZhihuHttp.getZhihuHttp().getSections(subscriber);
+        ZhihuHttp.getZhihuHttp().getSections().subscribe(subscriber);
     }
 }

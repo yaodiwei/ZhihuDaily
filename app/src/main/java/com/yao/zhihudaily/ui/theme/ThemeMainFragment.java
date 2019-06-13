@@ -62,7 +62,7 @@ public class ThemeMainFragment extends MainFragment {
     }
 
     private void getThemes() {
-        Observer mSubscriber = new Observer<ThemesJson>() {
+        Observer observer = new Observer<ThemesJson>() {
 
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -86,6 +86,6 @@ public class ThemeMainFragment extends MainFragment {
             }
         };
 
-        ZhihuHttp.getZhihuHttp().getThemes(mSubscriber);
+        ZhihuHttp.getZhihuHttp().getThemes().subscribe(observer);
     }
 }
