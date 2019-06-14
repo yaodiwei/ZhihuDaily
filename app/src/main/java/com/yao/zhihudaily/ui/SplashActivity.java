@@ -38,7 +38,8 @@ import okhttp3.Response;
 
 
 /**
- * Created by Administrator on 2016/9/29.
+ * @author Yao
+ * @date 2016/9/29
  */
 
 public class SplashActivity extends BaseActivity {

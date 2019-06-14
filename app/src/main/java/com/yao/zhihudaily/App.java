@@ -27,7 +27,6 @@ public class App extends Application {
                 .logLevel(LogLevel.FULL)// default LogLevel.FULL
                 .methodOffset(0);// default 0
 
-
         umengAnalytics();
 //        umengPush();
     }
