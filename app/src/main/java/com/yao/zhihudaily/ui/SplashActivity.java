@@ -20,7 +20,7 @@ import com.yao.zhihudaily.model.StartImageJson;
 import com.yao.zhihudaily.net.OkHttpAsync;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.ZhihuHttp;
-import com.yao.zhihudaily.tool.Constants;
+import com.yao.zhihudaily.util.FileUtil;
 import com.yao.zhihudaily.util.SP;
 
 import java.io.File;
@@ -57,7 +57,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (!SP.getBoolean(SP.SPLASH, true)) {
+        if (!SP.getBoolean(SP.Key.SPLASH, true)) {
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
         }
@@ -91,7 +91,7 @@ public class SplashActivity extends BaseActivity {
             }
         };
 
-        File file = new File(Constants.STORAGE_DIR, START_IMAGE_FILE);
+        File file = new File(FileUtil.STORAGE_DIR, START_IMAGE_FILE);
         if (file.exists()) {
             Glide.with(this).asBitmap().load(file).into(target);
             tvAuthor.setText(SP.getString(START_TEXT, ""));
@@ -142,7 +142,7 @@ public class SplashActivity extends BaseActivity {
                     @Override
                     public void onNext(@NonNull Response response) {
                         try {
-                            OkHttpAsync.saveFile(response, Constants.STORAGE_DIR, START_IMAGE_FILE);
+                            OkHttpAsync.saveFile(response, FileUtil.STORAGE_DIR, START_IMAGE_FILE);
                         } catch (IOException e) {
                             onError(e);
                         }

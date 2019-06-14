@@ -1,5 +1,8 @@
 package com.yao.zhihudaily.util;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.DecimalFormat;
@@ -9,6 +12,16 @@ import java.text.DecimalFormat;
  * @date 2016/10/2
  */
 public class FileUtil {
+
+    public static String STORAGE_DIR;
+
+    @SuppressLint("StaticFieldLeak")
+    private static Context sContext;
+
+    public static void init(Context ctx){
+        sContext = ctx;
+        STORAGE_DIR = sContext.getExternalCacheDir().getAbsolutePath();
+    }
 
     public static long getFileSizes(File f) throws Exception {//取得文件大小
         long s = 0;

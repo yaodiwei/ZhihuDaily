@@ -6,7 +6,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yao.zhihudaily.R;
-import com.yao.zhihudaily.tool.Constants;
 import com.yao.zhihudaily.ui.view.SettingSwitchCompat;
 import com.yao.zhihudaily.util.FileUtil;
 import com.yao.zhihudaily.util.SP;
@@ -49,8 +48,8 @@ public class SettingsActivity extends BaseActivity {
                 finish();
             }
         });
-        settingSwitchCompat.setChecked(SP.getBoolean(SP.SPLASH, true));
-        tvCacheSize.setText(FileUtil.formatFileSize(FileUtil.getFileSize(new File(Constants.STORAGE_DIR))));
+        settingSwitchCompat.setChecked(SP.getBoolean(SP.Key.SPLASH, true));
+        tvCacheSize.setText(FileUtil.formatFileSize(FileUtil.getFileSize(new File(FileUtil.STORAGE_DIR))));
     }
 
     @OnClick({
@@ -60,10 +59,10 @@ public class SettingsActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.settingSplash:
-                SP.put(SP.SPLASH, settingSwitchCompat.isChecked());
+                SP.put(SP.Key.SPLASH, settingSwitchCompat.isChecked());
                 break;
             case R.id.rlClearCache:
-                FileUtil.delete(new File(Constants.STORAGE_DIR));
+                FileUtil.delete(new File(FileUtil.STORAGE_DIR));
                 T.s(rlClearCache, "缓存清理完成!");
                 tvCacheSize.setText("0B");
                 break;

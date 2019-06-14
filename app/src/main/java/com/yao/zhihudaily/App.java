@@ -5,6 +5,7 @@ import android.app.Application;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
+import com.yao.zhihudaily.util.AppUtil;
 
 /**
  * @author Yao
@@ -12,13 +13,10 @@ import com.umeng.analytics.MobclickAgent;
  */
 public class App extends Application {
 
-    public static App app;
-    public static String mDeviceToken;
-
     @Override
     public void onCreate() {
         super.onCreate();
-        app = this;
+        AppUtil.init(this);
 
         //Logger配置
         Logger.init("Yao")// default PRETTYLOGGER or use just init()

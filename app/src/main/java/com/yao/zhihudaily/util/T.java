@@ -1,11 +1,12 @@
 package com.yao.zhihudaily.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.yao.zhihudaily.App;
 
 /**
  * @author Yao
@@ -13,20 +14,27 @@ import com.yao.zhihudaily.App;
  */
 public class T {
 
+    @SuppressLint("StaticFieldLeak")
+    private static Context sContext;
+
+    public static void init(Context ctx){
+        sContext = ctx;
+    }
+
     public static void t(String text) {
-        Toast.makeText(App.app, text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(sContext, text, Toast.LENGTH_SHORT).show();
     }
 
     public static void t(Activity aty, final String text) {
-        aty.runOnUiThread(() -> Toast.makeText(App.app, text, Toast.LENGTH_SHORT).show());
+        aty.runOnUiThread(() -> Toast.makeText(sContext, text, Toast.LENGTH_SHORT).show());
     }
 
     public static void t(int resId) {
-        Toast.makeText(App.app, resId, Toast.LENGTH_SHORT).show();
+        Toast.makeText(sContext, resId, Toast.LENGTH_SHORT).show();
     }
 
     public static void t(Activity aty, final int resId) {
-        aty.runOnUiThread(() -> Toast.makeText(App.app, resId, Toast.LENGTH_SHORT).show());
+        aty.runOnUiThread(() -> Toast.makeText(sContext, resId, Toast.LENGTH_SHORT).show());
     }
 
     public static void s(View v, String text) {

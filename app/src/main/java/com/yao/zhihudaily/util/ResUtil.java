@@ -1,7 +1,8 @@
 package com.yao.zhihudaily.util;
 
 
-import com.yao.zhihudaily.App;
+import android.annotation.SuppressLint;
+import android.content.Context;
 
 /**
  * @author Yao
@@ -9,15 +10,34 @@ import com.yao.zhihudaily.App;
  */
 public class ResUtil {
 
+    @SuppressLint("StaticFieldLeak")
+    private static Context sContext;
+
+    public static void init(Context ctx){
+        sContext = ctx;
+    }
+
     public static String getString(int resId) {
-        return App.app.getResources().getString(resId);
+        return sContext.getResources().getString(resId);
     }
 
     public static String getString(int format, int resId) {
-        return String.format(App.app.getResources().getString(format), App.app.getResources().getString(resId));
+        return String.format(getString(format), getString(resId));
     }
 
-    public static String getString(int format, String content) {
-        return String.format(App.app.getResources().getString(format), content);
+    public static String getString(int format, String... str) {
+        return String.format(getString(format), (Object[]) str);
+    }
+
+    public static String getString(String format, String... str) {
+        return String.format(format, (Object[]) str);
+    }
+
+    public static String getString(String format, int resId) {
+        return String.format(format, getString(resId));
+    }
+
+    public static int getColor(int resId) {
+        return sContext.getResources().getColor(resId);
     }
 }
