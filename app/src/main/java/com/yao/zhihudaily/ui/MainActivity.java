@@ -36,8 +36,11 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+/**
+ * @author Yao
+ * @date 2016/7/21
+ */
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final int REQUEST_PERMISSION_STORAGE = 200;
 
@@ -52,7 +55,7 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
 
-    private MainFragment currentFragment;
+    private BaseFragment currentFragment;
     private MainViewPagerAdapter adapter;
     private AHBottomNavigationAdapter navigationAdapter;
     private ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
@@ -91,14 +94,14 @@ public class MainActivity extends BaseActivity
                 .callback(new PermissionListener() {
                     @Override
                     public void onSucceed(int requestCode, List<String> grantedPermissions) {
-                        if(requestCode == REQUEST_PERMISSION_STORAGE) {
+                        if (requestCode == REQUEST_PERMISSION_STORAGE) {
                             listStorageDir();
                         }
                     }
 
                     @Override
                     public void onFailed(int requestCode, List<String> deniedPermissions) {
-                        if(requestCode == REQUEST_PERMISSION_STORAGE) {
+                        if (requestCode == REQUEST_PERMISSION_STORAGE) {
                             new AlertDialog.Builder(MainActivity.this)
                                     .setTitle(R.string.tip)
                                     .setMessage(R.string.permission_storage_failed)
@@ -116,7 +119,7 @@ public class MainActivity extends BaseActivity
                 });//.start();
     }
 
-    private void goToSetting(){
+    private void goToSetting() {
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
@@ -132,7 +135,7 @@ public class MainActivity extends BaseActivity
             for (String str : strings) {
                 builder.append(str + ", ");
             }
-            builder.substring(0, builder.length()-2);
+            builder.substring(0, builder.length() - 2);
             Log.e("YAO", "MainActivity.java - onCreate() ----- builder\n " + builder.toString());
         }
     }
@@ -192,12 +195,12 @@ public class MainActivity extends BaseActivity
         ThemeMainFragment themeMainFragment = new ThemeMainFragment();
         HotMainFragment hotMainFragment = new HotMainFragment();
         SectionMainFragment sectionMainFragment = new SectionMainFragment();
-        ArrayList<MainFragment> mainFragments = new ArrayList<MainFragment>();
-        mainFragments.add(feedMainFragment);
-        mainFragments.add(themeMainFragment);
-        mainFragments.add(hotMainFragment);
-        mainFragments.add(sectionMainFragment);
-        adapter = new MainViewPagerAdapter(getSupportFragmentManager(), mainFragments);
+        ArrayList<BaseFragment> baseFragments = new ArrayList<BaseFragment>();
+        baseFragments.add(feedMainFragment);
+        baseFragments.add(themeMainFragment);
+        baseFragments.add(hotMainFragment);
+        baseFragments.add(sectionMainFragment);
+        adapter = new MainViewPagerAdapter(getSupportFragmentManager(), baseFragments);
         viewPager.setAdapter(adapter);
         currentFragment = adapter.getCurrentFragment();
 

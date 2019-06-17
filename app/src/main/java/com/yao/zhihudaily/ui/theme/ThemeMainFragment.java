@@ -10,7 +10,7 @@ import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.ThemesJson;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.GridItemDecoration;
-import com.yao.zhihudaily.ui.MainFragment;
+import com.yao.zhihudaily.ui.BaseFragment;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,9 +22,10 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by Administrator on 2016/7/22.
+ * @author Yao
+ * @date 2016/7/22
  */
-public class ThemeMainFragment extends MainFragment {
+public class ThemeMainFragment extends BaseFragment {
 
     private static final String TAG = "ThemeMainFragment";
     @BindView(R.id.rvThemes)

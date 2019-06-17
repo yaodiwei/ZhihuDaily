@@ -11,7 +11,7 @@ import com.yao.zhihudaily.model.Hot;
 import com.yao.zhihudaily.model.HotJson;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.SimpleDividerDecoration;
-import com.yao.zhihudaily.ui.MainFragment;
+import com.yao.zhihudaily.ui.BaseFragment;
 
 import java.util.ArrayList;
 
@@ -24,9 +24,10 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by Administrator on 2016/7/22.
+ * @author Yao
+ * @date 2016/7/22
  */
-public class HotMainFragment extends MainFragment {
+public class HotMainFragment extends BaseFragment {
 
     private static final String TAG = "HotMainFragment";
     @BindView(R.id.rvHots)

@@ -9,15 +9,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 /**
- * Created by Administrator on 2016/9/4.
+ *
+ * @author Yao
+ * @date 2016/9/5
  */
 public class MainViewPagerAdapter extends FragmentPagerAdapter {
-    private ArrayList<MainFragment> fragments = new ArrayList<>();
-    private MainFragment currentFragment;
+    private ArrayList<BaseFragment> fragments = new ArrayList<>();
+    private BaseFragment currentFragment;
 
-    public MainViewPagerAdapter(FragmentManager fm, ArrayList<MainFragment> mainFragments) {
+    public MainViewPagerAdapter(FragmentManager fm, ArrayList<BaseFragment> baseFragments) {
         super(fm);
-        fragments.addAll(mainFragments);
+        fragments.addAll(baseFragments);
     }
 
     @Override
@@ -33,7 +35,7 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         if (getCurrentFragment() != object) {
-            currentFragment = ((MainFragment) object);
+            currentFragment = ((BaseFragment) object);
         }
         super.setPrimaryItem(container, position, object);
     }
@@ -41,7 +43,7 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     /**
      * Get the current fragment
      */
-    public MainFragment getCurrentFragment() {
+    public BaseFragment getCurrentFragment() {
         return currentFragment;
     }
 }

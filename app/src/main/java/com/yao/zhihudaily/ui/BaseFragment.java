@@ -12,9 +12,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Created by Administrator on 2016/9/4.
+ * @author Yao
+ * @date 2016/9/4
  */
-public abstract class MainFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
+
+    private static final String TAG = "BaseFragment";
 
     private FrameLayout fragmentContainer;
     private RecyclerView recyclerView;
@@ -23,14 +26,14 @@ public abstract class MainFragment extends Fragment {
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd(this.getClass().getSimpleName());
-        Log.i("YAO", "MainFragment.java - onPause() ---------- Fragment:" + this.getClass().getName() );
+        Log.i(TAG, "BaseFragment.java - onPause() ---------- Fragment:" + this.getClass().getName());
     }
 
     @Override
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart(this.getClass().getSimpleName());
-        Log.i("YAO", "MainFragment.java - onResume() ---------- Fragment:" + this.getClass().getName() );
+        Log.i(TAG, "BaseFragment.java - onResume() ---------- Fragment:" + this.getClass().getName());
     }
 
     /**

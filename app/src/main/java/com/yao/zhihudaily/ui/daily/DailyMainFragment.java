@@ -14,7 +14,7 @@ import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.RecyclerViewOnLoadMoreListener;
 import com.yao.zhihudaily.tool.SimpleDividerDecoration;
 import com.yao.zhihudaily.tool.StateTool;
-import com.yao.zhihudaily.ui.MainFragment;
+import com.yao.zhihudaily.ui.BaseFragment;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,9 +27,10 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by Administrator on 2016/7/22.
+ * @author Yao
+ * @date 2016/7/22
  */
-public class DailyMainFragment extends MainFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class DailyMainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "DailyMainFragment";
 

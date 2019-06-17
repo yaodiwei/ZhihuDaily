@@ -8,10 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 /**
- * Created by Administrator on 2016/10/1.
- *
+ * @author Yao
+ * @date 2016/10/1
  */
-
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Override

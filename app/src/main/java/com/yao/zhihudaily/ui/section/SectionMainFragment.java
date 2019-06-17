@@ -11,7 +11,7 @@ import com.yao.zhihudaily.model.Section;
 import com.yao.zhihudaily.model.SectionsJson;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.SimpleDividerDecoration;
-import com.yao.zhihudaily.ui.MainFragment;
+import com.yao.zhihudaily.ui.BaseFragment;
 
 import java.util.ArrayList;
 
@@ -22,9 +22,10 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by Administrator on 2016/7/22.
+ * @author Yao
+ * @date 2016/7/22
  */
-public class SectionMainFragment extends MainFragment {
+public class SectionMainFragment extends BaseFragment {
 
     private static final String TAG = "SectionMainFragment";
 
