@@ -16,12 +16,15 @@ import com.yao.zhihudaily.tool.OnItemClickListener;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/9/16.
+ *
+ * @author Administrator
+ * @date 2016/9/16
  */
 public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.RecommenderHolder> {
 
@@ -47,13 +50,14 @@ public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.
         this.recommenders.addAll(recommenders);
     }
 
+    @NonNull
     @Override
-    public RecommenderHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecommenderHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new RecommenderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommender, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RecommenderHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecommenderHolder holder, int position) {
         Recommender recommender = recommenders.get(position);
         holder.tvName.setText(recommender.getName());
         holder.tvBio.setText(recommender.getBio());

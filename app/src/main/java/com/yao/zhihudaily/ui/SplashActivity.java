@@ -16,7 +16,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
-import com.yao.zhihudaily.model.StartImageJson;
 import com.yao.zhihudaily.net.OkHttpAsync;
 import com.yao.zhihudaily.net.OkHttpSync;
 import com.yao.zhihudaily.net.ZhihuHttp;
@@ -32,8 +31,6 @@ import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 import okhttp3.Response;
 
 
@@ -112,27 +109,16 @@ public class SplashActivity extends BaseActivity {
     @Deprecated//此api已废弃
     private void getStartImage() {
         ZhihuHttp.getZhihuHttp().getStartImage()
-                .filter(new Predicate<StartImageJson>() {
-                    @Override
-                    public boolean test(@NonNull StartImageJson startImageJson) throws Exception {
-                        //与缓存url的不相等, 才进入下一步进行新url的缓存
-                        return !SP.getString(START_TEXT, "").equals(startImageJson.getText());
-                    }
+                .filter(startImageJson -> {
+                    //与缓存url的不相等, 才进入下一步进行新url的缓存
+                    return !SP.getString(START_TEXT, "").equals(startImageJson.getText());
                 })
-                .map(new Function<StartImageJson, String>() {
-                    @Override
-                    public String apply(@NonNull StartImageJson startImageJson) throws Exception {
-                        SP.put(START_IMAGE, startImageJson.getImg());
-                        SP.put(START_TEXT, startImageJson.getText());
-                        return startImageJson.getImg();
-                    }
+                .map(startImageJson -> {
+                    SP.put(START_IMAGE, startImageJson.getImg());
+                    SP.put(START_TEXT, startImageJson.getText());
+                    return startImageJson.getImg();
                 })
-                .map(new Function<String, Response>() {
-                    @Override
-                    public Response apply(@NonNull String s) throws Exception {
-                        return OkHttpSync.get(s);
-                    }
-                })
+                .map(s -> OkHttpSync.get(s))
                 .subscribe(new Observer<Response>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {

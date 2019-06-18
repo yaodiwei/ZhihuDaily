@@ -1,6 +1,5 @@
 package com.yao.zhihudaily.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,18 +14,18 @@ import com.google.android.material.navigation.NavigationView;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.PermissionListener;
-import com.yanzhenjie.permission.Rationale;
-import com.yanzhenjie.permission.RationaleListener;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.ui.daily.DailyMainFragment;
 import com.yao.zhihudaily.ui.hot.HotMainFragment;
 import com.yao.zhihudaily.ui.section.SectionMainFragment;
 import com.yao.zhihudaily.ui.theme.ThemeMainFragment;
+import com.yao.zhihudaily.util.ResUtil;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
@@ -57,11 +56,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private BaseFragment currentFragment;
     private MainViewPagerAdapter adapter;
-    private AHBottomNavigationAdapter navigationAdapter;
     private ArrayList<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
-    //是否用Menu资源去完成,menu资源即对应的menu布局文件. 否则就是用代码new出来并且添加上去的AHBottomNavigationItem
-    private boolean useMenuResource = true;
-    private int[] tabColors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,44 +69,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         AndPermission.with(this)
                 .requestCode(REQUEST_PERMISSION_STORAGE)
                 .permission(Permission.STORAGE)
-                .rationale(new RationaleListener() {
-                    @Override
-                    public void showRequestPermissionRationale(int requestCode, final Rationale rationale) {
+                .rationale((requestCode, rationale) ->
                         new AlertDialog.Builder(MainActivity.this)
                                 .setTitle(R.string.tip)
                                 .setMessage(R.string.permission_storage_rationale)
                                 .setCancelable(false)
-                                .setPositiveButton(R.string.open_permission_dialog, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        rationale.resume();
-                                    }
-                                })
+                                .setPositiveButton(R.string.open_permission_dialog, (dialog, which) -> rationale.resume())
                                 .setNegativeButton(R.string.cancel, null)
-                                .show();
-                    }
-                })
+                                .show())
                 .callback(new PermissionListener() {
                     @Override
-                    public void onSucceed(int requestCode, List<String> grantedPermissions) {
+                    public void onSucceed(int requestCode, @NonNull List<String> grantedPermissions) {
                         if (requestCode == REQUEST_PERMISSION_STORAGE) {
                             listStorageDir();
                         }
                     }
 
                     @Override
-                    public void onFailed(int requestCode, List<String> deniedPermissions) {
+                    public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
                         if (requestCode == REQUEST_PERMISSION_STORAGE) {
                             new AlertDialog.Builder(MainActivity.this)
                                     .setTitle(R.string.tip)
                                     .setMessage(R.string.permission_storage_failed)
                                     .setCancelable(false)
-                                    .setPositiveButton(R.string.go_to_setting, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            goToSetting();
-                                        }
-                                    })
+                                    .setPositiveButton(R.string.go_to_setting, (dialog, which) -> goToSetting())
                                     .setNegativeButton(R.string.cancel, null)
                                     .show();
                         }
@@ -133,7 +114,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (strings != null && strings.length > 0) {
             StringBuilder builder = new StringBuilder();
             for (String str : strings) {
-                builder.append(str + ", ");
+                builder.append(str).append(", ");
             }
             builder.substring(0, builder.length() - 2);
             Log.e("YAO", "MainActivity.java - onCreate() ----- builder\n " + builder.toString());
@@ -145,29 +126,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.setDrawerIndicatorEnabled(false);//隐藏左上角的DrawerLayout图标
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);//暂时关闭侧边栏,因为没有什么业务好写
-        drawerLayout.setDrawerListener(toggle);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
 
 
         toolbar.inflateMenu(R.menu.main);//设置右上角的填充菜单
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int menuItemId = item.getItemId();
-                if (menuItemId == R.id.action_settings) {
-                    startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                } else if (menuItemId == R.id.action_introduce) {
-                    startActivity(new Intent(MainActivity.this, SoftwareIntroductionActivity.class));
-                }
-                return true;
+        toolbar.setOnMenuItemClickListener(item -> {
+            int menuItemId = item.getItemId();
+            if (menuItemId == R.id.action_settings) {
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+            } else if (menuItemId == R.id.action_introduce) {
+                startActivity(new Intent(MainActivity.this, SoftwareIntroductionActivity.class));
             }
+            return true;
         });
 
+        //是否用Menu资源去完成,menu资源即对应的menu布局文件. 否则就是用代码new出来并且添加上去的AHBottomNavigationItem
+        boolean useMenuResource = true;
         if (useMenuResource) {//方式一:通过menu菜单去完成
-            tabColors = getApplicationContext().getResources().getIntArray(R.array.tab_colors);
-            navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_3);
+            int[] tabColors = getApplicationContext().getResources().getIntArray(R.array.tab_colors);
+            AHBottomNavigationAdapter navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_3);
             navigationAdapter.setupWithBottomNavigation(bottomNavigation, tabColors);
         } else {//方式二:通过代码new出去并且添加上去完成
             AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.daily, R.mipmap.ic_bottomnavigation_daily, R.color.color_tab_1);
@@ -184,18 +164,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
 
         bottomNavigation.setBehaviorTranslationEnabled(true);//重要属性 设置向上滑动时是否隐藏底部栏
-        bottomNavigation.setAccentColor(getResources().getColor(R.color.zhihu_blue)); //设置选中的颜色
-        bottomNavigation.setInactiveColor(getResources().getColor(R.color.bottomnavigation_inactive));//设置闲置的颜色
-        bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.bottomnavigation_bg));//设置背景颜色
+        bottomNavigation.setAccentColor(ResUtil.getColor(R.color.zhihu_blue)); //设置选中的颜色
+        bottomNavigation.setInactiveColor(ResUtil.getColor(R.color.bottomnavigation_inactive));//设置闲置的颜色
+        bottomNavigation.setDefaultBackgroundColor(ResUtil.getColor(R.color.bottomnavigation_bg));//设置背景颜色
 
-//        bottomNavigation.setNotification("", position);//给Item设置通知图标
+        //bottomNavigation.setNotification("", position);//给Item设置通知图标
         viewPager.setOffscreenPageLimit(3);
 
         DailyMainFragment feedMainFragment = new DailyMainFragment();
         ThemeMainFragment themeMainFragment = new ThemeMainFragment();
         HotMainFragment hotMainFragment = new HotMainFragment();
         SectionMainFragment sectionMainFragment = new SectionMainFragment();
-        ArrayList<BaseFragment> baseFragments = new ArrayList<BaseFragment>();
+        ArrayList<BaseFragment> baseFragments = new ArrayList<>();
         baseFragments.add(feedMainFragment);
         baseFragments.add(themeMainFragment);
         baseFragments.add(hotMainFragment);
@@ -204,29 +184,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         viewPager.setAdapter(adapter);
         currentFragment = adapter.getCurrentFragment();
 
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {//wasSelected为真时,表示当前显示与当前点击的是同一个Item
+        bottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {//wasSelected为真时,表示当前显示与当前点击的是同一个Item
 
 
-                if (currentFragment == null) {
-                    currentFragment = adapter.getCurrentFragment();
-                }
-
-                if (wasSelected) {//为真时,刷新一个当前item就行
-                    currentFragment.refresh();
-                    return true;
-                }
-
-                if (currentFragment != null) {
-                    currentFragment.willBeHidden();
-                }
-
-                viewPager.setCurrentItem(position, false);
+            if (currentFragment == null) {
                 currentFragment = adapter.getCurrentFragment();
-                currentFragment.willBeDisplayed();
+            }
+
+            if (wasSelected) {//为真时,刷新一个当前item就行
+                currentFragment.refresh();
                 return true;
             }
+
+            if (currentFragment != null) {
+                currentFragment.willBeHidden();
+            }
+
+            viewPager.setCurrentItem(position, false);
+            currentFragment = adapter.getCurrentFragment();
+            currentFragment.willBeDisplayed();
+            return true;
         });
     }
 
@@ -242,7 +219,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 

@@ -4,12 +4,12 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 /**
- *
  * @author Yao
  * @date 2016/9/5
  */
@@ -33,7 +33,7 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+    public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         if (getCurrentFragment() != object) {
             currentFragment = ((BaseFragment) object);
         }

@@ -32,13 +32,13 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
+            android:layout_gravity="bottom"/>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -50,6 +50,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -11,6 +11,7 @@
         android:id="@+id/iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/app_name"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

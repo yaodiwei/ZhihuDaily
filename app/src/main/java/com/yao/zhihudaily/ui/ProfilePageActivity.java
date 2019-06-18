@@ -1,7 +1,6 @@
 package com.yao.zhihudaily.ui;
 
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.WebView;
 
 import com.yao.zhihudaily.R;
@@ -12,7 +11,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/9/17.
+ *
+ * @author Administrator
+ * @date 2016/9/17
  */
 public class ProfilePageActivity extends BaseActivity {
 
@@ -31,12 +32,7 @@ public class ProfilePageActivity extends BaseActivity {
         int id = getIntent().getIntExtra("id", 0);
         String name = getIntent().getStringExtra("name");
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         toolbar.setTitle(name);
         webView.loadUrl(String.format(UrlConstants.EDITOR, id));

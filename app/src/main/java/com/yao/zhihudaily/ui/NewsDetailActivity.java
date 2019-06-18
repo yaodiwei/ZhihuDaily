@@ -2,8 +2,6 @@ package com.yao.zhihudaily.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +27,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by Administrator on 2016/7/28.
+ * @author Administrator
+ * @date 2016/7/28
  */
 public class NewsDetailActivity extends BaseActivity {
 
@@ -65,33 +64,27 @@ public class NewsDetailActivity extends BaseActivity {
 
         toolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
         toolbar.inflateMenu(R.menu.new_detail_menu);//设置右上角的填充菜单
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
+        toolbar.setNavigationOnClickListener(view -> finish());
+        toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.itemShare:
+                    Toast.makeText(NewsDetailActivity.this, "点击分享", Toast.LENGTH_SHORT).show();
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "发现一篇好文章分享给你，地址:" + String.format(UrlConstants.STORY_SHARE, id));
+                    sendIntent.setType("text/plain");
+                    startActivity(sendIntent);
+                    break;
+                case R.id.itemComment:
+                    Intent intent = new Intent(NewsDetailActivity.this, CommentsActivity.class);
+                    intent.putExtra("id", id);
+                    intent.putExtra("storyExtra", storyExtra);
+                    startActivity(intent);
+                    break;
+                default:
+                    break;
             }
-        });
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.itemShare:
-                        Toast.makeText(NewsDetailActivity.this, "点击分享", Toast.LENGTH_SHORT).show();
-                        Intent sendIntent = new Intent();
-                        sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, "发现一篇好文章分享给你，地址:" + String.format(UrlConstants.STORY_SHARE, id));
-                        sendIntent.setType("text/plain");
-                        startActivity(sendIntent);
-                        break;
-                    case R.id.itemComment:
-                        Intent intent = new Intent(NewsDetailActivity.this, CommentsActivity.class);
-                        intent.putExtra("id", id);
-                        intent.putExtra("storyExtra", storyExtra);
-                        startActivity(intent);
-                        break;
-                }
-                return true;
-            }
+            return true;
         });
 
         getNews(id);
@@ -105,7 +98,7 @@ public class NewsDetailActivity extends BaseActivity {
     }
 
     private void getNews(final int id) {
-        Observer subscriber = new Observer<DailyJson>() {
+        ZhihuHttp.getZhihuHttp().getNews(String.valueOf(id)).subscribe(new Observer<DailyJson>() {
 
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -121,13 +114,10 @@ public class NewsDetailActivity extends BaseActivity {
                     collapsingToolbarLayout.setTitle("并没有推荐者");
                 } else {
                     collapsingToolbarLayout.setTitle(dailyJson.getRecommenders().size() + "个推荐者");
-                    toolbar.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(NewsDetailActivity.this, RecommendersActivity.class);
-                            intent.putExtra("id", id);
-                            startActivity(intent);
-                        }
+                    toolbar.setOnClickListener(view -> {
+                        Intent intent = new Intent(NewsDetailActivity.this, RecommendersActivity.class);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
                     });
                 }
                 Glide.with(NewsDetailActivity.this).load(dailyJson.getImage()).placeholder(R.mipmap.liukanshan).into(ivImage);
@@ -142,13 +132,11 @@ public class NewsDetailActivity extends BaseActivity {
             public void onError(Throwable e) {
                 Logger.e(e, "Subscriber onError()");
             }
-        };
-
-        ZhihuHttp.getZhihuHttp().getNews(String.valueOf(id)).subscribe(subscriber);
+        });
     }
 
     private void getStoryExtra(final int id) {
-        Observer subscriber = new Observer<StoryExtra>() {
+        ZhihuHttp.getZhihuHttp().getStoryExtra(String.valueOf(id)).subscribe(new Observer<StoryExtra>() {
 
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -169,8 +157,6 @@ public class NewsDetailActivity extends BaseActivity {
             public void onError(Throwable e) {
                 Logger.e(e, "Subscriber onError()");
             }
-        };
-
-        ZhihuHttp.getZhihuHttp().getStoryExtra(String.valueOf(id)).subscribe(subscriber);
+        });
     }
 }
