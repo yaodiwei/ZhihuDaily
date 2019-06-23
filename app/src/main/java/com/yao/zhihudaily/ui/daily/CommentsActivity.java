@@ -56,7 +56,7 @@ public class CommentsActivity extends BaseActivity {
         CommentsFragment shortCommentsFragment = new CommentsFragment();
         Bundle bundleForShortComments = new Bundle();
         bundleForShortComments.putInt("id", id);
-        bundleForShortComments.putSerializable("storyExtra", storyExtra);
+        bundleForShortComments.putSerializable("story_extra", storyExtra);
         bundleForShortComments.putString("url", UrlConstants.SHORT_COMMENTS);
         bundleForShortComments.putInt("count", storyExtra.getShortComments());
         shortCommentsFragment.setArguments(bundleForShortComments);
@@ -65,7 +65,7 @@ public class CommentsActivity extends BaseActivity {
         CommentsFragment longCommentsFragment = new CommentsFragment();
         Bundle bundleForLongComments = new Bundle();
         bundleForLongComments.putInt("id", id);
-        bundleForLongComments.putSerializable("storyExtra", storyExtra);
+        bundleForLongComments.putSerializable("story_extra", storyExtra);
         bundleForLongComments.putString("url", UrlConstants.LONG_COMMENTS);
         bundleForShortComments.putInt("counts", storyExtra.getLongComments());
         longCommentsFragment.setArguments(bundleForLongComments);

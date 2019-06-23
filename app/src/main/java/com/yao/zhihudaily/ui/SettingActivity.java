@@ -20,10 +20,11 @@ import butterknife.OnClick;
 
 
 /**
- * Created by Administrator on 2016/10/1.
+ *
+ * @author Administrator
+ * @date 2016/10/1
  */
-
-public class SettingsActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -39,15 +40,10 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
         settingSwitchCompat.setChecked(SP.getBoolean(SP.Key.SPLASH, true));
         tvCacheSize.setText(FileUtil.formatFileSize(FileUtil.getFileSize(new File(FileUtil.STORAGE_DIR))));
     }

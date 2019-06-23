@@ -19,9 +19,9 @@ public class ProfilePageActivity extends BaseActivity {
 
 
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
     @BindView(R.id.webView)
-    WebView webView;
+    WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +32,10 @@ public class ProfilePageActivity extends BaseActivity {
         int id = getIntent().getIntExtra("id", 0);
         String name = getIntent().getStringExtra("name");
 
-        toolbar.setNavigationOnClickListener(v -> finish());
+        mToolbar.setNavigationOnClickListener(v -> finish());
 
-        toolbar.setTitle(name);
-        webView.loadUrl(String.format(UrlConstants.EDITOR, id));
+        mToolbar.setTitle(name);
+        mWebView.loadUrl(String.format(UrlConstants.EDITOR, id));
 
     }
 }

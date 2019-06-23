@@ -1,7 +1,6 @@
 package com.yao.zhihudaily.ui;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
@@ -21,24 +20,24 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by Administrator on 2016/9/16.
+ *
+ * @author Administrator
+ * @date 2016/9/16
  */
 public class RecommendersActivity extends BaseActivity {
 
     private static final String TAG = "RecommendersActivity";
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
     @BindView(R.id.rvRecommenders)
-    RecyclerView rvRecommenders;
+    RecyclerView mRvRecommenders;
     @BindView(R.id.rootView)
-    CoordinatorLayout rootView;
+    CoordinatorLayout mRootView;
 
-    private RecommendsJson recommendsJson;
-    private int id;
-    private RecommenderAdapter recommenderAdapter;
-    private LinearLayoutManager linearLayoutManager;
+    private RecommendsJson mRecommendsJson;
+    private RecommenderAdapter mRecommenderAdapter;
 
-    private StateTool stateTool;
+    private StateTool mStateTool;
     private Disposable mDisposable;
 
     @Override
@@ -47,21 +46,16 @@ public class RecommendersActivity extends BaseActivity {
         setContentView(R.layout.activity_recommenders);
         ButterKnife.bind(this);
 
-        id = getIntent().getIntExtra("id", 0);
+        int id = getIntent().getIntExtra("id", 0);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(v -> finish());
 
-        stateTool = new StateTool(rootView, 1);
+        mStateTool = new StateTool(mRootView, 1);
 
-        recommenderAdapter = new RecommenderAdapter(this);
-        rvRecommenders.setAdapter(recommenderAdapter);
-        rvRecommenders.setLayoutManager(linearLayoutManager = new LinearLayoutManager(this));
-        rvRecommenders.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        mRecommenderAdapter = new RecommenderAdapter(this);
+        mRvRecommenders.setAdapter(mRecommenderAdapter);
+        mRvRecommenders.setLayoutManager(new LinearLayoutManager(this));
+        mRvRecommenders.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
 
         //获取推荐者
@@ -77,7 +71,7 @@ public class RecommendersActivity extends BaseActivity {
     }
 
     private void getRecommenders(String id) {
-        stateTool.showProgressView();
+        mStateTool.showProgressView();
         ZhihuHttp.getZhihuHttp().getRecommends(id).subscribe(new Observer<RecommendsJson>() {
 
             @Override
@@ -88,13 +82,13 @@ public class RecommendersActivity extends BaseActivity {
             @Override
             public void onNext(RecommendsJson recommendsJson) {
                 if (recommendsJson.getItems() == null) {
-                    stateTool.showEmptyView();
+                    mStateTool.showEmptyView();
                     return;
                 }
                 if (recommendsJson.getItems() != null && recommendsJson.getItems().size() != 0) {
-                    recommenderAdapter.addList(recommendsJson.getItems().get(0).getRecommenders());
-                    recommenderAdapter.notifyDataSetChanged();
-                    stateTool.showContentView();
+                    mRecommenderAdapter.addList(recommendsJson.getItems().get(0).getRecommenders());
+                    mRecommenderAdapter.notifyDataSetChanged();
+                    mStateTool.showContentView();
                 }
             }
 
@@ -105,7 +99,7 @@ public class RecommendersActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable e) {
-                stateTool.showErrorView();
+                mStateTool.showErrorView();
                 Logger.e(e, "Subscriber onError()");
             }
         });

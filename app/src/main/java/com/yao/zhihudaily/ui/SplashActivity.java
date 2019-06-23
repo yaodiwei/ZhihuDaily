@@ -46,9 +46,9 @@ public class SplashActivity extends BaseActivity {
 
     public static final String START_IMAGE_FILE = "start_image.jpg";
     @BindView(R.id.iv)
-    ImageView iv;
+    ImageView mImageView;
     @BindView(R.id.tvAuthor)
-    TextView tvAuthor;
+    TextView mTvAuthor;
 
     private Disposable mDisposable;
 
@@ -69,11 +69,11 @@ public class SplashActivity extends BaseActivity {
         SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(@androidx.annotation.NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                iv.setImageBitmap(resource);
-                iv.setPivotX(resource.getWidth() * 0.5f);
-                iv.setPivotY(resource.getHeight() * 0.75f);
-                ObjectAnimator objectAnimatorX = ObjectAnimator.ofFloat(iv, "scaleX", 1, 1.25f);
-                ObjectAnimator objectAnimatorY = ObjectAnimator.ofFloat(iv, "scaleY", 1, 1.25f);
+                mImageView.setImageBitmap(resource);
+                mImageView.setPivotX(resource.getWidth() * 0.5f);
+                mImageView.setPivotY(resource.getHeight() * 0.75f);
+                ObjectAnimator objectAnimatorX = ObjectAnimator.ofFloat(mImageView, "scaleX", 1, 1.25f);
+                ObjectAnimator objectAnimatorY = ObjectAnimator.ofFloat(mImageView, "scaleY", 1, 1.25f);
                 AnimatorSet set = new AnimatorSet();
                 set.setDuration(2000).setStartDelay(1000);
                 set.addListener(new AnimatorListenerAdapter() {
@@ -91,10 +91,10 @@ public class SplashActivity extends BaseActivity {
         File file = new File(FileUtil.STORAGE_DIR, START_IMAGE_FILE);
         if (file.exists()) {
             Glide.with(this).asBitmap().load(file).into(target);
-            tvAuthor.setText(SP.getString(START_TEXT, ""));
+            mTvAuthor.setText(SP.getString(START_TEXT, ""));
         } else {
             Glide.with(this).asBitmap().load(R.mipmap.miui7).into(target);
-            tvAuthor.setText("永远相信美好的事情即将发生");
+            mTvAuthor.setText("永远相信美好的事情即将发生");
         }
     }
 

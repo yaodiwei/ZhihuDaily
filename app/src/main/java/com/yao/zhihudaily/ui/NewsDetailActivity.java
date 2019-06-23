@@ -34,19 +34,19 @@ public class NewsDetailActivity extends BaseActivity {
 
     private static final String TAG = "NewsDetailActivity";
     @BindView(R.id.ivImage)
-    ImageView ivImage;
+    ImageView mIvImage;
     @BindView(R.id.tvTitle)
-    TextView tvTitle;
+    TextView mTvTitle;
     @BindView(R.id.tvSource)
-    TextView tvSource;
+    TextView mTvSource;
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
     @BindView(R.id.collapsingToolbarLayout)
-    CollapsingToolbarLayout collapsingToolbarLayout;
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.webView)
-    WebView webView;
+    WebView mWebView;
 
-    private StoryExtra storyExtra;
+    private StoryExtra mStoryExtra;
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
@@ -58,14 +58,14 @@ public class NewsDetailActivity extends BaseActivity {
         final int id = getIntent().getIntExtra("id", 0);
 
         //也可以在xml中设置
-        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedDisappearAppBar);
-        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+        mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedDisappearAppBar);
+        mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
 
 
-        toolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
-        toolbar.inflateMenu(R.menu.new_detail_menu);//设置右上角的填充菜单
-        toolbar.setNavigationOnClickListener(view -> finish());
-        toolbar.setOnMenuItemClickListener(item -> {
+        mToolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
+        mToolbar.inflateMenu(R.menu.new_detail_menu);//设置右上角的填充菜单
+        mToolbar.setNavigationOnClickListener(view -> finish());
+        mToolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.itemShare:
                     Toast.makeText(NewsDetailActivity.this, "点击分享", Toast.LENGTH_SHORT).show();
@@ -78,7 +78,7 @@ public class NewsDetailActivity extends BaseActivity {
                 case R.id.itemComment:
                     Intent intent = new Intent(NewsDetailActivity.this, CommentsActivity.class);
                     intent.putExtra("id", id);
-                    intent.putExtra("storyExtra", storyExtra);
+                    intent.putExtra("story_extra", mStoryExtra);
                     startActivity(intent);
                     break;
                 default:
@@ -107,20 +107,20 @@ public class NewsDetailActivity extends BaseActivity {
 
             @Override
             public void onNext(DailyJson dailyJson) {
-                webView.loadData(HtmlUtil.createHtmlData(dailyJson), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
-                tvTitle.setText(dailyJson.getTitle());
-                tvSource.setText(dailyJson.getImageSource());
+                mWebView.loadData(HtmlUtil.createHtmlData(dailyJson), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
+                mTvTitle.setText(dailyJson.getTitle());
+                mTvSource.setText(dailyJson.getImageSource());
                 if (dailyJson.getRecommenders() == null) {
-                    collapsingToolbarLayout.setTitle("并没有推荐者");
+                    mCollapsingToolbarLayout.setTitle("并没有推荐者");
                 } else {
-                    collapsingToolbarLayout.setTitle(dailyJson.getRecommenders().size() + "个推荐者");
-                    toolbar.setOnClickListener(view -> {
+                    mCollapsingToolbarLayout.setTitle(dailyJson.getRecommenders().size() + "个推荐者");
+                    mToolbar.setOnClickListener(view -> {
                         Intent intent = new Intent(NewsDetailActivity.this, RecommendersActivity.class);
                         intent.putExtra("id", id);
                         startActivity(intent);
                     });
                 }
-                Glide.with(NewsDetailActivity.this).load(dailyJson.getImage()).placeholder(R.mipmap.liukanshan).into(ivImage);
+                Glide.with(NewsDetailActivity.this).load(dailyJson.getImage()).placeholder(R.mipmap.liukanshan).into(mIvImage);
             }
 
             @Override
@@ -145,7 +145,7 @@ public class NewsDetailActivity extends BaseActivity {
 
             @Override
             public void onNext(StoryExtra storyExtra) {
-                NewsDetailActivity.this.storyExtra = storyExtra;
+                NewsDetailActivity.this.mStoryExtra = storyExtra;
             }
 
             @Override

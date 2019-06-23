@@ -15,6 +15,7 @@ import com.yao.zhihudaily.tool.GlideCircleTransform;
 import com.yao.zhihudaily.tool.OnItemClickListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,26 +29,26 @@ import butterknife.ButterKnife;
  */
 public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.RecommenderHolder> {
 
-    private Activity aty;
-    private ArrayList<Recommender> recommenders = new ArrayList<>();
+    private Activity mActivity;
+    private List<Recommender> mRecommenderList = new ArrayList<>();
 
     private OnItemClickListener listener = new OnItemClickListener() {
         @Override
         public void onItemClick(int pos) {
-            Recommender recommender = recommenders.get(pos);
-            Intent intent = new Intent(aty, ProfilePageActivity.class);
+            Recommender recommender = mRecommenderList.get(pos);
+            Intent intent = new Intent(mActivity, ProfilePageActivity.class);
             intent.putExtra("id", recommender.getId());
             intent.putExtra("name", recommender.getName());
-            aty.startActivity(intent);
+            mActivity.startActivity(intent);
         }
     };
 
-    public RecommenderAdapter(Activity aty) {
-        this.aty = aty;
+    public RecommenderAdapter(Activity activity) {
+        this.mActivity = activity;
     }
 
     public void addList(ArrayList<Recommender> recommenders) {
-        this.recommenders.addAll(recommenders);
+        this.mRecommenderList.addAll(recommenders);
     }
 
     @NonNull
@@ -58,11 +59,11 @@ public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull RecommenderHolder holder, int position) {
-        Recommender recommender = recommenders.get(position);
+        Recommender recommender = mRecommenderList.get(position);
         holder.tvName.setText(recommender.getName());
         holder.tvBio.setText(recommender.getBio());
         if (recommender.getAvatar() != null) {
-            Glide.with(aty).load(recommender.getAvatar()).transform(new GlideCircleTransform()).into(holder.iv);
+            Glide.with(mActivity).load(recommender.getAvatar()).transform(new GlideCircleTransform()).into(holder.iv);
         }
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(listener);
@@ -71,7 +72,7 @@ public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.
 
     @Override
     public int getItemCount() {
-        return recommenders.size();
+        return mRecommenderList.size();
     }
 
     class RecommenderHolder extends RecyclerView.ViewHolder {

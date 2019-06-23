@@ -1,7 +1,6 @@
 package com.yao.zhihudaily.ui;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.yao.zhihudaily.R;
@@ -11,19 +10,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/9/26.
+ *
+ * @author Administrator
+ * @date 2016/9/26
  */
 
 public class SoftwareIntroductionActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
     @BindView(R.id.iv1)
-    ImageView iv1;
+    ImageView mIv1;
     @BindView(R.id.iv2)
-    ImageView iv2;
+    ImageView mIv2;
     @BindView(R.id.iv3)
-    ImageView iv3;
+    ImageView mIv3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +32,9 @@ public class SoftwareIntroductionActivity extends BaseActivity {
         setContentView(R.layout.activity_software_introduction);
         ButterKnife.bind(this);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-//        Glide.with(this).load(Uri.parse("file:///android_asset/PullDownRefresh.gif")).asGif().into(iv1);
-//        Glide.with(this).load(Uri.parse("file:///android_asset/PullDownRefresh.gif")).asGif().into(iv2);
+        mToolbar.setNavigationOnClickListener(view -> finish());
+//        Glide.with(this).load(Uri.parse("file:///android_asset/PullDownRefresh.gif")).asGif().into(mIv1);
+//        Glide.with(this).load(Uri.parse("file:///android_asset/PullDownRefresh.gif")).asGif().into(mIv2);
 
     }
 }

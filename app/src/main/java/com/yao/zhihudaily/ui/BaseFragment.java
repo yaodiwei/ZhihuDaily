@@ -19,8 +19,8 @@ public abstract class BaseFragment extends Fragment {
 
     private static final String TAG = "BaseFragment";
 
-    private FrameLayout fragmentContainer;
-    private RecyclerView recyclerView;
+    private FrameLayout mFragmentContainer;
+    private RecyclerView mRecyclerView;
 
     @Override
     public void onPause() {
@@ -41,8 +41,8 @@ public abstract class BaseFragment extends Fragment {
      * 如果是当前页面=点击页面, 则平滑移动到头部
      */
     public void refresh() {
-        if (recyclerView != null) {
-            recyclerView.smoothScrollToPosition(0);
+        if (mRecyclerView != null) {
+            mRecyclerView.smoothScrollToPosition(0);
         }
     }
 
@@ -52,9 +52,9 @@ public abstract class BaseFragment extends Fragment {
      */
     public void willBeDisplayed() {
         // Do what you want here, for example animate the content
-        if (fragmentContainer != null) {
+        if (mFragmentContainer != null) {
             Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
-            fragmentContainer.startAnimation(fadeIn);
+            mFragmentContainer.startAnimation(fadeIn);
         }
     }
 
@@ -63,9 +63,9 @@ public abstract class BaseFragment extends Fragment {
      * 将会隐藏的淡出动画
      */
     public void willBeHidden() {
-        if (fragmentContainer != null) {
+        if (mFragmentContainer != null) {
             Animation fadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
-            fragmentContainer.startAnimation(fadeOut);
+            mFragmentContainer.startAnimation(fadeOut);
         }
     }
 

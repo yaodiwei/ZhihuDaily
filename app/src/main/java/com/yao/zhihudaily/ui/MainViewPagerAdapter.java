@@ -3,6 +3,7 @@ package com.yao.zhihudaily.ui;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,28 +15,28 @@ import androidx.fragment.app.FragmentPagerAdapter;
  * @date 2016/9/5
  */
 public class MainViewPagerAdapter extends FragmentPagerAdapter {
-    private ArrayList<BaseFragment> fragments = new ArrayList<>();
-    private BaseFragment currentFragment;
+    private List<BaseFragment> mBaseFragmentList = new ArrayList<>();
+    private BaseFragment mCurrentFragment;
 
     public MainViewPagerAdapter(FragmentManager fm, ArrayList<BaseFragment> baseFragments) {
         super(fm);
-        fragments.addAll(baseFragments);
+        mBaseFragmentList.addAll(baseFragments);
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragments.get(position);
+        return mBaseFragmentList.get(position);
     }
 
     @Override
     public int getCount() {
-        return fragments.size();
+        return mBaseFragmentList.size();
     }
 
     @Override
     public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         if (getCurrentFragment() != object) {
-            currentFragment = ((BaseFragment) object);
+            mCurrentFragment = ((BaseFragment) object);
         }
         super.setPrimaryItem(container, position, object);
     }
@@ -44,6 +45,6 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
      * Get the current fragment
      */
     public BaseFragment getCurrentFragment() {
-        return currentFragment;
+        return mCurrentFragment;
     }
 }

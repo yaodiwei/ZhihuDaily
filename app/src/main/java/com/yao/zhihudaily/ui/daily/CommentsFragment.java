@@ -53,7 +53,7 @@ public class CommentsFragment extends Fragment {
 
         Bundle bundle = getArguments();
         id = bundle.getInt("id", 0);
-        storyExtra = (StoryExtra) bundle.getSerializable("storyExtra");
+        storyExtra = (StoryExtra) bundle.getSerializable("story_sxtra");
         url = bundle.getString("url");
         count = bundle.getInt("count");
 

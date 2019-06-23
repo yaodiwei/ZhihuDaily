@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         toolbar.setOnMenuItemClickListener(item -> {
             int menuItemId = item.getItemId();
             if (menuItemId == R.id.action_settings) {
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
             } else if (menuItemId == R.id.action_introduce) {
                 startActivity(new Intent(MainActivity.this, SoftwareIntroductionActivity.class));
             }
