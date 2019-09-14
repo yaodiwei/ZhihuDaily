@@ -16,6 +16,7 @@ import com.yao.zhihudaily.tool.GlideCircleTransform;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -24,7 +25,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/8/30.
+ *
+ * @author Administrator
+ * @date 2016/8/30
  */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCommentViewHolder> {
 
@@ -32,34 +35,35 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
     private static final int COMMENT_WITH_REPLY = 1;
 
 
-    private ArrayList<Comment> comments = new ArrayList<>();
-    private LayoutInflater inflater;
+    private ArrayList<Comment> mComments = new ArrayList<>();
+    private LayoutInflater mLayoutInflater;
     private Context ctx;
-    private GlideCircleTransform glideCircleTransform;
+    private GlideCircleTransform mGlideCircleTransform;
 
     public CommentAdapter(Context ctx) {
         this.ctx = ctx;
-        inflater = LayoutInflater.from(ctx);
-        glideCircleTransform = new GlideCircleTransform();
+        mLayoutInflater = LayoutInflater.from(ctx);
+        mGlideCircleTransform = new GlideCircleTransform();
     }
 
     public void addList(ArrayList<Comment> comments) {
-        this.comments.addAll(comments);
+        this.mComments.addAll(comments);
     }
 
 
+    @NonNull
     @Override
-    public CommentAdapter.ShortCommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CommentAdapter.ShortCommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == COMMENT) {
-            return new ShortCommentViewHolder(inflater.inflate(R.layout.item_short_comment, null), COMMENT);
+            return new ShortCommentViewHolder(mLayoutInflater.inflate(R.layout.item_short_comment, null), COMMENT);
         } else {
-            return new ShortCommentViewHolder(inflater.inflate(R.layout.item_short_comment_with_reply, null), COMMENT_WITH_REPLY);
+            return new ShortCommentViewHolder(mLayoutInflater.inflate(R.layout.item_short_comment_with_reply, null), COMMENT_WITH_REPLY);
         }
     }
 
     @Override
     public void onBindViewHolder(final CommentAdapter.ShortCommentViewHolder holder, int position) {
-        Comment c = comments.get(position);
+        Comment c = mComments.get(position);
         BitmapImageViewTarget target = new BitmapImageViewTarget(holder.ivAvatar){
             @Override
             protected void setResource(Bitmap resource) {
@@ -69,21 +73,25 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
             }
         };
         Glide.with(ctx).asBitmap().load(c.getAvatar()).centerCrop().into(target);
-        Glide.with(ctx).load(c.getAvatar()).transform(glideCircleTransform).into(holder.ivAvatar);
+        Glide.with(ctx).load(c.getAvatar()).transform(mGlideCircleTransform).into(holder.ivAvatar);
         holder.tvAuthor.setText(c.getAuthor());
         holder.tvContent.setText(c.getContent());
         holder.tvTime.setText(c.getTimeStr());
         holder.tvLikes.setText(String.valueOf(c.getLikes()));
         if (c.getReplyTo() != null) {
             String replyAuthor = "@" + c.getReplyTo().getAuthor()+": ";
-            holder.tvReplyAuthor.setText(replyAuthor);
-            holder.tvReplyContent.setText(replyAuthor + c.getReplyTo().getContent());
+            if (holder.tvReplyAuthor != null) {
+                holder.tvReplyAuthor.setText(replyAuthor);
+            }
+            if (holder.tvReplyContent != null) {
+                holder.tvReplyContent.setText(replyAuthor + c.getReplyTo().getContent());
+            }
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (comments.get(position).getReplyTo() == null) {
+        if (mComments.get(position).getReplyTo() == null) {
             return COMMENT;
         } else {
             return COMMENT_WITH_REPLY;
@@ -92,14 +100,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
 
     @Override
     public int getItemCount() {
-        return comments.size();
+        return mComments.size();
     }
 
     class ShortCommentViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.ivAvatar)
+        @BindView(R.id.iv_avatar)
         ImageView ivAvatar;
-        @BindView(R.id.tvAuthor)
+        @BindView(R.id.tv_author)
         TextView tvAuthor;
         @BindView(R.id.tvContent)
         TextView tvContent;

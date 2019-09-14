@@ -11,19 +11,22 @@ import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Daily;
 import com.yao.zhihudaily.tool.OnItemClickListener;
+import com.yao.zhihudaily.ui.BaseFragment;
 import com.yao.zhihudaily.ui.NewsDetailActivity;
 
 import java.util.ArrayList;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Created by Administrator on 2016/7/24.
+ *
+ * @author Administrator
+ * @date 2016/7/24
  */
-public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StroyHolder> {
+public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StoryHolder> {
 
-    private Fragment fragment;
+    private BaseFragment fragment;
     private ArrayList<Daily> stories = new ArrayList<>();
     private OnItemClickListener listener = new OnItemClickListener() {
         @Override
@@ -31,15 +34,15 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StroyHolder>
             Daily daily = stories.get(pos);
             Intent intent = new Intent(fragment.getActivity(), NewsDetailActivity.class);
             intent.putExtra("id", daily.getId());
-            fragment.getActivity().startActivity(intent);
+            fragment.getFragmentActivity().startActivity(intent);
         }
     };
 
-    public DailyAdapter(Fragment fragment) {
+    public DailyAdapter(BaseFragment fragment) {
         this.fragment = fragment;
     }
 
-    public DailyAdapter(ArrayList<Daily> stories, Fragment fragment) {
+    public DailyAdapter(ArrayList<Daily> stories, BaseFragment fragment) {
         this.stories = stories;
         this.fragment = fragment;
     }
@@ -52,13 +55,14 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StroyHolder>
         this.stories.addAll(0, stories);
     }
 
+    @NonNull
     @Override
-    public StroyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new StroyHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_daily, parent, false));
+    public StoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new StoryHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_daily, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(StroyHolder holder, int position) {
+    public void onBindViewHolder(StoryHolder holder, int position) {
         Daily daily = stories.get(position);
         holder.tvTitle.setText(daily.getTitle());
         if (daily.getImages().size() != 0) {
@@ -74,14 +78,14 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StroyHolder>
         return stories.size();
     }
 
-    class StroyHolder extends RecyclerView.ViewHolder {
+    class StoryHolder extends RecyclerView.ViewHolder {
         ImageView iv;
         TextView tvTitle;
 
-        public StroyHolder(View view) {
+        public StoryHolder(View view) {
             super(view);
-            iv = (ImageView) view.findViewById(R.id.iv);
-            tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+            iv = view.findViewById(R.id.iv_splash);
+            tvTitle = view.findViewById(R.id.tv_title);
         }
     }
 

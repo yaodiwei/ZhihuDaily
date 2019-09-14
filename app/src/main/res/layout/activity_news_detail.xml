@@ -13,7 +13,7 @@
 
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingToolbarLayout"
+            android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="256dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -31,10 +31,11 @@
                 app:layout_scrollFlags="scroll|snap|enterAlways|enterAlwaysCollapsed">
 
                 <ImageView
-                    android:id="@+id/ivImage"
+                    android:id="@+id/iv_news"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/app_name" />
 
                 <View
                     android:layout_width="match_parent"
@@ -43,7 +44,7 @@
                     android:layout_gravity="bottom"/>
 
                 <TextView
-                    android:id="@+id/tvTitle"
+                    android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -53,10 +54,10 @@
                     android:textSize="22sp"/>
 
                 <TextView
-                    android:id="@+id/tvSource"
+                    android:id="@+id/tv_source"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right|bottom"
+                    android:layout_gravity="end|bottom"
                     android:layout_marginBottom="5dp"
                     android:padding="5dp"
                     android:textColor="@android:color/white"
@@ -90,7 +91,7 @@
             android:layout_height="match_parent">
 
             <WebView
-                android:id="@+id/webView"
+                android:id="@+id/web_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:isScrollContainer="false"

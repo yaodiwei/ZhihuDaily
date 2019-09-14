@@ -12,23 +12,26 @@ import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Theme;
 import com.yao.zhihudaily.tool.OnItemClickListener;
+import com.yao.zhihudaily.ui.BaseFragment;
 
 import java.util.ArrayList;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/9/9.
+ *
+ * @author Administrator
+ * @date 2016/9/9
  */
 public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeHolder> {
 
-    private Fragment fragment;
+    private BaseFragment fragment;
     private ArrayList<Theme> themes = new ArrayList<>();
 
-    public ThemeAdapter(Fragment fragment) {
+    public ThemeAdapter(BaseFragment fragment) {
         this.fragment = fragment;
     }
 
@@ -36,6 +39,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeHolder>
         this.themes.addAll(themes);
     }
 
+    @NonNull
     @Override
     public ThemeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ThemeHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_theme, parent, false));
@@ -61,11 +65,11 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeHolder>
 
     class ThemeHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.iv)
+        @BindView(R.id.iv_splash)
         ImageView iv;
         @BindView(R.id.tvName)
         TextView tvName;
-        @BindView(R.id.tvDescription)
+        @BindView(R.id.tv_description)
         TextView tvDescription;
 
         public ThemeHolder(View view) {
@@ -80,7 +84,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeHolder>
             Theme theme = themes.get(pos);
             Intent intent = new Intent(fragment.getActivity(), ThemeActivity.class);
             intent.putExtra("id", theme.getId());
-            fragment.getActivity().startActivity(intent);
+            fragment.getFragmentActivity().startActivity(intent);
         }
     };
 

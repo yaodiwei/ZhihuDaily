@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- setting_switchcompat_press 为 #216b74ff -->
-    <item android:state_pressed="true" android:drawable="@color/setting_switchcompat_press"/>
+    <item android:state_pressed="true" android:drawable="@color/setting_switch_compat_press"/>
     <item android:drawable="@android:color/white"/>
 
 </selector>

@@ -27,15 +27,15 @@ import butterknife.OnClick;
 public class SettingActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.settingSplash)
-    SettingSwitchCompat settingSwitchCompat;
-    @BindView(R.id.tvClearCache)
-    TextView tvClearCache;
-    @BindView(R.id.tvCacheSize)
-    TextView tvCacheSize;
-    @BindView(R.id.rlClearCache)
-    RelativeLayout rlClearCache;
+    Toolbar mToolbar;
+    @BindView(R.id.setting_switch_compat_splash)
+    SettingSwitchCompat mSettingSwitchCompat;
+    @BindView(R.id.tv_clear_cache)
+    TextView mTvClearCache;
+    @BindView(R.id.tv_cache_size)
+    TextView mTvCacheSize;
+    @BindView(R.id.layout_clear_cache)
+    RelativeLayout mLayoutClearCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +43,24 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
 
-        toolbar.setNavigationOnClickListener(view -> finish());
-        settingSwitchCompat.setChecked(SP.getBoolean(SP.Key.SPLASH, true));
-        tvCacheSize.setText(FileUtil.formatFileSize(FileUtil.getFileSize(new File(FileUtil.STORAGE_DIR))));
+        mToolbar.setNavigationOnClickListener(view -> finish());
+        mSettingSwitchCompat.setChecked(SP.getBoolean(SP.Key.SPLASH, true));
+        mTvCacheSize.setText(FileUtil.formatFileSize(FileUtil.getFileSize(new File(FileUtil.STORAGE_DIR))));
     }
 
     @OnClick({
-            R.id.settingSplash,
-            R.id.rlClearCache
+            R.id.setting_switch_compat_splash,
+            R.id.layout_clear_cache
     })
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.settingSplash:
-                SP.put(SP.Key.SPLASH, settingSwitchCompat.isChecked());
+            case R.id.setting_switch_compat_splash:
+                SP.put(SP.Key.SPLASH, mSettingSwitchCompat.isChecked());
                 break;
-            case R.id.rlClearCache:
+            case R.id.layout_clear_cache:
                 FileUtil.delete(new File(FileUtil.STORAGE_DIR));
-                T.s(rlClearCache, "缓存清理完成!");
-                tvCacheSize.setText("0B");
+                T.s(mLayoutClearCache, "缓存清理完成!");
+                mTvCacheSize.setText(R.string.empty_file_size);
                 break;
             default:
                 break;

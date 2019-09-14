@@ -28,12 +28,10 @@ import io.reactivex.disposables.Disposable;
 public class ThemeMainFragment extends BaseFragment {
 
     private static final String TAG = "ThemeMainFragment";
-    @BindView(R.id.rvThemes)
-    RecyclerView rvThemes;
+    @BindView(R.id.rv_themes)
+    RecyclerView mRvThemes;
 
-    private GridLayoutManager gridLayoutManager;
-    private ThemeAdapter themeAdapter;
-    private Observer mSubscriber;
+    private ThemeAdapter mThemeAdapter;
 
     private Disposable mDisposable;
 
@@ -44,12 +42,12 @@ public class ThemeMainFragment extends BaseFragment {
         ButterKnife.bind(this, view);
 
 
-        rvThemes.setLayoutManager(gridLayoutManager = new GridLayoutManager(getActivity(), 3));
-        rvThemes.addItemDecoration(new GridItemDecoration(10, 3));
-        rvThemes.setAdapter(themeAdapter = new ThemeAdapter(this));
+        GridLayoutManager gridLayoutManager;
+        mRvThemes.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        mRvThemes.addItemDecoration(new GridItemDecoration(10, 3));
+        mRvThemes.setAdapter(mThemeAdapter = new ThemeAdapter(this));
 
         getThemes();
-
 
         return view;
     }
@@ -63,7 +61,8 @@ public class ThemeMainFragment extends BaseFragment {
     }
 
     private void getThemes() {
-        Observer observer = new Observer<ThemesJson>() {
+
+        ZhihuHttp.getZhihuHttp().getThemes().subscribe(new Observer<ThemesJson>() {
 
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -72,8 +71,8 @@ public class ThemeMainFragment extends BaseFragment {
 
             @Override
             public void onNext(ThemesJson themesJson) {
-                themeAdapter.addList(themesJson.getOthers());
-                themeAdapter.notifyDataSetChanged();
+                mThemeAdapter.addList(themesJson.getOthers());
+                mThemeAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -85,8 +84,6 @@ public class ThemeMainFragment extends BaseFragment {
             public void onError(Throwable e) {
                 Logger.e(e, "Subscriber onError()");
             }
-        };
-
-        ZhihuHttp.getZhihuHttp().getThemes().subscribe(observer);
+        });
     }
 }

@@ -15,7 +15,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
  * @date 2016/9/5
  */
 public class MainViewPagerAdapter extends FragmentPagerAdapter {
-    private List<BaseFragment> mBaseFragmentList = new ArrayList<>();
+
+    private List<BaseFragment> mBaseFragmentList = new ArrayList<>(4);
     private BaseFragment mCurrentFragment;
 
     public MainViewPagerAdapter(FragmentManager fm, ArrayList<BaseFragment> baseFragments) {

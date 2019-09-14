@@ -30,13 +30,12 @@ import io.reactivex.disposables.Disposable;
 public class HotMainFragment extends BaseFragment {
 
     private static final String TAG = "HotMainFragment";
-    @BindView(R.id.rvHots)
-    RecyclerView rvHots;
 
+    @BindView(R.id.rv_hots)
+    RecyclerView mRvHots;
 
     private HotAdapter hotAdapter;
 
-    private LinearLayoutManager linearLayoutManager;
     private Disposable mDisposable;
 
     @Override
@@ -44,10 +43,11 @@ public class HotMainFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_hot, container, false);
         ButterKnife.bind(this, view);
 
-        rvHots.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
-//        rvHots.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-        rvHots.addItemDecoration(new SimpleDividerDecoration(getActivity()));
-        rvHots.setAdapter(hotAdapter = new HotAdapter(this));
+        LinearLayoutManager linearLayoutManager;
+        mRvHots.setLayoutManager(new LinearLayoutManager(getFragmentActivity()));
+        //mRvHots.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        mRvHots.addItemDecoration(new SimpleDividerDecoration(getFragmentActivity()));
+        mRvHots.setAdapter(hotAdapter = new HotAdapter(this));
 
         getHot();
 
@@ -64,7 +64,7 @@ public class HotMainFragment extends BaseFragment {
     }
 
     private void getHot() {
-        Observer subscriber = new Observer<HotJson>() {
+        ZhihuHttp.getZhihuHttp().getHot().subscribe(new Observer<HotJson>() {
 
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -87,9 +87,7 @@ public class HotMainFragment extends BaseFragment {
             public void onError(Throwable e) {
                 Logger.e(e, "Subscriber onError()");
             }
-        };
-
-        ZhihuHttp.getZhihuHttp().getHot().subscribe(subscriber);
+        });
     }
 
 }

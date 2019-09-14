@@ -16,12 +16,15 @@ import com.yao.zhihudaily.ui.NewsDetailActivity;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/9/10.
+ *
+ * @author Administrator
+ * @date 2016/9/10
  */
 public class SectionStoryAdapter extends RecyclerView.Adapter<SectionStoryAdapter.StoryHolder> {
 
@@ -46,6 +49,7 @@ public class SectionStoryAdapter extends RecyclerView.Adapter<SectionStoryAdapte
         this.stories.addAll(stories);
     }
 
+    @NonNull
     @Override
     public StoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new StoryHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_section_story_with_image, parent, false));
@@ -71,11 +75,11 @@ public class SectionStoryAdapter extends RecyclerView.Adapter<SectionStoryAdapte
 
     class StoryHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.iv)
+        @BindView(R.id.iv_splash)
         ImageView iv;
-        @BindView(R.id.tvTitle)
+        @BindView(R.id.tv_title)
         TextView tvTitle;
-        @BindView(R.id.tvDescription)
+        @BindView(R.id.tv_description)
         TextView tvDescription;
 
         public StoryHolder(View view) {

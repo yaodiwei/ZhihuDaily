@@ -1,7 +1,6 @@
 package com.yao.zhihudaily.ui.daily;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 import com.yao.zhihudaily.R;
@@ -18,20 +17,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/8/30.
+ *
+ * @author Administrator
+ * @date 2016/8/30
  */
 public class CommentsActivity extends BaseActivity {
 
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
+    @BindView(R.id.tab_layout)
+    TabLayout mTabLayout;
+    @BindView(R.id.view_pager)
+    ViewPager mViewPager;
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
 
-    private int id;
-    private StoryExtra storyExtra;
-    private ArrayList<Fragment> fragments = new ArrayList<>();
+    private StoryExtra mStoryExtra;
+    private ArrayList<Fragment> mFragmentArrayList = new ArrayList<>(2);
 
 
     @Override
@@ -40,56 +40,49 @@ public class CommentsActivity extends BaseActivity {
         setContentView(R.layout.activity_comments);
         ButterKnife.bind(this);
 
-        id = getIntent().getIntExtra("id", 0);
-        storyExtra = (StoryExtra) getIntent().getSerializableExtra("storyExtra");
+        int id = getIntent().getIntExtra("id", 0);
+        mStoryExtra = (StoryExtra) getIntent().getSerializableExtra("mStoryExtra");
 
-        initToolbar(toolbar);
+        initToolbar(mToolbar);
 
 
         ArrayList<String> tabList = new ArrayList<>();
-        tabList.add("短评论(" + storyExtra.getShortComments() + ")");
-        tabList.add("长评论(" + storyExtra.getLongComments() + ")");
-        tabLayout.addTab(tabLayout.newTab().setText(tabList.get(0)));//添加tab选项卡
-        tabLayout.addTab(tabLayout.newTab().setText(tabList.get(1)));
+        tabList.add("短评论(" + mStoryExtra.getShortComments() + ")");
+        tabList.add("长评论(" + mStoryExtra.getLongComments() + ")");
+        mTabLayout.addTab(mTabLayout.newTab().setText(tabList.get(0)));//添加tab选项卡
+        mTabLayout.addTab(mTabLayout.newTab().setText(tabList.get(1)));
 
         //短评论界面
         CommentsFragment shortCommentsFragment = new CommentsFragment();
         Bundle bundleForShortComments = new Bundle();
         bundleForShortComments.putInt("id", id);
-        bundleForShortComments.putSerializable("story_extra", storyExtra);
         bundleForShortComments.putString("url", UrlConstants.SHORT_COMMENTS);
-        bundleForShortComments.putInt("count", storyExtra.getShortComments());
+        bundleForShortComments.putInt("count", mStoryExtra.getShortComments());
         shortCommentsFragment.setArguments(bundleForShortComments);
 
         //长评论界面
         CommentsFragment longCommentsFragment = new CommentsFragment();
         Bundle bundleForLongComments = new Bundle();
         bundleForLongComments.putInt("id", id);
-        bundleForLongComments.putSerializable("story_extra", storyExtra);
         bundleForLongComments.putString("url", UrlConstants.LONG_COMMENTS);
-        bundleForShortComments.putInt("counts", storyExtra.getLongComments());
+        bundleForShortComments.putInt("counts", mStoryExtra.getLongComments());
         longCommentsFragment.setArguments(bundleForLongComments);
 
-        fragments.add(shortCommentsFragment);
-        fragments.add(longCommentsFragment);
-        CommentPagerAdapter adapter = new CommentPagerAdapter(getSupportFragmentManager(), fragments, tabList);
-//      mViewPager.setOffscreenPageLimit(0);
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(pageListener);
+        mFragmentArrayList.add(shortCommentsFragment);
+        mFragmentArrayList.add(longCommentsFragment);
+        CommentPagerAdapter adapter = new CommentPagerAdapter(getSupportFragmentManager(), mFragmentArrayList, tabList);
+        //mViewPager.setOffscreenPageLimit(0);
+        mViewPager.setAdapter(adapter);
+        mViewPager.addOnPageChangeListener(pageListener);
 
-        tabLayout.setupWithViewPager(viewPager);//将TabLayout和ViewPager关联起来。
-        tabLayout.setTabsFromPagerAdapter(adapter);//给Tabs设置适配器
+        mTabLayout.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来。
+        mTabLayout.setTabsFromPagerAdapter(adapter);//给Tabs设置适配器
     }
 
     private void initToolbar(Toolbar toolbar) {
         toolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
-        toolbar.setTitle("共" + storyExtra.getShortComments() + "条");//设置主标题
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setTitle("共" + mStoryExtra.getShortComments() + "条");//设置主标题
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
     private ViewPager.OnPageChangeListener pageListener = new ViewPager.OnPageChangeListener() {

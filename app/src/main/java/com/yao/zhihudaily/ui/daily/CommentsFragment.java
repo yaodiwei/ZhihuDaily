@@ -10,26 +10,27 @@ import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Comment;
 import com.yao.zhihudaily.model.CommentJson;
-import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.net.ZhihuHttp;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
+import com.yao.zhihudaily.ui.BaseFragment;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by Administrator on 2016/9/4.
+ *
+ * @author Administrator
+ * @date 2016/9/4
  */
-public class CommentsFragment extends Fragment {
+public class CommentsFragment extends BaseFragment {
 
     private static final String TAG = "CommentsFragment";
     @BindView(R.id.rvComments)
@@ -37,10 +38,8 @@ public class CommentsFragment extends Fragment {
 
     private ArrayList<Comment> comments;
     private CommentAdapter commentAdapter;
-    private LinearLayoutManager linearLayoutManager;
 
     private int id;
-    private StoryExtra storyExtra;
     private String url;
     private int count;
     private Disposable mDisposable;
@@ -52,14 +51,16 @@ public class CommentsFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         Bundle bundle = getArguments();
-        id = bundle.getInt("id", 0);
-        storyExtra = (StoryExtra) bundle.getSerializable("story_sxtra");
-        url = bundle.getString("url");
-        count = bundle.getInt("count");
+        if (bundle != null) {
+            id = bundle.getInt("id", 0);
+            url = bundle.getString("url");
+            count = bundle.getInt("count");
+        }
 
 
-        rvComments.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
-        rvComments.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        LinearLayoutManager linearLayoutManager;
+        rvComments.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvComments.addItemDecoration(new DividerItemDecoration(getFragmentActivity(), DividerItemDecoration.VERTICAL_LIST));
         rvComments.setAdapter(commentAdapter = new CommentAdapter(getActivity()));
 
         if (count > 20) {
@@ -69,28 +70,25 @@ public class CommentsFragment extends Fragment {
                 private int totalItemCount;
 
                 @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
                     RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                    visibleItemCount = layoutManager.getChildCount();
-                    lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-                    totalItemCount = layoutManager.getItemCount();
+                    if (layoutManager != null) {
+                        visibleItemCount = layoutManager.getChildCount();
+                        lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                        totalItemCount = layoutManager.getItemCount();
+                    }
                     if (visibleItemCount > 0 && newState == RecyclerView.SCROLL_STATE_IDLE
                             && lastVisibleItemPosition >= totalItemCount - 1) {
                         //加载更多
                         final Snackbar snackbar = Snackbar.make(rvComments, "如想查看更多评论\n    请下载正版知乎日报.", Snackbar.LENGTH_SHORT);
-                        snackbar.setAction("关闭", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                snackbar.dismiss();
-                            }
-                        });
+                        snackbar.setAction("关闭", view1 -> snackbar.dismiss());
                         snackbar.show();
                     }
                 }
 
                 @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
                 }
             });
@@ -110,10 +108,10 @@ public class CommentsFragment extends Fragment {
     }
 
     private void getComments(String url) {
-        Observer subscriber = new Observer<CommentJson>() {
+        Observer<CommentJson> subscriber = new Observer<CommentJson>() {
 
             @Override
-            public void onSubscribe(@NonNull Disposable d) {
+            public void onSubscribe(Disposable d) {
                 mDisposable = d;
             }
 
@@ -122,7 +120,7 @@ public class CommentsFragment extends Fragment {
                 comments = commentJson.getComments();
                 commentAdapter.addList(comments);
                 commentAdapter.notifyDataSetChanged();
-//                toolbar.setTitle(toolbar.getTitle() + "(以下展示" + comments.size() + "条)");
+                //mToolbar.setTitle(mToolbar.getTitle() + "(以下展示" + comments.size() + "条)");
             }
 
             @Override

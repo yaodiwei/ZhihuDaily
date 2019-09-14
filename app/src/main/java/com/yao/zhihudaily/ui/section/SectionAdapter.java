@@ -12,20 +12,23 @@ import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Section;
 import com.yao.zhihudaily.tool.OnItemClickListener;
+import com.yao.zhihudaily.ui.BaseFragment;
 
 import java.util.ArrayList;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/7/24.
+ *
+ * @author Administrator
+ * @date 2016/7/24
  */
 public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionHolder> {
 
-    private Fragment fragment;
+    private BaseFragment fragment;
     private ArrayList<Section> sections = new ArrayList<>();
     private OnItemClickListener listener = new OnItemClickListener() {
         @Override
@@ -34,15 +37,15 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionH
             Intent intent = new Intent(fragment.getActivity(), SectionActivity.class);
             intent.putExtra("id", section.getId());
             intent.putExtra("name", section.getName());
-            fragment.getActivity().startActivity(intent);
+            fragment.getFragmentActivity().startActivity(intent);
         }
     };
 
-    public SectionAdapter(Fragment fragment) {
+    public SectionAdapter(BaseFragment fragment) {
         this.fragment = fragment;
     }
 
-    public SectionAdapter(ArrayList<Section> sections, Fragment fragment) {
+    public SectionAdapter(ArrayList<Section> sections, BaseFragment fragment) {
         this.sections = sections;
         this.fragment = fragment;
     }
@@ -52,6 +55,7 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionH
     }
 
 
+    @NonNull
     @Override
     public SectionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new SectionHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_section, parent, false));
@@ -77,11 +81,11 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionH
 
     class SectionHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.iv)
+        @BindView(R.id.iv_splash)
         ImageView iv;
-        @BindView(R.id.tvTitle)
+        @BindView(R.id.tv_title)
         TextView tvTitle;
-        @BindView(R.id.tvDescription)
+        @BindView(R.id.tv_description)
         TextView tvDescription;
 
         public SectionHolder(View view) {

@@ -33,17 +33,17 @@ import io.reactivex.disposables.Disposable;
 public class NewsDetailActivity extends BaseActivity {
 
     private static final String TAG = "NewsDetailActivity";
-    @BindView(R.id.ivImage)
-    ImageView mIvImage;
-    @BindView(R.id.tvTitle)
+    @BindView(R.id.iv_news)
+    ImageView mIvNews;
+    @BindView(R.id.tv_title)
     TextView mTvTitle;
-    @BindView(R.id.tvSource)
+    @BindView(R.id.tv_source)
     TextView mTvSource;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.collapsingToolbarLayout)
+    @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
-    @BindView(R.id.webView)
+    @BindView(R.id.web_view)
     WebView mWebView;
 
     private StoryExtra mStoryExtra;
@@ -60,7 +60,6 @@ public class NewsDetailActivity extends BaseActivity {
         //也可以在xml中设置
         mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedDisappearAppBar);
         mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
-
 
         mToolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
         mToolbar.inflateMenu(R.menu.new_detail_menu);//设置右上角的填充菜单
@@ -120,7 +119,7 @@ public class NewsDetailActivity extends BaseActivity {
                         startActivity(intent);
                     });
                 }
-                Glide.with(NewsDetailActivity.this).load(dailyJson.getImage()).placeholder(R.mipmap.liukanshan).into(mIvImage);
+                Glide.with(NewsDetailActivity.this).load(dailyJson.getImage()).placeholder(R.mipmap.liukanshan).into(mIvNews);
             }
 
             @Override

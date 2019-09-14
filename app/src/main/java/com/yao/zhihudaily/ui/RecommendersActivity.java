@@ -29,7 +29,7 @@ public class RecommendersActivity extends BaseActivity {
     private static final String TAG = "RecommendersActivity";
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.rvRecommenders)
+    @BindView(R.id.rv_recommenders)
     RecyclerView mRvRecommenders;
     @BindView(R.id.rootView)
     CoordinatorLayout mRootView;

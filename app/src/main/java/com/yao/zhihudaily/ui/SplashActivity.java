@@ -45,9 +45,9 @@ public class SplashActivity extends BaseActivity {
     public static final String START_TEXT = "startText";
 
     public static final String START_IMAGE_FILE = "start_image.jpg";
-    @BindView(R.id.iv)
+    @BindView(R.id.iv_splash)
     ImageView mImageView;
-    @BindView(R.id.tvAuthor)
+    @BindView(R.id.tv_author)
     TextView mTvAuthor;
 
     private Disposable mDisposable;

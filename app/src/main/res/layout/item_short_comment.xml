@@ -1,58 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:paddingStart="14dp"
-    android:paddingEnd="14dp"
     android:paddingTop="9dp"
+    android:paddingEnd="14dp"
     android:paddingBottom="9dp">
 
     <ImageView
-        android:id="@+id/ivAvatar"
+        android:id="@+id/iv_avatar"
         android:layout_width="@dimen/avatar_radius"
+        android:layout_height="@dimen/avatar_radius"
         android:src="@mipmap/demo_avatar"
-        android:layout_height="@dimen/avatar_radius" />
+        android:contentDescription="@string/app_name" />
 
     <TextView
-        android:id="@+id/tvAuthor"
-        android:layout_marginStart="13dp"
-        android:layout_toRightOf="@id/ivAvatar"
-        tools:text="叔本华"
-        android:textColor="@color/comment"
+        android:id="@+id/tv_author"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_toEndOf="@id/iv_avatar"
+        android:textColor="@color/comment"
+        tools:text="叔本华" />
 
     <TextView
         android:id="@+id/tvContent"
-        android:layout_alignLeft="@id/tvAuthor"
-        android:layout_below="@id/tvAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_author"
+        android:layout_alignStart="@id/tv_author"
         android:layout_marginTop="8dp"
         android:textColor="@color/comment"
-        tools:text="上周六我去湖北随州漂流，两只船把我们的船撞翻，在激流出，我被盖在船底，我不敢松手，松手船就跑了，我还在水里，可是不松手我就被船一直压着，船跑得快水下石头多，这种情况该不该松手？？？"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        tools:text="上周六我去湖北随州漂流，两只船把我们的船撞翻，在激流出，我被盖在船底，我不敢松手，松手船就跑了，我还在水里，可是不松手我就被船一直压着，船跑得快水下石头多，这种情况该不该松手？？？" />
 
     <TextView
         android:id="@+id/tvTime"
-        android:layout_below="@id/tvContent"
-        android:layout_alignLeft="@id/tvAuthor"
-        android:textColor="@color/comment_weak"
-        tools:text="1小时前 "
-        android:layout_marginTop="17dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvContent"
+        android:layout_alignStart="@id/tv_author"
+        android:layout_marginTop="17dp"
+        android:textColor="@color/comment_weak"
+        tools:text="1小时前 " />
 
     <TextView
         android:id="@+id/tvLikes"
-        android:layout_below="@id/tvContent"
-        android:layout_alignParentRight="true"
-        android:layout_alignBottom="@id/tvTime"
-        tools:text="13"
-        android:layout_marginTop="17dp"
-        android:drawableLeft="@mipmap/like"
-        android:drawablePadding="7dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvContent"
+        android:layout_alignBottom="@id/tvTime"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="17dp"
+        android:drawableStart="@mipmap/like"
+        android:drawablePadding="7dp"
+        tools:text="13" />
 
 </RelativeLayout>

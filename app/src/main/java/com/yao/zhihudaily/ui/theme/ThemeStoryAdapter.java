@@ -16,13 +16,16 @@ import com.yao.zhihudaily.ui.NewsDetailActivity;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/9/10.
+ *
+ * @author Administrator
+ * @date 2016/9/10
  */
 public class ThemeStoryAdapter extends RecyclerView.Adapter<ThemeStoryAdapter.StoryHolder> {
 
@@ -50,8 +53,9 @@ public class ThemeStoryAdapter extends RecyclerView.Adapter<ThemeStoryAdapter.St
         this.stories.addAll(stories);
     }
 
+    @NonNull
     @Override
-    public StoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == STORY) {
             return new StoryHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_theme_story, parent, false), STORY);
         } else {
@@ -60,10 +64,10 @@ public class ThemeStoryAdapter extends RecyclerView.Adapter<ThemeStoryAdapter.St
     }
 
     @Override
-    public void onBindViewHolder(StoryHolder holder, int position) {
+    public void onBindViewHolder(@NonNull StoryHolder holder, int position) {
         ThemeStory themeStory = stories.get(position);
         holder.tvTitle.setText(themeStory.getTitle());
-        if (themeStory.getImages() != null) {
+        if (themeStory.getImages() != null && holder.iv != null) {
             Glide.with(aty).load(themeStory.getImages().get(0)).placeholder(R.mipmap.ic_launcher).into(holder.iv);
         }
         holder.itemView.setTag(position);
@@ -89,9 +93,9 @@ public class ThemeStoryAdapter extends RecyclerView.Adapter<ThemeStoryAdapter.St
     class StoryHolder extends RecyclerView.ViewHolder {
 
         @Nullable
-        @BindView(R.id.iv)
+        @BindView(R.id.iv_splash)
         ImageView iv;
-        @BindView(R.id.tvTitle)
+        @BindView(R.id.tv_title)
         TextView tvTitle;
 
         public StoryHolder(View view, int type) {

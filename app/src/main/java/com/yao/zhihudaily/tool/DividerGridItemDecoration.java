@@ -7,11 +7,16 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * @author Yao
+ * @date 2016/9/10
+ */
 public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
 
-    private static final int[] ATTRS = { android.R.attr.listDivider };
+    private static final int[] ATTRS = {android.R.attr.listDivider};
 
     private Drawable mDivider;
     private int mInsets;
@@ -25,14 +30,18 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+    public void onDrawOver(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         drawVertical(c, parent);
         drawHorizontal(c, parent);
     }
 
-    /** Draw dividers at each expected grid interval */
+    /**
+     * Draw dividers at each expected grid interval
+     */
     public void drawVertical(Canvas c, RecyclerView parent) {
-        if (parent.getChildCount() == 0) return;
+        if (parent.getChildCount() == 0) {
+            return;
+        }
 
         final int childCount = parent.getChildCount();
 
@@ -50,7 +59,9 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
-    /** Draw dividers to the right of each child view */
+    /**
+     * Draw dividers to the right of each child view
+     */
     public void drawHorizontal(Canvas c, RecyclerView parent) {
         final int childCount = parent.getChildCount();
 
@@ -69,7 +80,7 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         //We can supply forced insets for each item view here in the Rect
         outRect.set(mInsets, mInsets, mInsets, mInsets);
     }

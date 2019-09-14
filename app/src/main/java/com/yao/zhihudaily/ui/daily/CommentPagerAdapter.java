@@ -1,72 +1,66 @@
 package com.yao.zhihudaily.ui.daily;
 
-import android.view.ViewGroup;
-
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 
 /**
- * Created by Administrator on 2016/9/4.
+ *
+ * @author Administrator
+ * @date 2016/9/4
  */
 public class CommentPagerAdapter extends FragmentPagerAdapter {
 
-    private ArrayList<Fragment> fragments;
-    private ArrayList<String> titles;
-    private FragmentManager fm;
+    private ArrayList<Fragment> mFragments;
+    private ArrayList<String> mTitles;
+    private FragmentManager mFragmentManager;
 
-    public CommentPagerAdapter(FragmentManager fm) {
-        super(fm);
-        this.fm = fm;
+    public CommentPagerAdapter(FragmentManager fragmentManager) {
+        super(fragmentManager);
+        this.mFragmentManager = fragmentManager;
     }
 
-    public CommentPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments, ArrayList<String> titles) {
-        super(fm);
-        this.fm = fm;
-        this.fragments = fragments;
-        this.titles = titles;
+    public CommentPagerAdapter(FragmentManager fragmentManager, ArrayList<Fragment> fragments, ArrayList<String> titles) {
+        super(fragmentManager);
+        this.mFragmentManager = fragmentManager;
+        this.mFragments = fragments;
+        this.mTitles = titles;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragments.get(position);
+        return mFragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return fragments.size();
+        return mFragments.size();
     }
 
     @Override
-    public int getItemPosition(Object object) {
+    public int getItemPosition(@NonNull Object object) {
         return POSITION_NONE;
     }
 
     public void setFragments(ArrayList<Fragment> fragments) {
-        if (this.fragments != null) {
-            FragmentTransaction ft = fm.beginTransaction();
-            for (Fragment f : this.fragments) {
+        if (this.mFragments != null) {
+            FragmentTransaction ft = mFragmentManager.beginTransaction();
+            for (Fragment f : this.mFragments) {
                 ft.remove(f);
             }
             ft.commit();
-            ft = null;
-            fm.executePendingTransactions();
+            mFragmentManager.executePendingTransactions();
         }
-        this.fragments = fragments;
+        this.mFragments = fragments;
         notifyDataSetChanged();
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
-        Object obj = super.instantiateItem(container, position);
-        return obj;
-    }
-
-    @Override
     public CharSequence getPageTitle(int position) {
-        return titles.get(position);
+        return mTitles.get(position);
     }
 }

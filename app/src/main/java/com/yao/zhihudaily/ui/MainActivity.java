@@ -46,15 +46,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String TAG = "MainActivity";
 
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;//适配BottomNavigation的ViewPager
-    @BindView(R.id.bottomNavigation)
-    AHBottomNavigation bottomNavigation;//底部的BottomNavigation
-    @BindView(R.id.navigationView)
-    NavigationView navigationView;
+    Toolbar mToolbar;
+    @BindView(R.id.view_pager)
+    ViewPager mViewPager;//适配BottomNavigation的ViewPager
+    @BindView(R.id.bottom_navigation)
+    AHBottomNavigation mBottomNavigation;//底部的BottomNavigation
+    @BindView(R.id.navigation_view)
+    NavigationView mNavigationView;
     @BindView(R.id.drawerLayout)
-    DrawerLayout drawerLayout;
+    DrawerLayout mDrawerLayout;
 
     private BaseFragment currentFragment;
     private MainViewPagerAdapter adapter;
@@ -119,23 +119,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 builder.append(str).append(", ");
             }
             builder.substring(0, builder.length() - 2);
-            Log.e("YAO", "MainActivity.java - onCreate() ----- builder\n " + builder.toString());
+            Log.e(TAG, "MainActivity.java - onCreate() ----- builder\n " + builder.toString());
         }
     }
 
     private void initView() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.setDrawerIndicatorEnabled(false);//隐藏左上角的DrawerLayout图标
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);//暂时关闭侧边栏,因为没有什么业务好写
-        drawerLayout.addDrawerListener(toggle);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);//暂时关闭侧边栏,因为没有什么业务好写
+        mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
 
-        toolbar.inflateMenu(R.menu.main);//设置右上角的填充菜单
-        toolbar.setOnMenuItemClickListener(item -> {
+        mToolbar.inflateMenu(R.menu.main);//设置右上角的填充菜单
+        mToolbar.setOnMenuItemClickListener(item -> {
             int menuItemId = item.getItemId();
             if (menuItemId == R.id.action_settings) {
                 startActivity(new Intent(MainActivity.this, SettingActivity.class));
@@ -150,7 +150,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (useMenuResource) {//方式一:通过menu菜单去完成
             int[] tabColors = getApplicationContext().getResources().getIntArray(R.array.tab_colors);
             AHBottomNavigationAdapter navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_3);
-            navigationAdapter.setupWithBottomNavigation(bottomNavigation, tabColors);
+            navigationAdapter.setupWithBottomNavigation(mBottomNavigation, tabColors);
         } else {//方式二:通过代码new出去并且添加上去完成
             AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.daily, R.mipmap.ic_bottomnavigation_daily, R.color.color_tab_1);
             AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.theme, R.mipmap.ic_bottomnavigation_theme, R.color.color_tab_2);
@@ -162,16 +162,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             bottomNavigationItems.add(item3);
             bottomNavigationItems.add(item4);
 
-            bottomNavigation.addItems(bottomNavigationItems);
+            mBottomNavigation.addItems(bottomNavigationItems);
         }
 
-        bottomNavigation.setBehaviorTranslationEnabled(true);//重要属性 设置向上滑动时是否隐藏底部栏
-        bottomNavigation.setAccentColor(ResUtil.getColor(R.color.zhihu_blue)); //设置选中的颜色
-        bottomNavigation.setInactiveColor(ResUtil.getColor(R.color.bottomnavigation_inactive));//设置闲置的颜色
-        bottomNavigation.setDefaultBackgroundColor(ResUtil.getColor(R.color.bottomnavigation_bg));//设置背景颜色
+        mBottomNavigation.setBehaviorTranslationEnabled(true);//重要属性 设置向上滑动时是否隐藏底部栏
+        mBottomNavigation.setAccentColor(ResUtil.getColor(R.color.zhihu_blue)); //设置选中的颜色
+        mBottomNavigation.setInactiveColor(ResUtil.getColor(R.color.bottom_navigation_inactive));//设置闲置的颜色
+        mBottomNavigation.setDefaultBackgroundColor(ResUtil.getColor(R.color.bottom_navigation_bg));//设置背景颜色
 
-        //bottomNavigation.setNotification("", position);//给Item设置通知图标
-        viewPager.setOffscreenPageLimit(3);
+        //mBottomNavigation.setNotification("", position);//给Item设置通知图标
+        mViewPager.setOffscreenPageLimit(3);
 
         DailyMainFragment feedMainFragment = new DailyMainFragment();
         ThemeMainFragment themeMainFragment = new ThemeMainFragment();
@@ -183,10 +183,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         baseFragments.add(hotMainFragment);
         baseFragments.add(sectionMainFragment);
         adapter = new MainViewPagerAdapter(getSupportFragmentManager(), baseFragments);
-        viewPager.setAdapter(adapter);
+        mViewPager.setAdapter(adapter);
         currentFragment = adapter.getCurrentFragment();
 
-        bottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {//wasSelected为真时,表示当前显示与当前点击的是同一个Item
+        mBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {//wasSelected为真时,表示当前显示与当前点击的是同一个Item
 
 
             if (currentFragment == null) {
@@ -202,7 +202,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 currentFragment.willBeHidden();
             }
 
-            viewPager.setCurrentItem(position, false);
+            mViewPager.setCurrentItem(position, false);
             currentFragment = adapter.getCurrentFragment();
             currentFragment.willBeDisplayed();
             return true;
@@ -211,8 +211,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -239,7 +239,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         }
 
-        drawerLayout.closeDrawer(GravityCompat.START);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 

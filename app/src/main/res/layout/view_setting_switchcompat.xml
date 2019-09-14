@@ -4,24 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/selector_setting_switchcompat"
+    android:background="@drawable/selector_setting_switch_compat"
     android:minHeight="?android:listPreferredItemHeight"
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        tools:text="某某开关"/>
+        tools:text="某某开关"
+        tools:ignore="RelativeOverlap" />
 
     <TextView
-        android:id="@+id/tvDesc"
+        android:id="@+id/tv_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvTitle"
+        android:layout_below="@id/tv_title"
         android:layout_marginTop="5dp"
         android:singleLine="true"
         android:textColor="#888888"
@@ -29,11 +30,11 @@
         tools:text="开启和关闭的描述"/>
 
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/sc"
+        android:id="@+id/switch_compat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true">
 
     </androidx.appcompat.widget.SwitchCompat>

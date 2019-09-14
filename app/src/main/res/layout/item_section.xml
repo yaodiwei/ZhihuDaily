@@ -7,7 +7,7 @@
     android:padding="14dp">
 
     <ImageView
-        android:id="@+id/iv"
+        android:id="@+id/iv_splash"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:contentDescription="@string/app_name"
@@ -15,24 +15,24 @@
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/tvDescription"
+        app:layout_constraintBottom_toTopOf="@id/tv_description"
         app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintLeft_toRightOf="@+id/iv"
+        app:layout_constraintLeft_toRightOf="@+id/iv_splash"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/tvDescription"
+        android:id="@+id/tv_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_title"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

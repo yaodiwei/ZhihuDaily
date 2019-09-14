@@ -13,20 +13,22 @@ import androidx.appcompat.widget.SwitchCompat;
 
 
 /**
- * Created by Administrator on 2016/10/1.
+ *
+ * @author Administrator
+ * @date 2016/10/1
  */
 
 public class SettingSwitchCompat extends RelativeLayout {
 
     private static final String NAMESPACE = "http://schemas.android.com/apk/res-auto";
 
-    private TextView tvTitle;
-    private TextView tvDesc;
-    private SwitchCompat sc;
+    private TextView mTvTitle;
+    private TextView mTvDesc;
+    private SwitchCompat mSwitchCompat;
 
-    private CharSequence title;
-    private CharSequence descOn;
-    private CharSequence descOff;
+    private CharSequence mTitle;
+    private CharSequence mDescOn;
+    private CharSequence mDescOff;
 
     public SettingSwitchCompat(Context context) {
         super(context);
@@ -37,9 +39,9 @@ public class SettingSwitchCompat extends RelativeLayout {
         super(context, attrs);
 
         //获取自定义控件中xml中的属性
-        title = attrs.getAttributeValue(NAMESPACE, "setting_title");
-        descOn = attrs.getAttributeValue(NAMESPACE, "desc_on");
-        descOff = attrs.getAttributeValue(NAMESPACE, "desc_off");
+        mTitle = attrs.getAttributeValue(NAMESPACE, "setting_title");
+        mDescOn = attrs.getAttributeValue(NAMESPACE, "desc_on");
+        mDescOff = attrs.getAttributeValue(NAMESPACE, "desc_off");
 
         initView();
     }
@@ -52,11 +54,11 @@ public class SettingSwitchCompat extends RelativeLayout {
     private void initView() {
         //inflate出自定义的布局
         View.inflate(getContext(), R.layout.view_setting_switchcompat, this);
-        tvTitle = (TextView) findViewById(R.id.tvTitle);
-        tvDesc = (TextView) findViewById(R.id.tvDesc);
-        sc = (SwitchCompat) findViewById(R.id.sc);
+        mTvTitle = findViewById(R.id.tv_title);
+        mTvDesc = findViewById(R.id.tv_desc);
+        mSwitchCompat = findViewById(R.id.switch_compat);
 
-        setTitle(title);
+        setTitle(mTitle);
         setChecked(false);
     }
 
@@ -66,7 +68,7 @@ public class SettingSwitchCompat extends RelativeLayout {
      * @param title 标题字符串
      */
     public void setTitle(CharSequence title) {
-        tvTitle.setText(title);
+        mTvTitle.setText(title);
     }
 
     /**
@@ -75,7 +77,7 @@ public class SettingSwitchCompat extends RelativeLayout {
      * @param resid 字符资源id
      */
     public void setTitle(@StringRes int resid) {
-        tvTitle.setText(title);
+        mTvTitle.setText(mTitle);
     }
 
     /**
@@ -85,8 +87,8 @@ public class SettingSwitchCompat extends RelativeLayout {
      * @param descOff 关闭时的描述
      */
     public void setDesc(CharSequence descOn, CharSequence descOff) {
-        this.descOn = descOn;
-        this.descOff = descOff;
+        this.mDescOn = descOn;
+        this.mDescOff = descOff;
     }
 
     /**
@@ -102,23 +104,23 @@ public class SettingSwitchCompat extends RelativeLayout {
     /**
      * 获取当前开关状态
      *
-     * @return
+     * @return 返回开关的值
      */
     public boolean isChecked() {
-        return sc.isChecked();
+        return mSwitchCompat.isChecked();
     }
 
     /**
      * 设置当前开关状态
      *
-     * @param check
+     * @param check true表示开，false表示关
      */
     public void setChecked(boolean check) {
-        sc.setChecked(check);
+        mSwitchCompat.setChecked(check);
         if (check) {
-            tvDesc.setText(descOn);
+            mTvDesc.setText(mDescOn);
         } else {
-            tvDesc.setText(descOff);
+            mTvDesc.setText(mDescOff);
         }
     }
 

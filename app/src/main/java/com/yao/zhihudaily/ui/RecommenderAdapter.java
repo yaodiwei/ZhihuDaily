@@ -32,7 +32,7 @@ public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.
     private Activity mActivity;
     private List<Recommender> mRecommenderList = new ArrayList<>();
 
-    private OnItemClickListener listener = new OnItemClickListener() {
+    private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
         @Override
         public void onItemClick(int pos) {
             Recommender recommender = mRecommenderList.get(pos);
@@ -66,7 +66,7 @@ public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.
             Glide.with(mActivity).load(recommender.getAvatar()).transform(new GlideCircleTransform()).into(holder.iv);
         }
         holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(listener);
+        holder.itemView.setOnClickListener(mOnItemClickListener);
 
     }
 
@@ -77,7 +77,7 @@ public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.
 
     class RecommenderHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.iv)
+        @BindView(R.id.iv_splash)
         ImageView iv;
         @BindView(R.id.tvName)
         TextView tvName;

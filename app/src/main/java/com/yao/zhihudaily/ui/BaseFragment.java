@@ -8,7 +8,11 @@ import android.widget.FrameLayout;
 import com.umeng.analytics.MobclickAgent;
 import com.yao.zhihudaily.R;
 
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -34,6 +38,11 @@ public abstract class BaseFragment extends Fragment {
         super.onResume();
         MobclickAgent.onPageStart(this.getClass().getSimpleName());
         Log.i(TAG, "BaseFragment.java - onResume() ---------- Fragment:" + this.getClass().getName());
+    }
+
+    @NonNull
+    public FragmentActivity getFragmentActivity(){
+        return Objects.requireNonNull(getActivity());
     }
 
     /**

@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -35,65 +34,62 @@ public class DailyMainFragment extends BaseFragment implements SwipeRefreshLayou
     private static final String TAG = "DailyMainFragment";
 
     @BindView(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.rvDailies)
-    RecyclerView rvDailies;
-    @BindView(R.id.linearLayout)
-    LinearLayout linearLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.rv_dailies)
+    RecyclerView mRvDailies;
+    @BindView(R.id.linear_layout)
+    LinearLayout mLinearLayout;
 
-    private Unbinder unbinder;
+    private DailyAdapter mDailyAdapter;
 
-    private DailyAdapter dailyAdapter;
+    private String mEndDate;//当前App里有的最新日报的时间
 
-    private String endDate;//当前App里有的最新日报的时间
+    private String mStartDate;//当前App下拉加载到的最早时间
 
-    private String startDate;//当前App下拉加载到的最早时间
+    private RecyclerViewOnLoadMoreListener mRecyclerViewOnLoadMoreListener;
 
-    private LinearLayoutManager linearLayoutManager;
-
-    private RecyclerViewOnLoadMoreListener listener;
-
-    private Observer<DailiesJson> observer;
-
-    private StateTool stateTool;
+    private StateTool mStateTool;
 
     private Disposable mDisposable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_daily, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
 
-        stateTool = new StateTool(linearLayout);
-        stateTool.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                endDate = null;
-                stateTool.showProgressView();
-                getDailies(null);
-            }
+        mStateTool = new StateTool(mLinearLayout);
+        mStateTool.setOnClickListener(v -> {
+            mEndDate = null;
+            mStateTool.showProgressView();
+            getDailies(null);
         });
 
-        swipeRefreshLayout.setOnRefreshListener(this);
-        rvDailies.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
-//        rvDailies.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-        rvDailies.addItemDecoration(new SimpleDividerDecoration(getActivity()));
-        rvDailies.setAdapter(dailyAdapter = new DailyAdapter(this));
-        rvDailies.addOnScrollListener(listener = new RecyclerViewOnLoadMoreListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        LinearLayoutManager linearLayoutManager;
+        mRvDailies.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //mRvDailies.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        mRvDailies.addItemDecoration(new SimpleDividerDecoration(getFragmentActivity()));
+        mRvDailies.setAdapter(mDailyAdapter = new DailyAdapter(this));
+        mRvDailies.addOnScrollListener(mRecyclerViewOnLoadMoreListener = new RecyclerViewOnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getDailies(startDate);
+                getDailies(mStartDate);
             }
         });
 
-        stateTool.showProgressView();
+        mStateTool.showProgressView();
         getDailies(null);
 
         return view;
     }
 
     private void getDailies(final String targetDate) {
-        observer = new Observer<DailiesJson>() {
+        //如果是首次加载这个界面
+        //表示下拉刷新
+        //App的最晚时间 等于 下拉新获取的时间
+        ////App的最晚时间 不等于 下拉新获取的时间
+        //表示上拉加载
+        Observer<DailiesJson> observer = new Observer<DailiesJson>() {
 
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -103,41 +99,42 @@ public class DailyMainFragment extends BaseFragment implements SwipeRefreshLayou
             @Override
             public void onNext(DailiesJson dailiesJson) {
                 if (dailiesJson.getStories().size() == 0) {
-                    stateTool.showEmptyView();
+                    mStateTool.showEmptyView();
                     return;
                 }
-                if (TextUtils.isEmpty(endDate)) { //如果是首次加载这个界面
-                    startDate = dailiesJson.getDate();
-                    endDate = dailiesJson.getDate();
-                    dailyAdapter.addList(dailiesJson.getStories());
-                    dailyAdapter.notifyDataSetChanged();
-                    stateTool.showContentView();
+                if (TextUtils.isEmpty(mEndDate)) { //如果是首次加载这个界面
+                    mStartDate = dailiesJson.getDate();
+                    mEndDate = dailiesJson.getDate();
+                    mDailyAdapter.addList(dailiesJson.getStories());
+                    mDailyAdapter.notifyDataSetChanged();
+                    mStateTool.showContentView();
                 } else if (targetDate == null) { //表示下拉刷新
-                    if (endDate.equals(dailiesJson.getDate())) { //App的最晚时间 等于 下拉新获取的时间
-                        swipeRefreshLayout.setRefreshing(false);
+                    if (mEndDate.equals(dailiesJson.getDate())) { //App的最晚时间 等于 下拉新获取的时间
+                        mSwipeRefreshLayout.setRefreshing(false);
                     } else { ////App的最晚时间 不等于 下拉新获取的时间
-                        endDate = dailiesJson.getDate();
-                        dailyAdapter.addListToHeader(dailiesJson.getStories());
-                        dailyAdapter.notifyDataSetChanged();
-                        stateTool.showContentView();
+                        mEndDate = dailiesJson.getDate();
+                        mDailyAdapter.addListToHeader(dailiesJson.getStories());
+                        mDailyAdapter.notifyDataSetChanged();
+                        mStateTool.showContentView();
                     }
                 } else { //表示上拉加载
-                    startDate = dailiesJson.getDate();
-                    dailyAdapter.addList(dailiesJson.getStories());
-                    dailyAdapter.notifyDataSetChanged();
-                    listener.setLoading(false);
-                    stateTool.showContentView();
+                    mStartDate = dailiesJson.getDate();
+                    mDailyAdapter.addList(dailiesJson.getStories());
+                    mDailyAdapter.notifyDataSetChanged();
+                    mRecyclerViewOnLoadMoreListener.setLoading(false);
+                    mStateTool.showContentView();
                 }
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+            }
 
             @Override
             public void onError(Throwable e) {
                 Logger.e(e, "Subscriber onError()");
                 if (targetDate == null) {
-                    stateTool.showErrorView();
+                    mStateTool.showErrorView();
                 }
             }
         };
@@ -160,8 +157,7 @@ public class DailyMainFragment extends BaseFragment implements SwipeRefreshLayou
         super.onDestroyView();
         //如果没有这个置空,当没有设置fragment缓存时,会执行destroyView方法.但是成员变量并不会摧毁,依然有值
         // 下次再进来时,会得出endDate不是空的情况,从而跳过"首次加载这个界面"这个逻辑
-        endDate = null;
-        unbinder.unbind();
+        mEndDate = null;
         mDisposable.dispose();
     }
 }

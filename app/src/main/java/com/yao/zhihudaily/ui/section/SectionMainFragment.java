@@ -29,23 +29,21 @@ public class SectionMainFragment extends BaseFragment {
 
     private static final String TAG = "SectionMainFragment";
 
-    private RecyclerView rvSections;
+    private SectionAdapter mSectionAdapter;
 
-    private SectionAdapter sectionAdapter;
-
-    private LinearLayoutManager linearLayoutManager;
     private Disposable mDisposable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_section, container, false);
 
-        rvSections = (RecyclerView) view.findViewById(R.id.rvSections);
+        RecyclerView rvSections = view.findViewById(R.id.rv_sections);
 
-        rvSections.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
-//        rvSections.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-        rvSections.addItemDecoration(new SimpleDividerDecoration(getActivity()));
-        rvSections.setAdapter(sectionAdapter = new SectionAdapter(this));
+        LinearLayoutManager linearLayoutManager;
+        rvSections.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //rvSections.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        rvSections.addItemDecoration(new SimpleDividerDecoration(getFragmentActivity()));
+        rvSections.setAdapter(mSectionAdapter = new SectionAdapter(this));
 
         getSections();
 
@@ -61,7 +59,7 @@ public class SectionMainFragment extends BaseFragment {
     }
 
     private void getSections() {
-        Observer subscriber = new Observer<SectionsJson>() {
+        ZhihuHttp.getZhihuHttp().getSections().subscribe(new Observer<SectionsJson>() {
 
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -71,8 +69,8 @@ public class SectionMainFragment extends BaseFragment {
             @Override
             public void onNext(SectionsJson sectionsJson) {
                 ArrayList<Section> sections = sectionsJson.getSections();
-                sectionAdapter.addList(sections);
-                sectionAdapter.notifyDataSetChanged();
+                mSectionAdapter.addList(sections);
+                mSectionAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -84,8 +82,6 @@ public class SectionMainFragment extends BaseFragment {
             public void onError(Throwable e) {
                 Logger.e(e, "Subscriber onError()");
             }
-        };
-
-        ZhihuHttp.getZhihuHttp().getSections().subscribe(subscriber);
+        });
     }
 }

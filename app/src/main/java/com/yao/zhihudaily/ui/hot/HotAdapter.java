@@ -12,75 +12,79 @@ import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Hot;
 import com.yao.zhihudaily.tool.OnItemClickListener;
+import com.yao.zhihudaily.ui.BaseFragment;
 import com.yao.zhihudaily.ui.NewsDetailActivity;
 
 import java.util.ArrayList;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/7/24.
+ * @author Administrator
+ * @date 2016/7/24
  */
-public class HotAdapter extends RecyclerView.Adapter<HotAdapter.StroyHolder> {
+public class HotAdapter extends RecyclerView.Adapter<HotAdapter.StoryHolder> {
 
-    private Fragment fragment;
-    private ArrayList<Hot> hots = new ArrayList<>();
-    private OnItemClickListener listener = new OnItemClickListener() {
+    @NonNull
+    private BaseFragment mFragment;
+    private ArrayList<Hot> mHots = new ArrayList<>();
+    private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
         @Override
         public void onItemClick(int pos) {
-            Hot hot = hots.get(pos);
-            Intent intent = new Intent(fragment.getActivity(), NewsDetailActivity.class);
+            Hot hot = mHots.get(pos);
+            Intent intent = new Intent(mFragment.getActivity(), NewsDetailActivity.class);
             intent.putExtra("id", hot.getNewsId());
-            fragment.getActivity().startActivity(intent);
+            mFragment.getFragmentActivity().startActivity(intent);
         }
     };
 
-    public HotAdapter(Fragment fragment) {
-        this.fragment = fragment;
+    public HotAdapter(@NonNull BaseFragment fragment) {
+        this.mFragment = fragment;
     }
 
-    public HotAdapter(ArrayList<Hot> hots, Fragment fragment) {
-        this.hots = hots;
-        this.fragment = fragment;
+    public HotAdapter(ArrayList<Hot> hots, @NonNull BaseFragment fragment) {
+        this.mHots = hots;
+        this.mFragment = fragment;
     }
 
     public void addList(ArrayList<Hot> stories) {
-        this.hots.addAll(stories);
+        this.mHots.addAll(stories);
     }
 
 
+    @NonNull
     @Override
-    public StroyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new StroyHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hot, parent, false));
+    public StoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new StoryHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hot, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(StroyHolder holder, int position) {
-        Hot hot = hots.get(position);
+    public void onBindViewHolder(StoryHolder holder, int position) {
+        Hot hot = mHots.get(position);
         holder.tvTitle.setText(hot.getTitle());
         if (!TextUtils.isEmpty(hot.getThumbnail())) {
-            Glide.with(fragment).load(hot.getThumbnail()).into(holder.iv);
+            Glide.with(mFragment).load(hot.getThumbnail()).into(holder.iv);
         }
         holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(listener);
+        holder.itemView.setOnClickListener(mOnItemClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return hots.size();
+        return mHots.size();
     }
 
-    class StroyHolder extends RecyclerView.ViewHolder {
+    class StoryHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.iv)
+        @BindView(R.id.iv_splash)
         ImageView iv;
-        @BindView(R.id.tvTitle)
+        @BindView(R.id.tv_title)
         TextView tvTitle;
 
-        public StroyHolder(View view) {
+        public StoryHolder(View view) {
             super(view);
             ButterKnife.bind(this, itemView);
         }

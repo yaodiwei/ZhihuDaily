@@ -23,5 +23,10 @@
     <string name="cancel">取消</string>
     <string name="go_to_setting">去设置</string>
     <string name="permission_storage_failed">没有权限,无法执行此功能, 如需要重新打开, 请前往权限管理界面.</string>
+    <string name="base_setting">基本设置</string>
+    <string name="clear_cache">清除缓存</string>
+    <string name="clear_sdcard_image_cache">清除SD卡里面的图片缓存</string>
+    <string name="splash_default_text">永远相信美好的事情即将发生</string>
+    <string name="empty_file_size">0B</string>
 
 </resources>

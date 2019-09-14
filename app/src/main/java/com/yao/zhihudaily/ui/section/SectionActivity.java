@@ -1,7 +1,6 @@
 package com.yao.zhihudaily.ui.section;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
@@ -22,24 +21,24 @@ import io.reactivex.disposables.Disposable;
 
 
 /**
- * Created by Administrator on 2016/9/13.
+ *
+ * @author Administrator
+ * @date 2016/9/13
  */
 public class SectionActivity extends BaseActivity {
 
     private static final String TAG = "SectionActivity";
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.rvStories)
-    RecyclerView rvStories;
+    Toolbar mToolbar;
+    @BindView(R.id.rv_stories)
+    RecyclerView mRvStories;
 
-    private SectionJson sectionJson;
-    private int id;
-    private String name;
-    private SectionStoryAdapter sectionStoryAdapter;
-    private LinearLayoutManager linearLayoutManager;
+    private SectionJson mSectionJson;
+    private int mId;
+    private SectionStoryAdapter mSectionStoryAdapter;
 
     private RecyclerViewOnLoadMoreListener listener;
-    private Disposable mDispzosable;
+    private Disposable mDisposable;
 
 
     @Override
@@ -48,26 +47,22 @@ public class SectionActivity extends BaseActivity {
         setContentView(R.layout.activity_section);
         ButterKnife.bind(this);
 
-        id = getIntent().getIntExtra("id", 0);
-        name = getIntent().getStringExtra("name");
+        mId = getIntent().getIntExtra("mId", 0);
+        String name = getIntent().getStringExtra("mName");
 
-        toolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
-        toolbar.setTitle(name);//设置主标题
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        mToolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
+        mToolbar.setTitle(name);//设置主标题
+        mToolbar.setNavigationOnClickListener(v -> finish());
 
-        sectionStoryAdapter = new SectionStoryAdapter(this);
-        rvStories.setAdapter(sectionStoryAdapter);
-        rvStories.setLayoutManager(linearLayoutManager = new LinearLayoutManager(this));
-        rvStories.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-        rvStories.addOnScrollListener(listener = new RecyclerViewOnLoadMoreListener() {
+        mSectionStoryAdapter = new SectionStoryAdapter(this);
+        mRvStories.setAdapter(mSectionStoryAdapter);
+        LinearLayoutManager linearLayoutManager;
+        mRvStories.setLayoutManager(new LinearLayoutManager(this));
+        mRvStories.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        mRvStories.addOnScrollListener(listener = new RecyclerViewOnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getSectionStories(sectionJson.getTimestamp());
+                getSectionStories(mSectionJson.getTimestamp());
             }
         });
 
@@ -77,24 +72,24 @@ public class SectionActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mDispzosable != null) {
-            mDispzosable.dispose();
+        if (mDisposable != null) {
+            mDisposable.dispose();
         }
     }
 
     private void getSectionStories(final long timestamp) {
-        Observer subscriber = new Observer<SectionJson>() {
+        Observer<SectionJson> subscriber = new Observer<SectionJson>() {
 
             @Override
             public void onSubscribe(@NonNull Disposable d) {
-                mDispzosable = d;
+                mDisposable = d;
             }
 
             @Override
             public void onNext(SectionJson sectionJson) {
-                SectionActivity.this.sectionJson = sectionJson;
-                sectionStoryAdapter.addList(sectionJson.getStories());
-                sectionStoryAdapter.notifyDataSetChanged();
+                SectionActivity.this.mSectionJson = sectionJson;
+                mSectionStoryAdapter.addList(sectionJson.getStories());
+                mSectionStoryAdapter.notifyDataSetChanged();
                 if (timestamp > 0) {
                     listener.setLoading(false);
                 }
@@ -110,10 +105,11 @@ public class SectionActivity extends BaseActivity {
             }
         };
         if (timestamp == -1) {
-            ZhihuHttp.getZhihuHttp().getSection(String.valueOf(id)).subscribe(subscriber);
+            ZhihuHttp.getZhihuHttp().getSection(String.valueOf(mId)).subscribe(subscriber);
         } else if (timestamp == 0) {
+            //nothing to do
         } else {
-            ZhihuHttp.getZhihuHttp().getSectionBefore(String.valueOf(id), String.valueOf(timestamp)).subscribe(subscriber);
+            ZhihuHttp.getZhihuHttp().getSectionBefore(String.valueOf(mId), String.valueOf(timestamp)).subscribe(subscriber);
         }
 
     }

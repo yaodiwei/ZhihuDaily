@@ -21,7 +21,7 @@ public class ProfilePageActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.webView)
+    @BindView(R.id.web_view)
     WebView mWebView;
 
     @Override

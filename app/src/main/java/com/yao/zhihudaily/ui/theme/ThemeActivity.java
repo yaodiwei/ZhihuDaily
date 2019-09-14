@@ -1,7 +1,6 @@
 package com.yao.zhihudaily.ui.theme;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,24 +24,25 @@ import io.reactivex.disposables.Disposable;
 
 
 /**
- * Created by Administrator on 2016/9/10.
+ *
+ * @author Yao
+ * @date 2016/9/10
  */
 public class ThemeActivity extends BaseActivity {
 
     private static final String TAG = "ThemeActivity";
-    @BindView(R.id.ivBackground)
-    ImageView ivBackground;
-    @BindView(R.id.tvDescription)
-    TextView tvDescription;
-    @BindView(R.id.collapsingToolbarLayout)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.rvStories)
-    RecyclerView rvStories;
+    @BindView(R.id.iv_background)
+    ImageView mIvBackground;
+    @BindView(R.id.tv_description)
+    TextView mTvDescription;
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @BindView(R.id.rv_stories)
+    RecyclerView mRvStories;
 
-    private ThemeJson themeJson;
-    private int id;
-    private ThemeStoryAdapter themeStoryAdapter;
-    private LinearLayoutManager linearLayoutManager;
+    private ThemeJson mThemeJson;
+    private int mId;
+    private ThemeStoryAdapter mThemeStoryAdapter;
     private Disposable mDisposable;
 
 
@@ -52,26 +52,22 @@ public class ThemeActivity extends BaseActivity {
         setContentView(R.layout.activity_theme);
         ButterKnife.bind(this);
 
-        id = getIntent().getIntExtra("id", 0);
+        mId = getIntent().getIntExtra("mId", 0);
         //已经在xml中设置
-//        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
-//        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+        //mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+        //mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
-//        toolbar.setLogo(R.mipmap.ic_launcher);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        //toolbar.setLogo(R.mipmap.ic_launcher);
+        toolbar.setNavigationOnClickListener(view -> finish());
 
 
-        themeStoryAdapter = new ThemeStoryAdapter(this);
-        rvStories.setAdapter(themeStoryAdapter);
-        rvStories.setLayoutManager(linearLayoutManager = new LinearLayoutManager(this));
-        rvStories.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        mThemeStoryAdapter = new ThemeStoryAdapter(this);
+        mRvStories.setAdapter(mThemeStoryAdapter);
+        LinearLayoutManager linearLayoutManager;
+        mRvStories.setLayoutManager(new LinearLayoutManager(this));
+        mRvStories.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
         getThemeData();
     }
@@ -85,7 +81,7 @@ public class ThemeActivity extends BaseActivity {
     }
 
     private void getThemeData() {
-        Observer subscriber = new Observer<ThemeJson>() {
+        ZhihuHttp.getZhihuHttp().getTheme(String.valueOf(mId)).subscribe(new Observer<ThemeJson>() {
 
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -94,11 +90,11 @@ public class ThemeActivity extends BaseActivity {
 
             @Override
             public void onNext(ThemeJson themeJson) {
-                themeStoryAdapter.addList(themeJson.getStories());
-                themeStoryAdapter.notifyDataSetChanged();
-                Glide.with(ThemeActivity.this).load(themeJson.getBackground()).into(ivBackground);
-                collapsingToolbarLayout.setTitle(themeJson.getName());
-                tvDescription.setText("        " + themeJson.getDescription());
+                mThemeStoryAdapter.addList(themeJson.getStories());
+                mThemeStoryAdapter.notifyDataSetChanged();
+                Glide.with(ThemeActivity.this).load(themeJson.getBackground()).into(mIvBackground);
+                mCollapsingToolbarLayout.setTitle(themeJson.getName());
+                mTvDescription.setText("        " + themeJson.getDescription());
             }
 
             @Override
@@ -110,8 +106,6 @@ public class ThemeActivity extends BaseActivity {
             public void onError(Throwable e) {
                 Logger.e(e, "Subscriber onError()");
             }
-        };
-
-        ZhihuHttp.getZhihuHttp().getTheme(String.valueOf(id)).subscribe(subscriber);
+        });
     }
 }
