@@ -3,6 +3,7 @@ package com.yao.zhihudaily.ui;
 import android.os.Bundle;
 
 import com.umeng.analytics.MobclickAgent;
+import com.yao.zhihudaily.tool.EventCenter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +17,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        PushAgent.getInstance(context).onAppStart();
+        EventCenter.register(this);
     }
 
     @Override
@@ -29,5 +30,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventCenter.unregister(this);
     }
 }

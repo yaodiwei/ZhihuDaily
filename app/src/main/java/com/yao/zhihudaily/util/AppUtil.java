@@ -27,6 +27,7 @@ public class AppUtil {
         DeviceUtil.init(context);
         ResUtil.init(context);
         UiUtil.init(context);
+        FileUtil.init(context);
     }
 
     public static int getAppVersionCode() {

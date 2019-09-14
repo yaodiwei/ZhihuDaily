@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
  */
 public class ProfilePageActivity extends BaseActivity {
 
+    private static final String TAG = "ProfilePageActivity";
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;

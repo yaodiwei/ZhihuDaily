@@ -43,6 +43,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public static final int REQUEST_PERMISSION_STORAGE = 200;
 
+    private static final String TAG = "MainActivity";
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.viewPager)
@@ -240,4 +242,5 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
