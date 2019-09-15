@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
-
 /**
  * @author Yao
  * @date 2016/7/23
@@ -23,10 +21,9 @@ public class Daily implements Serializable {
 
     private String title;
 
-    @SerializedName("mutlipic")
-    private boolean multiPic;
-
     private ArrayList<String> images;
+
+    private String image;
 
     public int getId() {
         return id;
@@ -60,14 +57,6 @@ public class Daily implements Serializable {
         this.title = title;
     }
 
-    public boolean isMultiPic() {
-        return multiPic;
-    }
-
-    public void setMultiPic(boolean multiPic) {
-        this.multiPic = multiPic;
-    }
-
     public ArrayList<String> getImages() {
         return images;
     }
@@ -76,7 +65,14 @@ public class Daily implements Serializable {
         this.images = images;
     }
 
-    @NonNull
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Daily{" +
@@ -84,8 +80,8 @@ public class Daily implements Serializable {
                 ", type=" + type +
                 ", time='" + time + '\'' +
                 ", title='" + title + '\'' +
-                ", multiPic=" + multiPic +
                 ", images=" + images +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

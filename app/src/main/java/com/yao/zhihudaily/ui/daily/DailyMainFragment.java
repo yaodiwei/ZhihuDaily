@@ -98,14 +98,14 @@ public class DailyMainFragment extends BaseFragment implements SwipeRefreshLayou
 
             @Override
             public void onNext(DailiesJson dailiesJson) {
-                if (dailiesJson.getStories().size() == 0) {
+                if (dailiesJson.getAllStories().size() == 0) {
                     mStateTool.showEmptyView();
                     return;
                 }
                 if (TextUtils.isEmpty(mEndDate)) { //如果是首次加载这个界面
                     mStartDate = dailiesJson.getDate();
                     mEndDate = dailiesJson.getDate();
-                    mDailyAdapter.addList(dailiesJson.getStories());
+                    mDailyAdapter.addList(dailiesJson.getAllStories());
                     mDailyAdapter.notifyDataSetChanged();
                     mStateTool.showContentView();
                 } else if (targetDate == null) { //表示下拉刷新
@@ -113,13 +113,13 @@ public class DailyMainFragment extends BaseFragment implements SwipeRefreshLayou
                         mSwipeRefreshLayout.setRefreshing(false);
                     } else { ////App的最晚时间 不等于 下拉新获取的时间
                         mEndDate = dailiesJson.getDate();
-                        mDailyAdapter.addListToHeader(dailiesJson.getStories());
+                        mDailyAdapter.addListToHeader(dailiesJson.getAllStories());
                         mDailyAdapter.notifyDataSetChanged();
                         mStateTool.showContentView();
                     }
                 } else { //表示上拉加载
                     mStartDate = dailiesJson.getDate();
-                    mDailyAdapter.addList(dailiesJson.getStories());
+                    mDailyAdapter.addList(dailiesJson.getAllStories());
                     mDailyAdapter.notifyDataSetChanged();
                     mRecyclerViewOnLoadMoreListener.setLoading(false);
                     mStateTool.showContentView();

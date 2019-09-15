@@ -1,6 +1,7 @@
 package com.yao.zhihudaily.ui.daily;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- *
  * @author Yao
  * @date 2016/7/24
  */
@@ -65,8 +65,10 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StoryHolder>
     public void onBindViewHolder(StoryHolder holder, int position) {
         Daily daily = stories.get(position);
         holder.tvTitle.setText(daily.getTitle());
-        if (daily.getImages().size() != 0) {
+        if (daily.getImages() != null && daily.getImages().size() != 0) {
             Glide.with(fragment).load(daily.getImages().get(0)).into(holder.iv);
+        } else {
+            Glide.with(fragment).load(daily.getImage()).into(holder.iv);
         }
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(listener);
@@ -75,6 +77,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StoryHolder>
 
     @Override
     public int getItemCount() {
+        Log.e("YAO", "DailyAdapter.java - getItemCount() ----- stories.size()" + stories.size());
         return stories.size();
     }
 
