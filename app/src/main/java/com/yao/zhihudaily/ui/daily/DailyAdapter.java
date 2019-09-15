@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 /**
  *
- * @author Administrator
+ * @author Yao
  * @date 2016/7/24
  */
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StoryHolder> {

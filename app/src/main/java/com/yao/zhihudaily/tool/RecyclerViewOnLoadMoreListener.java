@@ -1,11 +1,14 @@
 package com.yao.zhihudaily.tool;
 
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Created by Administrator on 2016/9/17.
+ *
+ * @author Yao
+ * @date 2016/9/17
  */
 public abstract class RecyclerViewOnLoadMoreListener extends RecyclerView.OnScrollListener {
 
@@ -15,12 +18,14 @@ public abstract class RecyclerViewOnLoadMoreListener extends RecyclerView.OnScro
     private boolean isLoading;
 
     @Override
-    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        visibleItemCount = layoutManager.getChildCount();
-        lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-        totalItemCount = layoutManager.getItemCount();
+        if (layoutManager != null) {
+            visibleItemCount = layoutManager.getChildCount();
+            lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+            totalItemCount = layoutManager.getItemCount();
+        }
         //当
         //1.有数据
         //2.滚动是闲置状态

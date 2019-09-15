@@ -1,7 +1,10 @@
 package com.yao.zhihudaily.model;
 
+import androidx.annotation.NonNull;
+
 /**
- * Created by Administrator on 2016/9/16.
+ * @author Yao
+ * @date 2016/9/16
  */
 public class Recommender {
 
@@ -51,6 +54,7 @@ public class Recommender {
         this.name = name;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Recommender{" +

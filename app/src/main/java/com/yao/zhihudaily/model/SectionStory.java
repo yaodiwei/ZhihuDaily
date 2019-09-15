@@ -4,8 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+
 /**
- * Created by Administrator on 2016/9/13.
+ * @author Yao
+ * @date 2016/9/13
  */
 public class SectionStory {
 
@@ -56,6 +59,7 @@ public class SectionStory {
         this.displayDate = displayDate;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "SectionStory{" +

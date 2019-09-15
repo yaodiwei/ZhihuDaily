@@ -7,11 +7,14 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Created by Administrator on 2016/7/24.
+ *
+ * @author Yao
+ * @date 2016/7/24
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
@@ -42,11 +45,11 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void onDraw(Canvas c, RecyclerView parent) {
+    public void onDraw(@NonNull Canvas canvas, @NonNull RecyclerView parent) {
         if (mOrientation == VERTICAL_LIST) {
-            drawVertical(c, parent);
+            drawVertical(canvas, parent);
         } else {
-            drawHorizontal(c, parent);
+            drawHorizontal(canvas, parent);
         }
 
     }
@@ -86,7 +89,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+    public void getItemOffsets(@NonNull Rect outRect, int itemPosition, @NonNull RecyclerView parent) {
         if (mOrientation == VERTICAL_LIST) {
             outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
         } else {

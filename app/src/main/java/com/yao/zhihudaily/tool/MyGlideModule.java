@@ -14,9 +14,10 @@ import com.bumptech.glide.module.GlideModule;
 import androidx.annotation.NonNull;
 
 /**
- * Created by Administrator on 2016/9/24.
+ *
+ * @author Yao
+ * @date 2016/9/24
  */
-
 public class MyGlideModule implements GlideModule {
 
     @Override

@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 /**
  *
- * @author Administrator
+ * @author Yao
  * @date 2016/9/4
  */
 public class CommentPagerAdapter extends FragmentPagerAdapter {

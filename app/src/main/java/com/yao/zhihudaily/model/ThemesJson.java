@@ -2,8 +2,11 @@ package com.yao.zhihudaily.model;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+
 /**
- * Created by Administrator on 2016/9/7.
+ * @author Yao
+ * @date 2016/9/7
  */
 public class ThemesJson {
 
@@ -35,6 +38,7 @@ public class ThemesJson {
         this.others = others;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "ThemesJson{" +

@@ -5,8 +5,11 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+
 /**
- * Created by Administrator on 2016/7/23.
+ * @author Yao
+ * @date 2016/7/23
  * 列表里面的Daily Item
  */
 public class Daily implements Serializable {
@@ -73,6 +76,7 @@ public class Daily implements Serializable {
         this.images = images;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Daily{" +

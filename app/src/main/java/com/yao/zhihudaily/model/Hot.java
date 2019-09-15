@@ -3,7 +3,8 @@ package com.yao.zhihudaily.model;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Administrator on 2016/9/12.
+ * @author Yao
+ * @date 2016/9/12
  */
 public class Hot {
 

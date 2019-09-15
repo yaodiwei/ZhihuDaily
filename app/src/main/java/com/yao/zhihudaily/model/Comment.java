@@ -3,8 +3,9 @@ package com.yao.zhihudaily.model;
 import com.google.gson.annotations.SerializedName;
 import com.yao.zhihudaily.util.DateUtil;
 
+import androidx.annotation.NonNull;
+
 /**
- *
  * @author yao
  * @date 2016/8/30
  */
@@ -79,6 +80,7 @@ public class Comment {
         this.likes = likes;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Comment{" +
@@ -138,6 +140,7 @@ public class Comment {
             this.status = status;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "ReplyTo{" +

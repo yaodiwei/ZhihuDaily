@@ -4,6 +4,10 @@ import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
+/**
+ * @author Yao
+ * @date 2019/9/14
+ */
 public class EventCenter {
 
     private static final String TAG = "EventCenter";

@@ -22,7 +22,7 @@ import io.reactivex.disposables.Disposable;
 
 /**
  *
- * @author Administrator
+ * @author Yao
  * @date 2016/9/13
  */
 public class SectionActivity extends BaseActivity {

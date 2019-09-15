@@ -23,7 +23,6 @@ import retrofit2.http.Url;
  * @author Yao
  * @date 2016/9/21
  */
-
 public interface ZhihuApi {
 
     @GET("4/start-image/1080*1776")

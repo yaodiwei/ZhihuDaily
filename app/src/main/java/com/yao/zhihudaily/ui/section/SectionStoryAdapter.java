@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 /**
  *
- * @author Administrator
+ * @author Yao
  * @date 2016/9/10
  */
 public class SectionStoryAdapter extends RecyclerView.Adapter<SectionStoryAdapter.StoryHolder> {

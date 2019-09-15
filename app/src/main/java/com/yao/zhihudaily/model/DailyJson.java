@@ -4,8 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+
 /**
- * Created by Administrator on 2016/7/26.
+ * @author Yao
+ * @date 2016/7/26
  * Daily详情
  */
 public class DailyJson {
@@ -133,6 +136,7 @@ public class DailyJson {
         this.recommenders = recommenders;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "DailyJson{" +

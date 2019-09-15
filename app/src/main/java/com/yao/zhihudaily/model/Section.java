@@ -1,7 +1,10 @@
 package com.yao.zhihudaily.model;
 
+import androidx.annotation.NonNull;
+
 /**
- * Created by Administrator on 2016/9/13.
+ * @author Yao
+ * @date 2016/9/13
  */
 public class Section {
 
@@ -43,6 +46,7 @@ public class Section {
     }
 
 
+    @NonNull
     @Override
     public String toString() {
         return "Section{" +

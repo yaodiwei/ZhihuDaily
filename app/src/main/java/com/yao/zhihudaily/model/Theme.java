@@ -2,8 +2,11 @@ package com.yao.zhihudaily.model;
 
 import java.io.Serializable;
 
+import androidx.annotation.NonNull;
+
 /**
- * Created by Administrator on 2016/9/7.
+ * @author Yao
+ * @date 2016/9/7
  * 列表里面的Theme Item
  */
 public class Theme implements Serializable {
@@ -54,6 +57,7 @@ public class Theme implements Serializable {
         this.thumbnail = thumbnail;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Theme{" +

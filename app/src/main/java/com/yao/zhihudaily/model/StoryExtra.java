@@ -4,8 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import androidx.annotation.NonNull;
+
 /**
- * Created by Administrator on 2016/8/30.
+ *
+ * @author Yao
+ * @date 2016/8/30
  */
 public class StoryExtra implements Serializable {
 
@@ -51,6 +55,7 @@ public class StoryExtra implements Serializable {
         this.comments = comments;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "StoryExtra{" +

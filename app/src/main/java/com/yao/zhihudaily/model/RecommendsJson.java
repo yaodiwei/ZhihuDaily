@@ -4,8 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+
 /**
- * Created by Administrator on 2016/9/16.
+ * @author Yao
+ * @date 2016/9/16
  */
 public class RecommendsJson {
 
@@ -43,6 +46,7 @@ public class RecommendsJson {
             this.author = author;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "Item{" +
@@ -64,6 +68,7 @@ public class RecommendsJson {
             this.name = name;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "Author{" +
@@ -89,6 +94,7 @@ public class RecommendsJson {
     }
 
 
+    @NonNull
     @Override
     public String toString() {
         return "RecommendsJson{" +

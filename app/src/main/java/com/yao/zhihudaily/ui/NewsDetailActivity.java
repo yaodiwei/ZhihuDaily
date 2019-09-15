@@ -27,7 +27,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
- * @author Administrator
+ * @author Yao
  * @date 2016/7/28
  */
 public class NewsDetailActivity extends BaseActivity {

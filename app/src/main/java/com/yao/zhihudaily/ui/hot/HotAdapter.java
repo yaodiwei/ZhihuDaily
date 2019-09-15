@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * @author Administrator
+ * @author Yao
  * @date 2016/7/24
  */
 public class HotAdapter extends RecyclerView.Adapter<HotAdapter.StoryHolder> {

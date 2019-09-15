@@ -21,7 +21,7 @@ import io.reactivex.disposables.Disposable;
 
 /**
  *
- * @author Administrator
+ * @author Yao
  * @date 2016/9/16
  */
 public class RecommendersActivity extends BaseActivity {

@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 
 /**
  *
- * @author Administrator
+ * @author Yao
  * @date 2016/8/30
  */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCommentViewHolder> {

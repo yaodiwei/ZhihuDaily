@@ -3,7 +3,9 @@ package com.yao.zhihudaily.tool;
 import android.view.View;
 
 /**
- * Created by Administrator on 2016/7/28.
+ *
+ * @author Yao
+ * @date 2016/7/28
  */
 public abstract class OnItemClickListener implements View.OnClickListener, View.OnLongClickListener{
 

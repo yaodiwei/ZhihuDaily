@@ -1,7 +1,8 @@
 package com.yao.zhihudaily.model;
 
 /**
- * Created by Administrator on 2016/9/10.
+ * @author Yao
+ * @date 2016/9/10
  */
 public class Editor {
 

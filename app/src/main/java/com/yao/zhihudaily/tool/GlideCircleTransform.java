@@ -13,13 +13,17 @@ import java.security.MessageDigest;
 import androidx.annotation.NonNull;
 
 /**
- * Created by Administrator on 2016/9/24.
+ *
+ * @author Yao
+ * @date 2016/9/24
  */
 
 public class GlideCircleTransform extends BitmapTransformation {
 
     private static Bitmap circleCrop(BitmapPool pool, Bitmap source) {
-        if (source == null) return null;
+        if (source == null) {
+            return null;
+        }
 
         int size = Math.min(source.getWidth(), source.getHeight());
         int x = (source.getWidth() - size) / 2;
@@ -43,7 +47,7 @@ public class GlideCircleTransform extends BitmapTransformation {
     }
 
     @Override
-    protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
+    protected Bitmap transform(@NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
         return circleCrop(pool, toTransform);
     }
 

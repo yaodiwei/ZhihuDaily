@@ -27,7 +27,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @author Yao
  * @date 2016/9/21
  */
-
 public class ZhihuHttp {
 
     public static final String ZHIHU_BASE_URL = "http://news-at.zhihu.com/api/";

@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 
 /**
  *
- * @author Administrator
+ * @author Yao
  * @date 2016/9/16
  */
 public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.RecommenderHolder> {

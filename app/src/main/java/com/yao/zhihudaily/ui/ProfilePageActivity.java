@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 
 /**
  *
- * @author Administrator
+ * @author Yao
  * @date 2016/9/17
  */
 public class ProfilePageActivity extends BaseActivity {

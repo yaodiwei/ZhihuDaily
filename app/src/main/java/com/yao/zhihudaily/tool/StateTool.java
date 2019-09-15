@@ -18,9 +18,10 @@ import com.yao.zhihudaily.R;
 
 
 /**
- * Created by Administrator on 2016/9/28.
+ *
+ * @author Yao
+ * @date 2016/9/28
  */
-
 public class StateTool {
 
     /**
@@ -33,76 +34,76 @@ public class StateTool {
     private static int TIP_TEXT_SIZE = 12;
 
     //空页面图片,默认用的安卓sdk里面的图片,严重建议替换成一个256px左右的图片 默认使用android.R.drawable.ic_menu_close_clear_cancel
-    private static  int emptyImageResId = R.mipmap.empty;
+    private static  int sEmptyImageResId = R.mipmap.empty;
     //错误页面图片,默认用的安卓sdk里面的图片,严重建议替换成一个256px左右的图片 默认使用android.R.drawable.ic_menu_search
-    private static  int errorImageResId = R.mipmap.error;
+    private static  int sErrorImageResId = R.mipmap.error;
 
     //空页面文字
-    private static String emptyText = "空页面";
+    private static String sEmptyText = "空页面";
     //错误页面文字
-    private static String errorText = "错误页面";
+    private static String sErrorText = "错误页面";
     //加载页面文字
-    private static String loadingText = "加载中...";
+    private static String sLoadingText = "加载中...";
     //重载动作的文字提示
-    private static String reloadText = "点击重载";
+    private static String sReloadText = "点击重载";
 
     //图片的宽和高 可以用ViewGroup.LayoutParams.WRAP_CONTENT
-    private static int imageSidesLength = 128;
+    private static int sImageSidesLength = 128;
     //等待,错误,空页面提示的向上偏移
-    private static int offset = 0;
+    private static int sOffset = 0;
 
     //使用淡入淡出动画
-    private static boolean useAlphaAnimator = false;
+    private static boolean sUseAlphaAnimator = false;
 
-    private ViewGroup root;
-    private Context ctx;
-    private View contentView;
-    private RelativeLayout emptyView;
-    private RelativeLayout errorView;
-    private RelativeLayout progressView;
-    private View currentView;
+    private ViewGroup sViewGroupRoot;
+    private Context mContext;
+    private View mContentView;
+    private RelativeLayout mEmptyView;
+    private RelativeLayout mErrorView;
+    private RelativeLayout mProgressView;
+    private View mCurrentView;
 
-    private LinearLayout.LayoutParams paramsChildrenWrapContent;
-    private LinearLayout.LayoutParams paramsChildrenImage;
-    private LinearLayout.LayoutParams paramsChildrenMarginBottom50;
+    private LinearLayout.LayoutParams mParamsChildrenWrapContent;
+    private LinearLayout.LayoutParams mParamsChildrenImage;
+    private LinearLayout.LayoutParams mParamsChildrenMarginBottom50;
 
     /**
      * 如果有多个孩子,调用此方法
-     * @param root
+     * @param root ViewGroup sViewGroupRoot
      */
     public StateTool(ViewGroup root) {
-        this.root = root;
+        this.sViewGroupRoot = root;
         if (root.getChildCount() > 1) {
-            throw new RuntimeException("root view's children more than 1");
+            throw new RuntimeException("sViewGroupRoot view's children more than 1");
         }
-        contentView = root.getChildAt(0);
+        mContentView = root.getChildAt(0);
 
         init();
     }
 
     /**
      * 如果有多个孩子,调用此方法
-     * @param root
+     * @param root ViewGroup sViewGroupRoot
      * @param index 传孩子的位置
      */
     public StateTool(ViewGroup root, int index) {
-        this.root = root;
+        this.sViewGroupRoot = root;
         if (root.getChildCount() < index + 1) {
             throw new RuntimeException("Invalid index " + index +", size is " + root.getChildCount());
         }
-        contentView = root.getChildAt(index);
+        mContentView = root.getChildAt(index);
 
         init();
     }
 
     private void init() {
-        ctx = root.getContext();
-        currentView = contentView;
+        mContext = sViewGroupRoot.getContext();
+        mCurrentView = mContentView;
 
-        paramsChildrenWrapContent =  new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        paramsChildrenImage =  new LinearLayout.LayoutParams(imageSidesLength, imageSidesLength);
-        paramsChildrenMarginBottom50 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        paramsChildrenMarginBottom50.setMargins(0, 0, 0, offset);//不margin不居中
+        mParamsChildrenWrapContent =  new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mParamsChildrenImage =  new LinearLayout.LayoutParams(sImageSidesLength, sImageSidesLength);
+        mParamsChildrenMarginBottom50 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mParamsChildrenMarginBottom50.setMargins(0, 0, 0, sOffset);//不margin不居中
 
         initEmptyView();
         initErrorView();
@@ -110,49 +111,49 @@ public class StateTool {
     }
 
     public void setEmptyAndErrorImageResId(int emptyImageResId, int errorImageResId) {
-        this.emptyImageResId = emptyImageResId;
-        this.errorImageResId = errorImageResId;
+        sEmptyImageResId = emptyImageResId;
+        sErrorImageResId = errorImageResId;
     }
 
     public void setEmptyAndErrorTextResId(String emptyText, String errorText, String reloadText, String loadingText) {
-        this.emptyText = emptyText;
-        this.errorText = errorText;
-        this.reloadText = reloadText;
-        this.loadingText = loadingText;
+        sEmptyText = emptyText;
+        sErrorText = errorText;
+        sReloadText = reloadText;
+        sLoadingText = loadingText;
     }
 
     public void showEmptyView(){
-        if (useAlphaAnimator) {
-            alphaHide(currentView);
-            alphaShow(emptyView);
+        if (sUseAlphaAnimator) {
+            alphaHide(mCurrentView);
+            alphaShow(mEmptyView);
         } else {
-            currentView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
+            mCurrentView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
         }
-        currentView = emptyView;
+        mCurrentView = mEmptyView;
     }
 
     public void showErrorView(){
-        currentView.setVisibility(View.GONE);
-        errorView.setVisibility(View.VISIBLE);
-        currentView = errorView;
+        mCurrentView.setVisibility(View.GONE);
+        mErrorView.setVisibility(View.VISIBLE);
+        mCurrentView = mErrorView;
     }
 
     public void showProgressView(){
-        currentView.setVisibility(View.GONE);
-        progressView.setVisibility(View.VISIBLE);
-        currentView = progressView;
+        mCurrentView.setVisibility(View.GONE);
+        mProgressView.setVisibility(View.VISIBLE);
+        mCurrentView = mProgressView;
     }
 
     public void showContentView(){
-        currentView.setVisibility(View.GONE);
-        contentView.setVisibility(View.VISIBLE);
-        currentView = contentView;
+        mCurrentView.setVisibility(View.GONE);
+        mContentView.setVisibility(View.VISIBLE);
+        mCurrentView = mContentView;
     }
 
     public void setOnClickListener(View.OnClickListener onClickListener) {
-        emptyView.setOnClickListener(onClickListener);
-        errorView.setOnClickListener(onClickListener);
+        mEmptyView.setOnClickListener(onClickListener);
+        mErrorView.setOnClickListener(onClickListener);
     }
 
     private void alphaShow(final View v){
@@ -180,85 +181,85 @@ public class StateTool {
     }
 
     private void initEmptyView() {
-        emptyView = new RelativeLayout(ctx);
+        mEmptyView = new RelativeLayout(mContext);
 
-        LinearLayout linearLayout = new LinearLayout(ctx);
+        LinearLayout linearLayout = new LinearLayout(mContext);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
-        ImageView iv = new ImageView(ctx);
-        iv.setImageResource(emptyImageResId);
-        linearLayout.addView(iv, paramsChildrenImage);
+        ImageView iv = new ImageView(mContext);
+        iv.setImageResource(sEmptyImageResId);
+        linearLayout.addView(iv, mParamsChildrenImage);
 
-        TextView tvContent = new TextView(ctx);
+        TextView tvContent = new TextView(mContext);
         tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, CONTENT_TEXT_SIZE);
-        tvContent.setText(emptyText);
-        linearLayout.addView(tvContent, paramsChildrenWrapContent);
+        tvContent.setText(sEmptyText);
+        linearLayout.addView(tvContent, mParamsChildrenWrapContent);
 
-        TextView tvTip = new TextView(ctx);
+        TextView tvTip = new TextView(mContext);
         tvTip.setTextSize(TypedValue.COMPLEX_UNIT_SP, TIP_TEXT_SIZE);
-        tvTip.setText(reloadText);
-        linearLayout.addView(tvTip, paramsChildrenMarginBottom50);
+        tvTip.setText(sReloadText);
+        linearLayout.addView(tvTip, mParamsChildrenMarginBottom50);
 
         RelativeLayout.LayoutParams paramsLinearLayout = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         paramsLinearLayout.addRule(RelativeLayout.CENTER_IN_PARENT);//这个是RelativeLayout的layout_centerInParent属性
         linearLayout.setGravity(Gravity.CENTER);//这个是LinearLayout的gravity属性
-        emptyView.addView(linearLayout, paramsLinearLayout);
+        mEmptyView.addView(linearLayout, paramsLinearLayout);
 
-        root.addView(emptyView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        sViewGroupRoot.addView(mEmptyView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        emptyView.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
     }
 
     private void initErrorView() {
-        errorView = new RelativeLayout(ctx);
+        mErrorView = new RelativeLayout(mContext);
 
-        LinearLayout linearLayout = new LinearLayout(ctx);
+        LinearLayout linearLayout = new LinearLayout(mContext);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
-        ImageView iv = new ImageView(ctx);
-        iv.setImageResource(errorImageResId);
-        linearLayout.addView(iv, paramsChildrenImage);
+        ImageView iv = new ImageView(mContext);
+        iv.setImageResource(sErrorImageResId);
+        linearLayout.addView(iv, mParamsChildrenImage);
 
-        TextView tvContent = new TextView(ctx);
+        TextView tvContent = new TextView(mContext);
         tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, CONTENT_TEXT_SIZE);
-        tvContent.setText(errorText);
-        linearLayout.addView(tvContent, paramsChildrenWrapContent);
+        tvContent.setText(sErrorText);
+        linearLayout.addView(tvContent, mParamsChildrenWrapContent);
 
-        TextView tvTip = new TextView(ctx);
+        TextView tvTip = new TextView(mContext);
         tvTip.setTextSize(TypedValue.COMPLEX_UNIT_SP, TIP_TEXT_SIZE);
-        tvTip.setText(reloadText);
-        linearLayout.addView(tvTip, paramsChildrenMarginBottom50);
+        tvTip.setText(sReloadText);
+        linearLayout.addView(tvTip, mParamsChildrenMarginBottom50);
 
         RelativeLayout.LayoutParams paramsLinearLayout = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         paramsLinearLayout.addRule(RelativeLayout.CENTER_IN_PARENT);//这个是RelativeLayout的layout_centerInParent属性
         linearLayout.setGravity(Gravity.CENTER);//这个是LinearLayout的gravity属性
-        errorView.addView(linearLayout, paramsLinearLayout);
+        mErrorView.addView(linearLayout, paramsLinearLayout);
 
-        root.addView(errorView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        sViewGroupRoot.addView(mErrorView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        errorView.setVisibility(View.GONE);
+        mErrorView.setVisibility(View.GONE);
     }
 
     private void initProgressView() {
-        progressView = new RelativeLayout(ctx);
+        mProgressView = new RelativeLayout(mContext);
 
-        LinearLayout linearLayout = new LinearLayout(ctx);
+        LinearLayout linearLayout = new LinearLayout(mContext);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
-        ProgressBar pb = new ProgressBar(ctx);
-        linearLayout.addView(pb, paramsChildrenWrapContent);
+        ProgressBar pb = new ProgressBar(mContext);
+        linearLayout.addView(pb, mParamsChildrenWrapContent);
 
-        TextView tvContent = new TextView(ctx);
+        TextView tvContent = new TextView(mContext);
         tvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, CONTENT_TEXT_SIZE);
-        tvContent.setText(loadingText);
-        linearLayout.addView(tvContent, paramsChildrenMarginBottom50);
+        tvContent.setText(sLoadingText);
+        linearLayout.addView(tvContent, mParamsChildrenMarginBottom50);
 
         RelativeLayout.LayoutParams paramsLinearLayout = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         paramsLinearLayout.addRule(RelativeLayout.CENTER_IN_PARENT);//这个是RelativeLayout的layout_centerInParent属性
         linearLayout.setGravity(Gravity.CENTER);//这个是LinearLayout的gravity属性
-        progressView.addView(linearLayout, paramsLinearLayout);
+        mProgressView.addView(linearLayout, paramsLinearLayout);
 
-        root.addView(progressView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        sViewGroupRoot.addView(mProgressView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
 }

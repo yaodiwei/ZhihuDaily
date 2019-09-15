@@ -8,12 +8,14 @@ import android.view.View;
 
 import com.yao.zhihudaily.R;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Created by Administrator on 2017/3/29.
+ *
+ * @author Yao
+ * @date 2017/3/29
  */
-
 public class SimpleDividerDecoration extends RecyclerView.ItemDecoration {
 
     private int dividerHeight;
@@ -27,13 +29,13 @@ public class SimpleDividerDecoration extends RecyclerView.ItemDecoration {
 
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         outRect.bottom = dividerHeight;
     }
 
     @Override
-    public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+    public void onDraw(@NonNull Canvas canvas, RecyclerView parent, @NonNull RecyclerView.State state) {
         int childCount = parent.getChildCount();
         int left = parent.getPaddingStart();
         int right = parent.getWidth() - parent.getPaddingEnd();
@@ -42,7 +44,7 @@ public class SimpleDividerDecoration extends RecyclerView.ItemDecoration {
             View view = parent.getChildAt(i);
             float top = view.getBottom();
             float bottom = view.getBottom() + dividerHeight;
-            c.drawRect(left, top, right, bottom, dividerPaint);
+            canvas.drawRect(left, top, right, bottom, dividerPaint);
         }
     }
 }

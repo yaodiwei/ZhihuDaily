@@ -3,7 +3,8 @@ package com.yao.zhihudaily.model;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2016/9/13.
+ * @author Yao
+ * @date 2016/9/13
  */
 public class SectionJson {
 

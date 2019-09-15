@@ -21,7 +21,7 @@ import butterknife.OnClick;
 
 /**
  *
- * @author Administrator
+ * @author Yao
  * @date 2016/10/1
  */
 public class SettingActivity extends BaseActivity {

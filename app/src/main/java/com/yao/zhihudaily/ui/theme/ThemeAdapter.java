@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 /**
  *
- * @author Administrator
+ * @author Yao
  * @date 2016/9/9
  */
 public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeHolder> {
