@@ -2,18 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:title="@string/daily"
-        android:icon="@mipmap/ic_bottomnavigation_daily" />
+        android:icon="@mipmap/ic_bottom_navigation_daily" />
 
+    <!-- 主题API没有了 -->
+    <!--
     <item
         android:title="@string/theme"
-        android:icon="@mipmap/ic_bottomnavigation_theme" />
+        android:icon="@mipmap/ic_bottom_navigation_theme" />
+    -->
 
     <item
         android:title="@string/hot"
-        android:icon="@mipmap/ic_bottomnavigation_hot" />
+        android:icon="@mipmap/ic_bottom_navigation_hot" />
 
     <item
         android:title="@string/more"
-        android:icon="@mipmap/ic_bottomnavigation_more" />
+        android:icon="@mipmap/ic_bottom_navigation_more" />
 
 </menu>

@@ -18,7 +18,6 @@ import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.ui.daily.DailyMainFragment;
 import com.yao.zhihudaily.ui.hot.HotMainFragment;
 import com.yao.zhihudaily.ui.section.SectionMainFragment;
-import com.yao.zhihudaily.ui.theme.ThemeMainFragment;
 import com.yao.zhihudaily.util.ResUtil;
 
 import java.io.File;
@@ -152,10 +151,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             AHBottomNavigationAdapter navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_3);
             navigationAdapter.setupWithBottomNavigation(mBottomNavigation, tabColors);
         } else {//方式二:通过代码new出去并且添加上去完成
-            AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.daily, R.mipmap.ic_bottomnavigation_daily, R.color.color_tab_1);
-            AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.theme, R.mipmap.ic_bottomnavigation_theme, R.color.color_tab_2);
-            AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.hot, R.mipmap.ic_bottomnavigation_hot, R.color.color_tab_3);
-            AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.more, R.mipmap.ic_bottomnavigation_more, R.color.color_tab_4);
+            AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.daily, R.mipmap.ic_bottom_navigation_daily, R.color.color_tab_1);
+            AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.theme, R.mipmap.ic_bottom_navigation_theme, R.color.color_tab_2);
+            AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.hot, R.mipmap.ic_bottom_navigation_hot, R.color.color_tab_3);
+            AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.more, R.mipmap.ic_bottom_navigation_more, R.color.color_tab_4);
 
             bottomNavigationItems.add(item1);
             bottomNavigationItems.add(item2);
@@ -174,12 +173,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mViewPager.setOffscreenPageLimit(3);
 
         DailyMainFragment feedMainFragment = new DailyMainFragment();
-        ThemeMainFragment themeMainFragment = new ThemeMainFragment();
+        //ThemeMainFragment themeMainFragment = new ThemeMainFragment();
         HotMainFragment hotMainFragment = new HotMainFragment();
         SectionMainFragment sectionMainFragment = new SectionMainFragment();
         ArrayList<BaseFragment> baseFragments = new ArrayList<>();
         baseFragments.add(feedMainFragment);
-        baseFragments.add(themeMainFragment);
+        //baseFragments.add(themeMainFragment);
         baseFragments.add(hotMainFragment);
         baseFragments.add(sectionMainFragment);
         adapter = new MainViewPagerAdapter(getSupportFragmentManager(), baseFragments);
