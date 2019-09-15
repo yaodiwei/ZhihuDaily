@@ -28,25 +28,25 @@ import butterknife.ButterKnife;
  */
 public class SectionStoryAdapter extends RecyclerView.Adapter<SectionStoryAdapter.StoryHolder> {
 
-    private Activity aty;
-    private ArrayList<SectionStory> stories = new ArrayList<>();
+    private Activity mActivity;
+    private ArrayList<SectionStory> mSectionStories = new ArrayList<>();
 
     private OnItemClickListener listener = new OnItemClickListener() {
         @Override
         public void onItemClick(int pos) {
-            SectionStory sectionStory = stories.get(pos);
-            Intent intent = new Intent(aty, NewsDetailActivity.class);
+            SectionStory sectionStory = mSectionStories.get(pos);
+            Intent intent = new Intent(mActivity, NewsDetailActivity.class);
             intent.putExtra("id", sectionStory.getId());
-            aty.startActivity(intent);
+            mActivity.startActivity(intent);
         }
     };
 
     public SectionStoryAdapter(Activity aty) {
-        this.aty = aty;
+        this.mActivity = aty;
     }
 
     public void addList(ArrayList<SectionStory> stories) {
-        this.stories.addAll(stories);
+        this.mSectionStories.addAll(stories);
     }
 
     @NonNull
@@ -57,11 +57,11 @@ public class SectionStoryAdapter extends RecyclerView.Adapter<SectionStoryAdapte
 
     @Override
     public void onBindViewHolder(StoryHolder holder, int position) {
-        SectionStory sectionStory = stories.get(position);
+        SectionStory sectionStory = mSectionStories.get(position);
         holder.tvTitle.setText(sectionStory.getTitle());
         holder.tvDescription.setText(sectionStory.getDate());
         if (sectionStory.getImages() != null) {
-            Glide.with(aty).load(sectionStory.getImages().get(0)).placeholder(R.mipmap.ic_launcher).into(holder.iv);
+            Glide.with(mActivity).load(sectionStory.getImages().get(0)).placeholder(R.mipmap.ic_launcher).into(holder.iv);
         }
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(listener);
@@ -70,7 +70,7 @@ public class SectionStoryAdapter extends RecyclerView.Adapter<SectionStoryAdapte
 
     @Override
     public int getItemCount() {
-        return stories.size();
+        return mSectionStories.size();
     }
 
     class StoryHolder extends RecyclerView.ViewHolder {

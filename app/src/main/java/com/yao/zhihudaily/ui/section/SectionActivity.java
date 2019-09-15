@@ -6,6 +6,7 @@ import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.SectionJson;
 import com.yao.zhihudaily.net.ZhihuHttp;
+import com.yao.zhihudaily.tool.Constant;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 import com.yao.zhihudaily.tool.RecyclerViewOnLoadMoreListener;
 import com.yao.zhihudaily.ui.BaseActivity;
@@ -47,8 +48,8 @@ public class SectionActivity extends BaseActivity {
         setContentView(R.layout.activity_section);
         ButterKnife.bind(this);
 
-        mId = getIntent().getIntExtra("mId", 0);
-        String name = getIntent().getStringExtra("mName");
+        mId = getIntent().getIntExtra(Constant.ID, 0);
+        String name = getIntent().getStringExtra(Constant.NAME);
 
         mToolbar.setNavigationIcon(R.mipmap.back);//设置导航栏图标
         mToolbar.setTitle(name);//设置主标题
