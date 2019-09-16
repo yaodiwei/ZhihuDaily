@@ -1,7 +1,6 @@
 package com.yao.zhihudaily.ui.daily;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Daily;
+import com.yao.zhihudaily.tool.Constant;
 import com.yao.zhihudaily.tool.OnItemClickListener;
 import com.yao.zhihudaily.ui.BaseFragment;
 import com.yao.zhihudaily.ui.NewsDetailActivity;
@@ -33,7 +33,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StoryHolder>
         public void onItemClick(int pos) {
             Daily daily = stories.get(pos);
             Intent intent = new Intent(fragment.getActivity(), NewsDetailActivity.class);
-            intent.putExtra("id", daily.getId());
+            intent.putExtra(Constant.ID, daily.getId());
             fragment.getFragmentActivity().startActivity(intent);
         }
     };
@@ -77,7 +77,6 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.StoryHolder>
 
     @Override
     public int getItemCount() {
-        Log.e("YAO", "DailyAdapter.java - getItemCount() ----- stories.size()" + stories.size());
         return stories.size();
     }
 

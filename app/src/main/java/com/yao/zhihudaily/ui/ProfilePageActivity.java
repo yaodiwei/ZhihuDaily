@@ -5,6 +5,7 @@ import android.webkit.WebView;
 
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.net.UrlConstants;
+import com.yao.zhihudaily.tool.Constant;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
@@ -30,8 +31,8 @@ public class ProfilePageActivity extends BaseActivity {
         setContentView(R.layout.activity_profile_page);
         ButterKnife.bind(this);
 
-        int id = getIntent().getIntExtra("id", 0);
-        String name = getIntent().getStringExtra("name");
+        int id = getIntent().getIntExtra(Constant.ID, 0);
+        String name = getIntent().getStringExtra(Constant.NAME);
 
         mToolbar.setNavigationOnClickListener(v -> finish());
 

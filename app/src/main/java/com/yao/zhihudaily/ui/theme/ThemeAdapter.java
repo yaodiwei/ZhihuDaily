@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Theme;
+import com.yao.zhihudaily.tool.Constant;
 import com.yao.zhihudaily.tool.OnItemClickListener;
 import com.yao.zhihudaily.ui.BaseFragment;
 
@@ -83,7 +84,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeHolder>
         public void onItemClick(int pos) {
             Theme theme = themes.get(pos);
             Intent intent = new Intent(fragment.getActivity(), ThemeActivity.class);
-            intent.putExtra("id", theme.getId());
+            intent.putExtra(Constant.ID, theme.getId());
             fragment.getFragmentActivity().startActivity(intent);
         }
     };

@@ -15,6 +15,7 @@ import com.yao.zhihudaily.model.DailyJson;
 import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.net.UrlConstants;
 import com.yao.zhihudaily.net.ZhihuHttp;
+import com.yao.zhihudaily.tool.Constant;
 import com.yao.zhihudaily.ui.daily.CommentsActivity;
 import com.yao.zhihudaily.util.HtmlUtil;
 
@@ -55,7 +56,7 @@ public class NewsDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_news_detail);
         ButterKnife.bind(this);
 
-        final int id = getIntent().getIntExtra("id", 0);
+        final int id = getIntent().getIntExtra(Constant.ID, 0);
 
         //也可以在xml中设置
         mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedDisappearAppBar);
@@ -76,7 +77,7 @@ public class NewsDetailActivity extends BaseActivity {
                     break;
                 case R.id.itemComment:
                     Intent intent = new Intent(NewsDetailActivity.this, CommentsActivity.class);
-                    intent.putExtra("id", id);
+                    intent.putExtra(Constant.ID, id);
                     intent.putExtra("story_extra", mStoryExtra);
                     startActivity(intent);
                     break;
@@ -115,7 +116,7 @@ public class NewsDetailActivity extends BaseActivity {
                     mCollapsingToolbarLayout.setTitle(dailyJson.getRecommenders().size() + "个推荐者");
                     mToolbar.setOnClickListener(view -> {
                         Intent intent = new Intent(NewsDetailActivity.this, RecommendersActivity.class);
-                        intent.putExtra("id", id);
+                        intent.putExtra(Constant.ID, id);
                         startActivity(intent);
                     });
                 }

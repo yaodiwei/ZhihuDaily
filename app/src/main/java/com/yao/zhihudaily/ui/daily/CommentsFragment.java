@@ -11,6 +11,7 @@ import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Comment;
 import com.yao.zhihudaily.model.CommentJson;
 import com.yao.zhihudaily.net.ZhihuHttp;
+import com.yao.zhihudaily.tool.Constant;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 import com.yao.zhihudaily.ui.BaseFragment;
 
@@ -52,9 +53,9 @@ public class CommentsFragment extends BaseFragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            id = bundle.getInt("id", 0);
-            url = bundle.getString("url");
-            count = bundle.getInt("count");
+            id = bundle.getInt(Constant.ID, 0);
+            url = bundle.getString(Constant.URL);
+            count = bundle.getInt(Constant.COUNT);
         }
 
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Recommender;
+import com.yao.zhihudaily.tool.Constant;
 import com.yao.zhihudaily.tool.GlideCircleTransform;
 import com.yao.zhihudaily.tool.OnItemClickListener;
 
@@ -37,8 +38,8 @@ public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.
         public void onItemClick(int pos) {
             Recommender recommender = mRecommenderList.get(pos);
             Intent intent = new Intent(mActivity, ProfilePageActivity.class);
-            intent.putExtra("id", recommender.getId());
-            intent.putExtra("name", recommender.getName());
+            intent.putExtra(Constant.ID, recommender.getId());
+            intent.putExtra(Constant.NAME, recommender.getName());
             mActivity.startActivity(intent);
         }
     };

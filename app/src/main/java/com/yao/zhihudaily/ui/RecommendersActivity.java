@@ -6,6 +6,7 @@ import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.RecommendsJson;
 import com.yao.zhihudaily.net.ZhihuHttp;
+import com.yao.zhihudaily.tool.Constant;
 import com.yao.zhihudaily.tool.DividerItemDecoration;
 import com.yao.zhihudaily.tool.StateTool;
 
@@ -46,7 +47,7 @@ public class RecommendersActivity extends BaseActivity {
         setContentView(R.layout.activity_recommenders);
         ButterKnife.bind(this);
 
-        int id = getIntent().getIntExtra("id", 0);
+        int id = getIntent().getIntExtra(Constant.ID, 0);
 
         mToolbar.setNavigationOnClickListener(v -> finish());
 

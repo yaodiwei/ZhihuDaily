@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.ThemeStory;
+import com.yao.zhihudaily.tool.Constant;
 import com.yao.zhihudaily.tool.OnItemClickListener;
 import com.yao.zhihudaily.ui.NewsDetailActivity;
 
@@ -39,8 +40,8 @@ public class ThemeStoryAdapter extends RecyclerView.Adapter<ThemeStoryAdapter.St
         public void onItemClick(int pos) {
             ThemeStory themeStory = stories.get(pos);
             Intent intent = new Intent(aty, NewsDetailActivity.class);
-            intent.putExtra("id", themeStory.getId());
-            intent.putExtra("id", themeStory.getId());
+            intent.putExtra(Constant.ID, themeStory.getId());
+            intent.putExtra(Constant.ID, themeStory.getId());
             aty.startActivity(intent);
         }
     };

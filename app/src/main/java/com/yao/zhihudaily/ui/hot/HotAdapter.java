@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Hot;
+import com.yao.zhihudaily.tool.Constant;
 import com.yao.zhihudaily.tool.OnItemClickListener;
 import com.yao.zhihudaily.ui.BaseFragment;
 import com.yao.zhihudaily.ui.NewsDetailActivity;
@@ -36,7 +37,7 @@ public class HotAdapter extends RecyclerView.Adapter<HotAdapter.StoryHolder> {
         public void onItemClick(int pos) {
             Hot hot = mHots.get(pos);
             Intent intent = new Intent(mFragment.getActivity(), NewsDetailActivity.class);
-            intent.putExtra("id", hot.getNewsId());
+            intent.putExtra(Constant.ID, hot.getNewsId());
             mFragment.getFragmentActivity().startActivity(intent);
         }
     };

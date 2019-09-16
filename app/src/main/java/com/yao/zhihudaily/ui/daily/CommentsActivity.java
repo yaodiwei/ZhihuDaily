@@ -6,6 +6,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.net.UrlConstants;
+import com.yao.zhihudaily.tool.Constant;
 import com.yao.zhihudaily.ui.BaseActivity;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class CommentsActivity extends BaseActivity {
         setContentView(R.layout.activity_comments);
         ButterKnife.bind(this);
 
-        int id = getIntent().getIntExtra("id", 0);
+        int id = getIntent().getIntExtra(Constant.ID, 0);
         mStoryExtra = (StoryExtra) getIntent().getSerializableExtra("mStoryExtra");
 
         initToolbar(mToolbar);
@@ -55,17 +56,17 @@ public class CommentsActivity extends BaseActivity {
         //短评论界面
         CommentsFragment shortCommentsFragment = new CommentsFragment();
         Bundle bundleForShortComments = new Bundle();
-        bundleForShortComments.putInt("id", id);
-        bundleForShortComments.putString("url", UrlConstants.SHORT_COMMENTS);
-        bundleForShortComments.putInt("count", mStoryExtra.getShortComments());
+        bundleForShortComments.putInt(Constant.ID, id);
+        bundleForShortComments.putString(Constant.URL, UrlConstants.SHORT_COMMENTS);
+        bundleForShortComments.putInt(Constant.COUNT, mStoryExtra.getShortComments());
         shortCommentsFragment.setArguments(bundleForShortComments);
 
         //长评论界面
         CommentsFragment longCommentsFragment = new CommentsFragment();
         Bundle bundleForLongComments = new Bundle();
-        bundleForLongComments.putInt("id", id);
-        bundleForLongComments.putString("url", UrlConstants.LONG_COMMENTS);
-        bundleForShortComments.putInt("counts", mStoryExtra.getLongComments());
+        bundleForLongComments.putInt(Constant.ID, id);
+        bundleForLongComments.putString(Constant.URL, UrlConstants.LONG_COMMENTS);
+        bundleForShortComments.putInt(Constant.COUNT, mStoryExtra.getLongComments());
         longCommentsFragment.setArguments(bundleForLongComments);
 
         mFragmentArrayList.add(shortCommentsFragment);

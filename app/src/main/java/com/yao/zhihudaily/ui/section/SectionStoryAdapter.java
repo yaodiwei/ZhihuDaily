@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.SectionStory;
+import com.yao.zhihudaily.tool.Constant;
 import com.yao.zhihudaily.tool.OnItemClickListener;
 import com.yao.zhihudaily.ui.NewsDetailActivity;
 
@@ -36,7 +37,7 @@ public class SectionStoryAdapter extends RecyclerView.Adapter<SectionStoryAdapte
         public void onItemClick(int pos) {
             SectionStory sectionStory = mSectionStories.get(pos);
             Intent intent = new Intent(mActivity, NewsDetailActivity.class);
-            intent.putExtra("id", sectionStory.getId());
+            intent.putExtra(Constant.ID, sectionStory.getId());
             mActivity.startActivity(intent);
         }
     };
