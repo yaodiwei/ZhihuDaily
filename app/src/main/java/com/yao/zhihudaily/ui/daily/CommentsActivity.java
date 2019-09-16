@@ -42,7 +42,7 @@ public class CommentsActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         int id = getIntent().getIntExtra(Constant.ID, 0);
-        mStoryExtra = (StoryExtra) getIntent().getSerializableExtra("mStoryExtra");
+        mStoryExtra = (StoryExtra) getIntent().getSerializableExtra(Constant.STORY_EXTRA);
 
         initToolbar(mToolbar);
 

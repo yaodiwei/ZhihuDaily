@@ -78,7 +78,7 @@ public class NewsDetailActivity extends BaseActivity {
                 case R.id.itemComment:
                     Intent intent = new Intent(NewsDetailActivity.this, CommentsActivity.class);
                     intent.putExtra(Constant.ID, id);
-                    intent.putExtra("story_extra", mStoryExtra);
+                    intent.putExtra(Constant.STORY_EXTRA, mStoryExtra);
                     startActivity(intent);
                     break;
                 default:
