@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                                     .show();
                         }
                     }
-                });//.start();
+                }).start();
     }
 
     private void goToSetting() {

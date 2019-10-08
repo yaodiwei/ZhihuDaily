@@ -1,4 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: "config.gradle"
 
 buildscript {
     repositories {
@@ -7,8 +8,11 @@ buildscript {
         maven { url 'https://dl.bintray.com/umsdk/release' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0-rc2'
+        // 暂时不能升级到3.5，因为tinker还没兼容好
+        //https://github.com/BuglyDevTeam/Bugly-Android-Demo/issues/174
+        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:10.1.0'
+        classpath 'com.tencent.tinker:tinker-patch-gradle-plugin:1.9.14'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

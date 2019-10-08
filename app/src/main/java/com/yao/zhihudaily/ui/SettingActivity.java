@@ -1,10 +1,13 @@
 package com.yao.zhihudaily.ui;
 
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.ui.view.SettingSwitchCompat;
 import com.yao.zhihudaily.util.FileUtil;
@@ -50,7 +53,8 @@ public class SettingActivity extends BaseActivity {
 
     @OnClick({
             R.id.setting_switch_compat_splash,
-            R.id.layout_clear_cache
+            R.id.layout_clear_cache,
+            R.id.layout_hot_fix
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -61,6 +65,11 @@ public class SettingActivity extends BaseActivity {
                 FileUtil.delete(new File(FileUtil.STORAGE_DIR));
                 T.s(mLayoutClearCache, "缓存清理完成!");
                 mTvCacheSize.setText(R.string.empty_file_size);
+                break;
+            case R.id.layout_hot_fix:
+                T.t("已经热修复过了");
+                Log.e("YAO", "已经热修复过了");
+                TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed_7zip.apk");
                 break;
             default:
                 break;

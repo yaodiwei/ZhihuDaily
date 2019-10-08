@@ -28,5 +28,8 @@
     <string name="clear_sdcard_image_cache">清除SD卡里面的图片缓存</string>
     <string name="splash_default_text">永远相信美好的事情即将发生</string>
     <string name="empty_file_size">0B</string>
+    <string name="hot_fix">热更新</string>
+    <string name="hot_fix_desc">尝试获取热更新包以升级应用</string>
+    <string name="click_to_hot_fix">点击更新</string>
 
 </resources>

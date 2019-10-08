@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
-        android:name="App"
+        android:name=".tinker.SampleApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,7 +21,7 @@
             android:value="GlideModule"/>
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="57f15f26e0f55a57f7006287"></meta-data>
+            android:value="57f15f26e0f55a57f7006287"/>
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Github"/>
@@ -52,9 +52,12 @@
         <activity android:name=".ui.RecommendersActivity"/>
         <activity android:name=".ui.ProfilePageActivity"/>
         <activity android:name=".ui.SoftwareIntroductionActivity"/>
-        <activity android:name=".ui.SettingActivity">
+        <activity android:name=".ui.SettingActivity"/>
 
-        </activity>
+        <service
+            android:name=".tinker.SampleResultService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
 
     </application>
 
