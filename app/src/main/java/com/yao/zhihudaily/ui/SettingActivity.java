@@ -2,7 +2,6 @@ package com.yao.zhihudaily.ui;
 
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -67,8 +66,6 @@ public class SettingActivity extends BaseActivity {
                 mTvCacheSize.setText(R.string.empty_file_size);
                 break;
             case R.id.layout_hot_fix:
-                T.t("已经热修复过了");
-                Log.e("YAO", "已经热修复过了");
                 TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed_7zip.apk");
                 break;
             default:
