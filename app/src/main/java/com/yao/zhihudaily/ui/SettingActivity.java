@@ -1,12 +1,11 @@
 package com.yao.zhihudaily.ui;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.tencent.tinker.lib.tinker.TinkerInstaller;
+import com.tinkerpatch.sdk.TinkerPatch;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.ui.view.SettingSwitchCompat;
 import com.yao.zhihudaily.util.FileUtil;
@@ -61,12 +60,34 @@ public class SettingActivity extends BaseActivity {
                 SP.put(SP.Key.SPLASH, mSettingSwitchCompat.isChecked());
                 break;
             case R.id.layout_clear_cache:
+                //T.t("已经热修复过了");
+                //Log.e("YAO", "已经热修复过了");
                 FileUtil.delete(new File(FileUtil.STORAGE_DIR));
                 T.s(mLayoutClearCache, "缓存清理完成!");
                 mTvCacheSize.setText(R.string.empty_file_size);
                 break;
             case R.id.layout_hot_fix:
-                TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed_7zip.apk");
+                //请求修复包更新
+                TinkerPatch.with().fetchPatchUpdate(true);
+
+                //请求后台配置参数
+                //TinkerPatch.with().fetchDynamicConfig(new ConfigRequestCallback() {
+                //    @Override
+                //    public void onSuccess(HashMap<String, String> configs) {
+                //        TinkerLog.e("YAO", "request config success, config:" + configs);
+                //    }
+                //    @Override
+                //    public void onFail(Exception e) {
+                //        TinkerLog.e("YAO", "request config failed, exception:" + e);
+                //    }
+                //}, true);
+
+                //清除patch
+                //TinkerPatch.with().cleanAll();
+
+                //杀死进程
+                //ShareTinkerInternals.killAllOtherProcess(getApplicationContext());
+                //android.os.Process.killProcess(android.os.Process.myPid());
                 break;
             default:
                 break;

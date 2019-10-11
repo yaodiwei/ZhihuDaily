@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.tencent.tinker.patch'
 
 android {
     compileSdkVersion 28
@@ -30,7 +29,7 @@ android {
     }
 }
 
-apply from: './tinker.gradle'
+apply from: './tinkerpatch.gradle'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -62,10 +61,15 @@ dependencies {
 
     implementation "com.android.support:multidex:1.0.3"
 
-    implementation 'com.tencent.tinker:tinker-android-lib:1.9.14'
-    compileOnly 'com.tencent.tinker:tinker-android-anno:1.9.14'
-    //不加这句依赖，会报下面这个错
-    //Annotation processors must be explicitly declared now.  The following dependencies on the compile classpath are found to contain annotation processor.  Please add them to the annotationProcessor configuration.
-    //- tinker-android-anno-1.9.14.jar (com.tencent.tinker:tinker-android-anno:1.9.14)
-    annotationProcessor 'com.tencent.tinker:tinker-android-anno:1.9.14'
+    //implementation 'com.tencent.tinker:tinker-android-lib:1.9.14'
+    //compileOnly 'com.tencent.tinker:tinker-android-anno:1.9.14'
+    ////不加这句依赖，会报下面这个错
+    ////Annotation processors must be explicitly declared now.  The following dependencies on the compile classpath are found to contain annotation processor.  Please add them to the annotationProcessor configuration.
+    ////- tinker-android-anno-1.9.14.jar (com.tencent.tinker:tinker-android-anno:1.9.14)
+    //annotationProcessor 'com.tencent.tinker:tinker-android-anno:1.9.14'
+
+    // 若使用annotation需要单独引用anno库, 对于tinker的其他库都无需再引用
+    implementation 'com.tinkerpatch.sdk:tinkerpatch-android-sdk:1.2.14'
+    compileOnly 'com.tinkerpatch.tinker:tinker-android-anno:1.9.14'
+    annotationProcessor 'com.tinkerpatch.tinker:tinker-android-anno:1.9.14'
 }
