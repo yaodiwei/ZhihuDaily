@@ -6,6 +6,9 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +18,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.orhanobut.logger.Logger;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.net.OkHttpAsync;
 import com.yao.zhihudaily.net.OkHttpSync;
@@ -24,8 +30,10 @@ import com.yao.zhihudaily.util.SP;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
@@ -40,6 +48,8 @@ import okhttp3.Response;
  */
 
 public class SplashActivity extends BaseActivity {
+
+    public static final int REQUEST_PERMISSION_STORAGE = 200;
 
     public static final String START_IMAGE = "startImage";
     public static final String START_TEXT = "startText";
@@ -70,21 +80,11 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onResourceReady(@androidx.annotation.NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                 mImageView.setImageBitmap(resource);
-                mImageView.setPivotX(resource.getWidth() * 0.5f);
-                mImageView.setPivotY(resource.getHeight() * 0.75f);
-                ObjectAnimator objectAnimatorX = ObjectAnimator.ofFloat(mImageView, "scaleX", 1, 1.25f);
-                ObjectAnimator objectAnimatorY = ObjectAnimator.ofFloat(mImageView, "scaleY", 1, 1.25f);
-                AnimatorSet set = new AnimatorSet();
-                set.setDuration(2000).setStartDelay(1000);
-                set.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                        finish();
-                    }
-                });
-                set.playTogether(objectAnimatorX, objectAnimatorY);
-                set.start();
+                if (AndPermission.hasPermission(SplashActivity.this, Permission.STORAGE)) {
+                    animator();
+                } else {
+                    requestPermission();
+                }
             }
         };
 
@@ -96,6 +96,76 @@ public class SplashActivity extends BaseActivity {
             Glide.with(this).asBitmap().load(R.mipmap.miui7).into(target);
             mTvAuthor.setText("永远相信美好的事情即将发生");
         }
+
+    }
+
+    public void requestPermission() {
+        AndPermission.with(this)
+                .requestCode(REQUEST_PERMISSION_STORAGE)
+                .permission(Permission.STORAGE)
+                .rationale((requestCode, rationale) ->
+                        new AlertDialog.Builder(SplashActivity.this)
+                                .setTitle(R.string.tip)
+                                .setMessage(R.string.permission_storage_rationale)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.open_permission_dialog, (dialog, which) -> rationale.resume())
+                                .setNegativeButton(R.string.cancel, null)
+                                .show())
+                .callback(new PermissionListener() {
+                    @Override
+                    public void onSucceed(int requestCode, @androidx.annotation.NonNull List<String> grantedPermissions) {
+                        if (requestCode == REQUEST_PERMISSION_STORAGE) {
+                            animator();
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(int requestCode, @androidx.annotation.NonNull List<String> deniedPermissions) {
+                        if (requestCode == REQUEST_PERMISSION_STORAGE) {
+                            new AlertDialog.Builder(SplashActivity.this)
+                                    .setTitle(R.string.tip)
+                                    .setMessage(R.string.permission_storage_failed)
+                                    .setCancelable(false)
+                                    .setPositiveButton(R.string.go_to_setting, (dialog, which) -> goToSetting())
+                                    .setNegativeButton(R.string.cancel, null)
+                                    .show();
+                        }
+                    }
+                }).start();
+    }
+
+    private void animator() {
+        Drawable drawable = mImageView.getDrawable();
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+
+            mImageView.setPivotX(bitmapDrawable.getBitmap().getWidth() * 0.5f);
+            mImageView.setPivotY(bitmapDrawable.getBitmap().getHeight() * 0.75f);
+            ObjectAnimator objectAnimatorX = ObjectAnimator.ofFloat(mImageView, "scaleX", 1, 1.25f);
+            ObjectAnimator objectAnimatorY = ObjectAnimator.ofFloat(mImageView, "scaleY", 1, 1.25f);
+            AnimatorSet set = new AnimatorSet();
+            set.setDuration(2000).setStartDelay(1000);
+            set.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                }
+            });
+            set.playTogether(objectAnimatorX, objectAnimatorY);
+            set.start();
+        }
+
+
+    }
+
+
+    private void goToSetting() {
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+        intent.setData(Uri.fromParts("package", getPackageName(), null));
+        startActivity(intent);
     }
 
     @Override

@@ -1,32 +1,23 @@
 package com.yao.zhihudaily.ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.android.material.navigation.NavigationView;
-import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.Permission;
-import com.yanzhenjie.permission.PermissionListener;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.ui.daily.DailyMainFragment;
 import com.yao.zhihudaily.ui.hot.HotMainFragment;
 import com.yao.zhihudaily.ui.section.SectionMainFragment;
 import com.yao.zhihudaily.util.ResUtil;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -66,60 +57,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ButterKnife.bind(this);
 
         initView();
-
-        AndPermission.with(this)
-                .requestCode(REQUEST_PERMISSION_STORAGE)
-                .permission(Permission.STORAGE)
-                .rationale((requestCode, rationale) ->
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle(R.string.tip)
-                                .setMessage(R.string.permission_storage_rationale)
-                                .setCancelable(false)
-                                .setPositiveButton(R.string.open_permission_dialog, (dialog, which) -> rationale.resume())
-                                .setNegativeButton(R.string.cancel, null)
-                                .show())
-                .callback(new PermissionListener() {
-                    @Override
-                    public void onSucceed(int requestCode, @NonNull List<String> grantedPermissions) {
-                        if (requestCode == REQUEST_PERMISSION_STORAGE) {
-                            listStorageDir();
-                        }
-                    }
-
-                    @Override
-                    public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
-                        if (requestCode == REQUEST_PERMISSION_STORAGE) {
-                            new AlertDialog.Builder(MainActivity.this)
-                                    .setTitle(R.string.tip)
-                                    .setMessage(R.string.permission_storage_failed)
-                                    .setCancelable(false)
-                                    .setPositiveButton(R.string.go_to_setting, (dialog, which) -> goToSetting())
-                                    .setNegativeButton(R.string.cancel, null)
-                                    .show();
-                        }
-                    }
-                }).start();
-    }
-
-    private void goToSetting() {
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-        intent.setData(Uri.fromParts("package", getPackageName(), null));
-        startActivity(intent);
-    }
-
-    private void listStorageDir() {
-        File file = Environment.getExternalStorageDirectory();
-        final String[] strings = file.list();
-        if (strings != null && strings.length > 0) {
-            StringBuilder builder = new StringBuilder();
-            for (String str : strings) {
-                builder.append(str).append(", ");
-            }
-            builder.substring(0, builder.length() - 2);
-            Log.e(TAG, "MainActivity.java - onCreate() ----- builder\n " + builder.toString());
-        }
     }
 
     private void initView() {
