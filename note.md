@@ -500,24 +500,25 @@ task sortPublicTxt() {
 ```
 
 ## 5.需要从 Tinker sample 里复制过来这些类
-BuildInfo.java
-SampleApplicationContext.java
-SampleApplicationLike.java
-SampleLoadReporter.java
-SamplePatchListener.java
-SamplePatchReporter.java
-SampleResultService.java
-SampleTinkerReport.java
-SampleUncaughtExceptionHandler.java
-TinkerManager.java
-Utils.java
+BuildInfo.java <br />
+SampleApplicationContext.java <br />
+SampleApplicationLike.java <br />
+SampleLoadReporter.java <br />
+SamplePatchListener.java <br />
+SamplePatchReporter.java <br />
+SampleResultService.java <br />
+SampleTinkerReport.java <br />
+SampleUncaughtExceptionHandler.java <br />
+TinkerManager.java <br />
+Utils.java <br />
 
 ## 6.Application 类的修改
 [Tinker 自定义扩展](https://github.com/Tencent/tinker/wiki/Tinker-自定义扩展)
 #### 6.1将我们自己Application类以及它的继承类的所有代码拷贝到自己的ApplicationLike继承类中，例如SampleApplicationLike。你也可以直接将自己的Application改为继承ApplicationLike;
-#### 6.2Application的attachBaseContext方法实现要单独移动到onBaseContextAttached中；
+#### 6.2Application的attachBaseContext方法实现要单独移动到onBaseContextAttached中，其他逻辑代码也需要移动过来；
 #### 6.3对ApplicationLike中，引用application的地方改成getApplication();
 #### 6.4对其他引用Application或者它的静态对象与方法的地方，改成引用ApplicationLike的静态对象与方法；
+#### 6.5在注解 DefaultLifeCycle 里面的值 application 写好 application 的包名+类名，build一下，修改 AndroidManifest.xml 的 application 名字为这个；
 
 ## 7.AndroidManifest.xml
 #### 7.1替换运来的 Application 类
