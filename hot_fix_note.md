@@ -1,6 +1,12 @@
 # Tinker 热修复集成
 
 <br /><br />
+## 不兼容 build:gradle:3.5.x 问题 
+升级到3.5，会导致tinker不可用，tinker还没兼容好
+https://github.com/BuglyDevTeam/Bugly-Android-Demo/issues/174
+        
+
+<br /><br />
 ——————————————————————————————
 # tinker 通用使用步骤
 #### 1.打个正常包
