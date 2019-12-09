@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.tencent.tinker.patch'
 
 android {
@@ -30,6 +33,10 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 apply from: './tinker.gradle'
 
 dependencies {
@@ -52,7 +59,7 @@ dependencies {
     implementation 'com.orhanobut:logger:1.15'
     implementation 'com.yanzhenjie:permission:1.1.0'
     implementation 'com.jakewharton:butterknife:10.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation 'com.umeng.umsdk:analytics:8.0.0'
     implementation 'com.umeng.umsdk:common:2.0.0'
     implementation 'com.umeng.umsdk:utdid:1.1.5.3'

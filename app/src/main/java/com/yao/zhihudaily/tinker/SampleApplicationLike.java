@@ -103,7 +103,7 @@ public class SampleApplicationLike extends DefaultApplicationLike {
     public void onCreate() {
         super.onCreate();
 
-        AppUtil.init(getApplication());
+        AppUtil.INSTANCE.init(getApplication());
 
         EventBus eventBus = EventBus.builder()
                 .logNoSubscriberMessages(false)
