@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.yao.zhihudaily"
         minSdkVersion 17
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode rootProject.ext.versions.versionCode
         versionName rootProject.ext.versions.versionName
 
