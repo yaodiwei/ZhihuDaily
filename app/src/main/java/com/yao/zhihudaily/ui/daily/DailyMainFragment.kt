@@ -5,12 +5,8 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.orhanobut.logger.Logger
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.DailiesJson
@@ -22,22 +18,13 @@ import com.yao.zhihudaily.ui.BaseFragment
 import io.reactivex.Observer
 import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.fragment_daily.*
 
 /**
  * @author Yao
  * @date 2016/7/22
  */
 class DailyMainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
-
-    @JvmField
-    @BindView(R.id.swipeRefreshLayout)
-    internal var mSwipeRefreshLayout: SwipeRefreshLayout? = null
-    @JvmField
-    @BindView(R.id.rv_dailies)
-    internal var mRvDailies: RecyclerView? = null
-    @JvmField
-    @BindView(R.id.linear_layout)
-    internal var mLinearLayout: LinearLayout? = null
 
     private var mDailyAdapter: DailyAdapter? = null
 
@@ -52,34 +39,33 @@ class DailyMainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
     private var mDisposable: Disposable? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_daily, container, false)
-        ButterKnife.bind(this, view)
+        return inflater.inflate(R.layout.fragment_daily, container, false)
+    }
 
-        mStateTool = StateTool(mLinearLayout!!)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mStateTool = StateTool(linear_layout)
         mStateTool!!.setOnClickListener(View.OnClickListener{
             mEndDate = null
             mStateTool!!.showProgressView()
             getDailies(null)
         })
 
-        mSwipeRefreshLayout!!.setOnRefreshListener(this)
-        val linearLayoutManager: LinearLayoutManager
-        mRvDailies!!.layoutManager = LinearLayoutManager(activity)
-        //mRvDailies.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-        mRvDailies!!.addItemDecoration(SimpleDividerDecoration(fragmentActivity))
+        swipe_refresh_layout!!.setOnRefreshListener(this)
+        rv_dailies!!.layoutManager = LinearLayoutManager(activity)
+        //rv_dailies.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        rv_dailies!!.addItemDecoration(SimpleDividerDecoration(fragmentActivity))
         mDailyAdapter = DailyAdapter(this)
-        mRvDailies!!.setAdapter(mDailyAdapter)
+        rv_dailies!!.adapter = mDailyAdapter
         mRecyclerViewOnLoadMoreListener = object : RecyclerViewOnLoadMoreListener() {
             override fun onLoadMore() {
                 getDailies(mStartDate)
             }
         }
-        mRvDailies!!.addOnScrollListener(mRecyclerViewOnLoadMoreListener)
+        rv_dailies!!.addOnScrollListener(mRecyclerViewOnLoadMoreListener)
 
         mStateTool!!.showProgressView()
         getDailies(null)
-
-        return view
     }
 
     private fun getDailies(targetDate: String?) {
@@ -107,7 +93,7 @@ class DailyMainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
                     mStateTool!!.showContentView()
                 } else if (targetDate == null) { //表示下拉刷新
                     if (mEndDate == dailiesJson.date) { //App的最晚时间 等于 下拉新获取的时间
-                        mSwipeRefreshLayout!!.isRefreshing = false
+                        swipe_refresh_layout!!.isRefreshing = false
                     } else { ////App的最晚时间 不等于 下拉新获取的时间
                         mEndDate = dailiesJson.date
                         mDailyAdapter!!.addListToHeader(dailiesJson.allStories)
@@ -118,7 +104,7 @@ class DailyMainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
                     mStartDate = dailiesJson.date
                     mDailyAdapter!!.addList(dailiesJson.allStories)
                     mDailyAdapter!!.notifyDataSetChanged()
-                    mRecyclerViewOnLoadMoreListener!!.loading = false
+                    mRecyclerViewOnLoadMoreListener.loading = false
                     mStateTool!!.showContentView()
                 }
             }

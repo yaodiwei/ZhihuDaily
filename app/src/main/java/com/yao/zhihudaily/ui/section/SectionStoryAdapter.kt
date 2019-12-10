@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.SectionStory
 import com.yao.zhihudaily.tool.Constant
 import com.yao.zhihudaily.tool.OnItemClickListener
 import com.yao.zhihudaily.ui.NewsDetailActivity
+import kotlinx.android.synthetic.main.item_section.view.*
 import java.util.*
 
 /**
@@ -45,10 +44,10 @@ class SectionStoryAdapter(private val mActivity: Activity) : RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: StoryHolder, position: Int) {
         val sectionStory = mSectionStories[position]
-        holder.tvTitle!!.text = sectionStory.title
-        holder.tvDescription!!.text = sectionStory.date
+        holder.tvTitle.text = sectionStory.title
+        holder.tvDescription.text = sectionStory.date
         if (sectionStory.images != null) {
-            Glide.with(mActivity).load(sectionStory.images!![0]).placeholder(R.mipmap.ic_launcher).into(holder.iv!!)
+            Glide.with(mActivity).load(sectionStory.images!![0]).placeholder(R.mipmap.ic_launcher).into(holder.ivPic)
         }
         holder.itemView.tag = position
         holder.itemView.setOnClickListener(listener)
@@ -61,19 +60,9 @@ class SectionStoryAdapter(private val mActivity: Activity) : RecyclerView.Adapte
 
     inner class StoryHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.iv_splash)
-        var iv: ImageView? = null
-        @JvmField
-        @BindView(R.id.tv_title)
-        var tvTitle: TextView? = null
-        @JvmField
-        @BindView(R.id.tv_description)
-        var tvDescription: TextView? = null
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
+        val ivPic: ImageView = view.iv_pic
+        val tvTitle: TextView = view.tv_title
+        val tvDescription: TextView = view.tv_description
     }
 
 

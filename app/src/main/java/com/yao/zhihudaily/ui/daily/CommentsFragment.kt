@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.annotations.SerializedName
 import com.orhanobut.logger.Logger
@@ -20,6 +18,7 @@ import com.yao.zhihudaily.tool.DividerItemDecoration
 import com.yao.zhihudaily.ui.BaseFragment
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.fragment_short_comments.*
 import java.util.*
 
 /**
@@ -28,9 +27,6 @@ import java.util.*
  * @date 2016/9/4
  */
 class CommentsFragment : BaseFragment() {
-    @JvmField
-    @BindView(R.id.rvComments)
-    internal var rvComments: RecyclerView? = null
 
     private var comments: ArrayList<Comment>? = null
     private var commentAdapter: CommentAdapter? = null
@@ -43,24 +39,24 @@ class CommentsFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_short_comments, null)
-        ButterKnife.bind(this, view)
-
         val bundle = arguments
         if (bundle != null) {
             commentId = bundle.getInt(Constant.ID, 0)
             url = bundle.getString(Constant.URL)
             count = bundle.getInt(Constant.COUNT)
         }
+        return view
+    }
 
-
-        val linearLayoutManager: LinearLayoutManager
-        rvComments!!.layoutManager = LinearLayoutManager(activity)
-        rvComments!!.addItemDecoration(DividerItemDecoration(fragmentActivity, DividerItemDecoration.VERTICAL_LIST))
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rv_comments!!.layoutManager = LinearLayoutManager(activity)
+        rv_comments!!.addItemDecoration(DividerItemDecoration(fragmentActivity, DividerItemDecoration.VERTICAL_LIST))
         commentAdapter = CommentAdapter(activity!!)
-        rvComments!!.setAdapter(commentAdapter)
+        rv_comments!!.adapter = commentAdapter
 
         if (count > 20) {
-            rvComments!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            rv_comments!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 private var lastVisibleItemPosition: Int = 0
                 private var visibleItemCount: Int = 0
                 private var totalItemCount: Int = 0
@@ -76,7 +72,7 @@ class CommentsFragment : BaseFragment() {
                     if (visibleItemCount > 0 && newState == RecyclerView.SCROLL_STATE_IDLE
                             && lastVisibleItemPosition >= totalItemCount - 1) {
                         //加载更多
-                        val snackbar = Snackbar.make(rvComments!!, "如想查看更多评论\n    请下载正版知乎日报.", Snackbar.LENGTH_SHORT)
+                        val snackbar = Snackbar.make(rv_comments!!, "如想查看更多评论\n    请下载正版知乎日报.", Snackbar.LENGTH_SHORT)
                         snackbar.setAction("关闭") { view1 -> snackbar.dismiss() }
                         snackbar.show()
                     }
@@ -89,8 +85,6 @@ class CommentsFragment : BaseFragment() {
         }
 
         getComments(url!!)
-
-        return view
     }
 
     override fun onDestroyView() {

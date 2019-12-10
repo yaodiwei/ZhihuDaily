@@ -7,7 +7,7 @@
     android:padding="14dp">
 
     <ImageView
-        android:id="@+id/iv_splash"
+        android:id="@+id/iv_avatar"
         android:layout_width="@dimen/avatar_radius"
         android:layout_height="@dimen/avatar_radius"
         android:contentDescription="@string/app_name" />
@@ -20,7 +20,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -28,7 +28,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tvBio"
+            android:id="@+id/tv_bio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

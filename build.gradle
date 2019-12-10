@@ -9,11 +9,10 @@ buildscript {
         maven { url 'https://dl.bintray.com/umsdk/release' }
     }
     dependencies {
-        //升级到3.5，会导致tinker不可用，tinker还没兼容好
+        //升级到3.5，会导致tinker不可用，tinker还没兼容好。使用3.4.2正常。
         //https://github.com/BuglyDevTeam/Bugly-Android-Demo/issues/174
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.jakewharton:butterknife-gradle-plugin:10.1.0'
         classpath 'com.tencent.tinker:tinker-patch-gradle-plugin:1.9.14'
 
         // NOTE: Do not place your application dependencies here; they belong

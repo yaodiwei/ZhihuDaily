@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.Section
 import com.yao.zhihudaily.tool.Constant
 import com.yao.zhihudaily.tool.OnItemClickListener
 import com.yao.zhihudaily.ui.BaseFragment
+import kotlinx.android.synthetic.main.item_section.view.*
 import java.util.*
 
 /**
@@ -60,7 +59,7 @@ class SectionAdapter : RecyclerView.Adapter<SectionAdapter.SectionHolder> {
         holder.tvTitle!!.text = section.name
         holder.tvDescription!!.text = section.description
         if (!TextUtils.isEmpty(section.thumbnail)) {
-            Glide.with(mBaseFragment!!).load(section.thumbnail).into(holder.iv!!)
+            Glide.with(mBaseFragment!!).load(section.thumbnail).into(holder.ivPic!!)
         }
         holder.itemView.tag = position
         holder.itemView.setOnClickListener(mOnItemClickListener)
@@ -73,19 +72,9 @@ class SectionAdapter : RecyclerView.Adapter<SectionAdapter.SectionHolder> {
 
     inner class SectionHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.iv_splash)
-        var iv: ImageView? = null
-        @JvmField
-        @BindView(R.id.tv_title)
-        var tvTitle: TextView? = null
-        @JvmField
-        @BindView(R.id.tv_description)
-        var tvDescription: TextView? = null
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
+        val ivPic: ImageView = view.iv_pic
+        val tvTitle: TextView = view.tv_title
+        val tvDescription: TextView = view.tv_description
     }
 
 

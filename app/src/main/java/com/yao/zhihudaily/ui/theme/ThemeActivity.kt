@@ -1,15 +1,9 @@
 package com.yao.zhihudaily.ui.theme
 
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.orhanobut.logger.Logger
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.ThemeJson
@@ -19,6 +13,7 @@ import com.yao.zhihudaily.ui.BaseActivity
 import io.reactivex.Observer
 import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.activity_theme.*
 
 
 /**
@@ -27,18 +22,6 @@ import io.reactivex.disposables.Disposable
  * @date 2016/9/10
  */
 class ThemeActivity : BaseActivity() {
-    @JvmField
-    @BindView(R.id.iv_background)
-    internal var mIvBackground: ImageView? = null
-    @JvmField
-    @BindView(R.id.tv_description)
-    internal var mTvDescription: TextView? = null
-    @JvmField
-    @BindView(R.id.collapsing_toolbar_layout)
-    internal var mCollapsingToolbarLayout: CollapsingToolbarLayout? = null
-    @JvmField
-    @BindView(R.id.rv_stories)
-    internal var mRvStories: RecyclerView? = null
 
     private val mThemeJson: ThemeJson? = null
     private var mId: Int = 0
@@ -49,12 +32,11 @@ class ThemeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_theme)
-        ButterKnife.bind(this)
 
         mId = intent.getIntExtra("mId", 0)
         //已经在xml中设置
-        //mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
-        //mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+        //collapsing_toolbar_layout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+        //collapsing_toolbar_layout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setNavigationIcon(R.mipmap.back)//设置导航栏图标
@@ -63,10 +45,9 @@ class ThemeActivity : BaseActivity() {
 
 
         mThemeStoryAdapter = ThemeStoryAdapter(this)
-        mRvStories!!.adapter = mThemeStoryAdapter
-        val linearLayoutManager: LinearLayoutManager
-        mRvStories!!.layoutManager = LinearLayoutManager(this)
-        mRvStories!!.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST))
+        rv_stories!!.adapter = mThemeStoryAdapter
+        rv_stories!!.layoutManager = LinearLayoutManager(this)
+        rv_stories!!.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST))
 
         getThemeData()
     }
@@ -89,9 +70,9 @@ class ThemeActivity : BaseActivity() {
                 if (themeJson.stories != null) {
                     mThemeStoryAdapter!!.addList(themeJson.stories!!)
                     mThemeStoryAdapter!!.notifyDataSetChanged()
-                    Glide.with(this@ThemeActivity).load(themeJson.background).into(mIvBackground!!)
-                    mCollapsingToolbarLayout!!.title = themeJson.name
-                    mTvDescription!!.text = "        " + themeJson.description!!
+                    Glide.with(this@ThemeActivity).load(themeJson.background).into(iv_background!!)
+                    collapsing_toolbar_layout!!.title = themeJson.name
+                    tv_description!!.text = "        " + themeJson.description!!
                 }
             }
 

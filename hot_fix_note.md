@@ -514,7 +514,7 @@ SamplePatchListener.java <br />
 SamplePatchReporter.java <br />
 SampleResultService.java <br />
 SampleTinkerReport.java <br />
-SampleUncaughtExceptionHandler.java <br />
+SampleUncaughtExceptionHandler.java <br />      
 TinkerManager.java <br />
 Utils.java <br />
 

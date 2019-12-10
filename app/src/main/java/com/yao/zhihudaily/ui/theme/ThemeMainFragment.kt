@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.orhanobut.logger.Logger
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.ThemesJson
@@ -17,34 +14,29 @@ import com.yao.zhihudaily.ui.BaseFragment
 import io.reactivex.Observer
 import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.fragment_theme.*
 
 /**
  * @author Yao
  * @date 2016/7/22
  */
 class ThemeMainFragment : BaseFragment() {
-    @JvmField
-    @BindView(R.id.rv_themes)
-    internal var mRvThemes: RecyclerView? = null
 
     private var mThemeAdapter: ThemeAdapter? = null
 
     private var mDisposable: Disposable? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_theme, container, false)
-        ButterKnife.bind(this, view)
+        return inflater.inflate(R.layout.fragment_theme, container, false)
+    }
 
-
-        val gridLayoutManager: GridLayoutManager
-        mRvThemes!!.layoutManager = GridLayoutManager(activity, 3)
-        mRvThemes!!.addItemDecoration(GridItemDecoration(10, 3))
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rv_themes!!.layoutManager = GridLayoutManager(activity, 3)
+        rv_themes!!.addItemDecoration(GridItemDecoration(10, 3))
         mThemeAdapter = ThemeAdapter(this)
-        mRvThemes!!.setAdapter(mThemeAdapter)
-
+        rv_themes!!.adapter = mThemeAdapter
         getThemes()
-
-        return view
     }
 
     override fun onDestroyView() {

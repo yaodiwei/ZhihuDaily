@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.orhanobut.logger.Logger
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.SectionsJson
@@ -15,6 +14,7 @@ import com.yao.zhihudaily.ui.BaseFragment
 import io.reactivex.Observer
 import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.fragment_section.*
 
 /**
  * @author Yao
@@ -27,20 +27,17 @@ class SectionMainFragment : BaseFragment() {
     private var mDisposable: Disposable? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_section, container, false)
+        return inflater.inflate(R.layout.fragment_section, container, false)
+    }
 
-        val rvSections = view.findViewById<RecyclerView>(R.id.rv_sections)
-
-        val linearLayoutManager: LinearLayoutManager
-        rvSections.layoutManager = LinearLayoutManager(activity)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rv_sections.layoutManager = LinearLayoutManager(activity)
         //rvSections.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-        rvSections.addItemDecoration(SimpleDividerDecoration(fragmentActivity))
+        rv_sections.addItemDecoration(SimpleDividerDecoration(fragmentActivity))
         mSectionAdapter = SectionAdapter(this)
-        rvSections.setAdapter(mSectionAdapter)
-
+        rv_sections.setAdapter(mSectionAdapter)
         getSections()
-
-        return view
     }
 
     override fun onDestroyView() {

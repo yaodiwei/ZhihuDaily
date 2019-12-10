@@ -8,15 +8,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.Recommender
 import com.yao.zhihudaily.tool.Constant
 import com.yao.zhihudaily.tool.GlideCircleTransform
 import com.yao.zhihudaily.tool.OnItemClickListener
+import kotlinx.android.synthetic.main.item_recommender.view.*
 import java.util.*
+
 
 /**
  *
@@ -46,10 +46,10 @@ class RecommenderAdapter(private val mActivity: Activity) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: RecommenderHolder, position: Int) {
         val recommender = mRecommenderList[position]
-        holder.tvName!!.text = recommender.name
-        holder.tvBio!!.text = recommender.bio
+        holder.tvName.text = recommender.name
+        holder.tvBio.text = recommender.bio
         if (recommender.avatar != null) {
-            Glide.with(mActivity).load(recommender.avatar).transform(GlideCircleTransform()).into(holder.iv!!)
+            Glide.with(mActivity).load(recommender.avatar).transform(GlideCircleTransform()).into(holder.ivAvatar!!)
         }
         holder.itemView.tag = position
         holder.itemView.setOnClickListener(mOnItemClickListener)
@@ -62,19 +62,9 @@ class RecommenderAdapter(private val mActivity: Activity) : RecyclerView.Adapter
 
     class RecommenderHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.iv_splash)
-        var iv: ImageView? = null
-        @JvmField
-        @BindView(R.id.tvName)
-        var tvName: TextView? = null
-        @JvmField
-        @BindView(R.id.tvBio)
-        var tvBio: TextView? = null
-
-        init {
-            ButterKnife.bind(this, view)
-        }
+        val ivAvatar: ImageView = view.iv_avatar
+        val tvName: TextView = view.tv_name
+        val tvBio: TextView = view.tv_bio
     }
 
 

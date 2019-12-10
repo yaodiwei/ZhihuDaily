@@ -14,6 +14,7 @@ import com.yao.zhihudaily.tool.Constant
 import com.yao.zhihudaily.tool.OnItemClickListener
 import com.yao.zhihudaily.ui.BaseFragment
 import com.yao.zhihudaily.ui.NewsDetailActivity
+import kotlinx.android.synthetic.main.item_daily.view.*
 import java.util.*
 
 /**
@@ -58,9 +59,9 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.StoryHolder> {
         val daily = stories[position]
         holder.tvTitle.text = daily.title
         if (daily.images != null && daily.images!!.size != 0) {
-            Glide.with(fragment!!).load(daily.images!![0]).into(holder.iv)
+            Glide.with(fragment!!).load(daily.images!![0]).into(holder.ivPic)
         } else {
-            Glide.with(fragment!!).load(daily.image).into(holder.iv)
+            Glide.with(fragment!!).load(daily.image).into(holder.ivPic)
         }
         holder.itemView.tag = position
         holder.itemView.setOnClickListener(listener)
@@ -72,13 +73,9 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.StoryHolder> {
     }
 
     inner class StoryHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var iv: ImageView
-        var tvTitle: TextView
 
-        init {
-            iv = view.findViewById(R.id.iv_splash)
-            tvTitle = view.findViewById(R.id.tv_title)
-        }
+        val ivPic: ImageView = view.iv_pic
+        val tvTitle: TextView = view.tv_title
     }
 
 

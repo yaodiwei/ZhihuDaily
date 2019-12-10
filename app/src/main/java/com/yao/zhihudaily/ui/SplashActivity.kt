@@ -10,11 +10,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -31,6 +27,7 @@ import com.yao.zhihudaily.util.SP
 import io.reactivex.Observer
 import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.activity_splash.*
 import okhttp3.Response
 import java.io.File
 import java.io.IOException
@@ -42,12 +39,6 @@ import java.io.IOException
  */
 
 class SplashActivity : BaseActivity() {
-    @JvmField
-    @BindView(R.id.iv_splash)
-    internal var mImageView: ImageView? = null
-    @JvmField
-    @BindView(R.id.tv_author)
-    internal var mTvAuthor: TextView? = null
 
     private var mDisposable: Disposable? = null
 
@@ -58,7 +49,6 @@ class SplashActivity : BaseActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        ButterKnife.bind(this)
         //隐藏navigationBar
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 
@@ -66,7 +56,7 @@ class SplashActivity : BaseActivity() {
 
         val target = object : SimpleTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                mImageView!!.setImageBitmap(resource)
+                iv_splash?.setImageBitmap(resource)
                 if (AndPermission.hasPermission(this@SplashActivity, *Permission.STORAGE)) {
                     animator()
                 } else {
@@ -78,10 +68,10 @@ class SplashActivity : BaseActivity() {
         val file = File(FileUtil.STORAGE_DIR, START_IMAGE_FILE)
         if (file.exists()) {
             Glide.with(this).asBitmap().load(file).into<SimpleTarget<Bitmap>>(target)
-            mTvAuthor!!.text = SP.getString(START_TEXT, "")
+            tv_author!!.text = SP.getString(START_TEXT, "")
         } else {
             Glide.with(this).asBitmap().load(R.mipmap.miui7).into<SimpleTarget<Bitmap>>(target)
-            mTvAuthor!!.text = "永远相信美好的事情即将发生"
+            tv_author!!.text = "永远相信美好的事情即将发生"
         }
 
     }
@@ -121,13 +111,13 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun animator() {
-        val drawable = mImageView!!.drawable
+        val drawable = iv_splash!!.drawable
         if (drawable is BitmapDrawable) {
 
-            mImageView!!.pivotX = drawable.bitmap.width * 0.5f
-            mImageView!!.pivotY = drawable.bitmap.height * 0.75f
-            val objectAnimatorX = ObjectAnimator.ofFloat(mImageView, View.SCALE_X, 1f, 1.25f)
-            val objectAnimatorY = ObjectAnimator.ofFloat(mImageView, View.SCALE_Y, 1f, 1.25f)
+            iv_splash!!.pivotX = drawable.bitmap.width * 0.5f
+            iv_splash!!.pivotY = drawable.bitmap.height * 0.75f
+            val objectAnimatorX = ObjectAnimator.ofFloat(iv_splash, View.SCALE_X, 1f, 1.25f)
+            val objectAnimatorY = ObjectAnimator.ofFloat(iv_splash, View.SCALE_Y, 1f, 1.25f)
             val set = AnimatorSet()
             set.setDuration(2000).startDelay = 1000
             set.addListener(object : AnimatorListenerAdapter() {

@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.Hot
@@ -17,6 +15,7 @@ import com.yao.zhihudaily.tool.Constant
 import com.yao.zhihudaily.tool.OnItemClickListener
 import com.yao.zhihudaily.ui.BaseFragment
 import com.yao.zhihudaily.ui.NewsDetailActivity
+import kotlinx.android.synthetic.main.item_hot.view.*
 import java.util.*
 
 /**
@@ -58,7 +57,7 @@ class HotAdapter : RecyclerView.Adapter<HotAdapter.StoryHolder> {
         val hot = mHots[position]
         holder.tvTitle!!.text = hot.title
         if (!TextUtils.isEmpty(hot.thumbnail)) {
-            Glide.with(mFragment).load(hot.thumbnail).into(holder.iv!!)
+            Glide.with(mFragment).load(hot.thumbnail).into(holder.ivPic!!)
         }
         holder.itemView.tag = position
         holder.itemView.setOnClickListener(mOnItemClickListener)
@@ -70,16 +69,8 @@ class HotAdapter : RecyclerView.Adapter<HotAdapter.StoryHolder> {
 
     inner class StoryHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.iv_splash)
-        var iv: ImageView? = null
-        @JvmField
-        @BindView(R.id.tv_title)
-        var tvTitle: TextView? = null
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
+        val ivPic: ImageView = view.iv_pic
+        val tvTitle: TextView = view.tv_title
     }
 
 

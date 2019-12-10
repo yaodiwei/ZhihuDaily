@@ -1,12 +1,7 @@
 package com.yao.zhihudaily.ui
 
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.orhanobut.logger.Logger
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.RecommendsJson
@@ -17,6 +12,7 @@ import com.yao.zhihudaily.tool.StateTool
 import io.reactivex.Observer
 import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.activity_recommenders.*
 
 /**
  *
@@ -24,15 +20,6 @@ import io.reactivex.disposables.Disposable
  * @date 2016/9/16
  */
 class RecommendersActivity : BaseActivity() {
-    @JvmField
-    @BindView(R.id.toolbar)
-    internal var mToolbar: Toolbar? = null
-    @JvmField
-    @BindView(R.id.rv_recommenders)
-    internal var mRvRecommenders: RecyclerView? = null
-    @JvmField
-    @BindView(R.id.rootView)
-    internal var mRootView: CoordinatorLayout? = null
 
     private val mRecommendsJson: RecommendsJson? = null
     private var mRecommenderAdapter: RecommenderAdapter? = null
@@ -43,18 +30,17 @@ class RecommendersActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recommenders)
-        ButterKnife.bind(this)
 
         val id = intent.getIntExtra(Constant.ID, 0)
 
-        mToolbar!!.setNavigationOnClickListener { v -> finish() }
+        toolbar!!.setNavigationOnClickListener { v -> finish() }
 
-        mStateTool = StateTool(mRootView!!, 1)
+        mStateTool = StateTool(root_view, 1)
 
         mRecommenderAdapter = RecommenderAdapter(this)
-        mRvRecommenders!!.adapter = mRecommenderAdapter
-        mRvRecommenders!!.layoutManager = LinearLayoutManager(this)
-        mRvRecommenders!!.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST))
+        rv_recommenders!!.adapter = mRecommenderAdapter
+        rv_recommenders!!.layoutManager = LinearLayoutManager(this)
+        rv_recommenders!!.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST))
 
 
         //获取推荐者

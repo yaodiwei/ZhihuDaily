@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.ThemeStory
 import com.yao.zhihudaily.tool.Constant
 import com.yao.zhihudaily.tool.OnItemClickListener
 import com.yao.zhihudaily.ui.NewsDetailActivity
+import kotlinx.android.synthetic.main.item_theme_story_with_image.view.*
 import java.util.*
 
 /**
@@ -49,9 +48,9 @@ class ThemeStoryAdapter(private val aty: Activity) : RecyclerView.Adapter<ThemeS
 
     override fun onBindViewHolder(holder: StoryHolder, position: Int) {
         val themeStory = stories[position]
-        holder.tvTitle!!.text = themeStory.title
-        if (themeStory.images != null && holder.iv != null) {
-            Glide.with(aty).load(themeStory.images!![0]).placeholder(R.mipmap.ic_launcher).into(holder.iv!!)
+        holder.tvTitle.text = themeStory.title
+        if (themeStory.images != null) {
+            Glide.with(aty).load(themeStory.images!![0]).placeholder(R.mipmap.ic_launcher).into(holder.ivPic)
         }
         holder.itemView.tag = position
         holder.itemView.setOnClickListener(listener)
@@ -73,16 +72,8 @@ class ThemeStoryAdapter(private val aty: Activity) : RecyclerView.Adapter<ThemeS
 
     inner class StoryHolder(view: View, type: Int) : RecyclerView.ViewHolder(view) {
 
-        @JvmField
-        @BindView(R.id.iv_splash)
-        var iv: ImageView? = null
-        @JvmField
-        @BindView(R.id.tv_title)
-        var tvTitle: TextView? = null
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
+        val ivPic: ImageView = view.iv_pic
+        val tvTitle: TextView = view.tv_title
     }
 
     companion object {

@@ -16,7 +16,7 @@
         android:layout_marginEnd="40dp"
         app:layout_constraintBottom_toTopOf="@id/tv_description"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/iv_splash"
+        app:layout_constraintRight_toLeftOf="@id/iv_pic"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="spread"/>
 
@@ -26,11 +26,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/iv_splash"
+        app:layout_constraintRight_toLeftOf="@id/iv_pic"
         app:layout_constraintTop_toBottomOf="@id/tv_title"/>
 
     <ImageView
-        android:id="@+id/iv_splash"
+        android:id="@+id/iv_pic"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginStart="30dp"

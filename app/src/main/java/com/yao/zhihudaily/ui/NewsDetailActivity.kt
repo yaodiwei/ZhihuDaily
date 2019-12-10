@@ -2,15 +2,8 @@ package com.yao.zhihudaily.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.webkit.WebView
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.orhanobut.logger.Logger
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.DailyJson
@@ -24,30 +17,13 @@ import io.reactivex.Observer
 import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.activity_news_detail.*
 
 /**
  * @author Yao
  * @date 2016/7/28
  */
 class NewsDetailActivity : BaseActivity() {
-    @JvmField
-    @BindView(R.id.iv_news)
-    internal var mIvNews: ImageView? = null
-    @JvmField
-    @BindView(R.id.tv_title)
-    internal var mTvTitle: TextView? = null
-    @JvmField
-    @BindView(R.id.tv_source)
-    internal var mTvSource: TextView? = null
-    @JvmField
-    @BindView(R.id.toolbar)
-    internal var mToolbar: Toolbar? = null
-    @JvmField
-    @BindView(R.id.collapsing_toolbar_layout)
-    internal var mCollapsingToolbarLayout: CollapsingToolbarLayout? = null
-    @JvmField
-    @BindView(R.id.web_view)
-    internal var mWebView: WebView? = null
 
     private var mStoryExtra: StoryExtra? = null
     private val mCompositeDisposable = CompositeDisposable()
@@ -55,18 +31,17 @@ class NewsDetailActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_detail)
-        ButterKnife.bind(this)
 
         val id = intent.getIntExtra(Constant.ID, 0)
 
         //也可以在xml中设置
-        mCollapsingToolbarLayout!!.setExpandedTitleTextAppearance(R.style.ExpandedDisappearAppBar)
-        mCollapsingToolbarLayout!!.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar)
+        collapsing_toolbar_layout!!.setExpandedTitleTextAppearance(R.style.ExpandedDisappearAppBar)
+        collapsing_toolbar_layout!!.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar)
 
-        mToolbar!!.setNavigationIcon(R.mipmap.back)//设置导航栏图标
-        mToolbar!!.inflateMenu(R.menu.new_detail_menu)//设置右上角的填充菜单
-        mToolbar!!.setNavigationOnClickListener { view -> finish() }
-        mToolbar!!.setOnMenuItemClickListener { item ->
+        toolbar!!.setNavigationIcon(R.mipmap.back)//设置导航栏图标
+        toolbar!!.inflateMenu(R.menu.new_detail_menu)//设置右上角的填充菜单
+        toolbar!!.setNavigationOnClickListener { view -> finish() }
+        toolbar!!.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.itemShare -> {
                     Toast.makeText(this@NewsDetailActivity, "点击分享", Toast.LENGTH_SHORT).show()
@@ -105,20 +80,20 @@ class NewsDetailActivity : BaseActivity() {
             }
 
             override fun onNext(dailyJson: DailyJson) {
-                mWebView!!.loadData(HtmlUtil.createHtmlData(dailyJson), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING)
-                mTvTitle!!.text = dailyJson.title
-                mTvSource!!.text = dailyJson.imageSource
+                web_view!!.loadData(HtmlUtil.createHtmlData(dailyJson), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING)
+                tv_title!!.text = dailyJson.title
+                tv_source!!.text = dailyJson.imageSource
                 if (dailyJson.recommenders == null) {
-                    mCollapsingToolbarLayout!!.title = "并没有推荐者"
+                    collapsing_toolbar_layout!!.title = "并没有推荐者"
                 } else {
-                    mCollapsingToolbarLayout!!.title = dailyJson.recommenders!!.size.toString() + "个推荐者"
-                    mToolbar!!.setOnClickListener { view ->
+                    collapsing_toolbar_layout!!.title = dailyJson.recommenders!!.size.toString() + "个推荐者"
+                    toolbar!!.setOnClickListener { view ->
                         val intent = Intent(this@NewsDetailActivity, RecommendersActivity::class.java)
                         intent.putExtra(Constant.ID, id)
                         startActivity(intent)
                     }
                 }
-                Glide.with(this@NewsDetailActivity).load(dailyJson.image).placeholder(R.mipmap.liukanshan).into(mIvNews!!)
+                Glide.with(this@NewsDetailActivity).load(dailyJson.image).placeholder(R.mipmap.liukanshan).into(iv_news!!)
             }
 
             override fun onComplete() {

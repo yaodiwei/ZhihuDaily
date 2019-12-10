@@ -4,13 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.viewpager.widget.ViewPager
-import butterknife.BindView
-import butterknife.ButterKnife
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation.OnTabSelectedListener
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
@@ -20,6 +15,7 @@ import com.yao.zhihudaily.ui.daily.DailyMainFragment
 import com.yao.zhihudaily.ui.hot.HotMainFragment
 import com.yao.zhihudaily.ui.section.SectionMainFragment
 import com.yao.zhihudaily.util.ResUtil
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 /**
@@ -28,22 +24,6 @@ import java.util.*
  */
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    @JvmField
-    @BindView(R.id.toolbar)
-    internal var mToolbar: Toolbar? = null
-    @JvmField
-    @BindView(R.id.view_pager)
-    internal var mViewPager: ViewPager? = null//适配BottomNavigation的ViewPager
-    @JvmField
-    @BindView(R.id.bottom_navigation)
-    internal var mBottomNavigation: AHBottomNavigation? = null//底部的BottomNavigation
-    @JvmField
-    @BindView(R.id.navigation_view)
-    internal var mNavigationView: NavigationView? = null
-    @JvmField
-    @BindView(R.id.drawerLayout)
-    internal var mDrawerLayout: DrawerLayout? = null
-
     private var currentFragment: BaseFragment? = null
     private var adapter: MainViewPagerAdapter? = null
     private val bottomNavigationItems = ArrayList<AHBottomNavigationItem>()
@@ -51,24 +31,23 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        ButterKnife.bind(this)
 
         initView()
     }
 
     private fun initView() {
         val toggle = ActionBarDrawerToggle(
-                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         toggle.isDrawerIndicatorEnabled = false//隐藏左上角的DrawerLayout图标
-        mDrawerLayout!!.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)//暂时关闭侧边栏,因为没有什么业务好写
-        mDrawerLayout!!.addDrawerListener(toggle)
+        drawer_layout!!.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)//暂时关闭侧边栏,因为没有什么业务好写
+        drawer_layout!!.addDrawerListener(toggle)
         toggle.syncState()
 
-        mNavigationView!!.setNavigationItemSelectedListener(this)
+        navigation_view!!.setNavigationItemSelectedListener(this)
 
 
-        mToolbar!!.inflateMenu(R.menu.main)//设置右上角的填充菜单
-        mToolbar!!.setOnMenuItemClickListener { item ->
+        toolbar!!.inflateMenu(R.menu.main)//设置右上角的填充菜单
+        toolbar!!.setOnMenuItemClickListener { item ->
             val menuItemId = item.itemId
             if (menuItemId == R.id.action_settings) {
                 startActivity(Intent(this@MainActivity, SettingActivity::class.java))
@@ -83,7 +62,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (useMenuResource) {//方式一:通过menu菜单去完成
             val tabColors = applicationContext.resources.getIntArray(R.array.tab_colors)
             val navigationAdapter = AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_3)
-            navigationAdapter.setupWithBottomNavigation(mBottomNavigation, tabColors)
+            navigationAdapter.setupWithBottomNavigation(bottom_navigation, tabColors)
         } else {//方式二:通过代码new出去并且添加上去完成
             val item1 = AHBottomNavigationItem(R.string.daily, R.mipmap.ic_bottom_navigation_daily, R.color.color_tab_1)
             val item2 = AHBottomNavigationItem(R.string.theme, R.mipmap.ic_bottom_navigation_theme, R.color.color_tab_2)
@@ -95,16 +74,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             bottomNavigationItems.add(item3)
             bottomNavigationItems.add(item4)
 
-            mBottomNavigation!!.addItems(bottomNavigationItems)
+            bottom_navigation!!.addItems(bottomNavigationItems)
         }
 
-        mBottomNavigation!!.isBehaviorTranslationEnabled = true//重要属性 设置向上滑动时是否隐藏底部栏
-        mBottomNavigation!!.accentColor = ResUtil.getColor(R.color.zhihu_blue) //设置选中的颜色
-        mBottomNavigation!!.inactiveColor = ResUtil.getColor(R.color.bottom_navigation_inactive)//设置闲置的颜色
-        mBottomNavigation!!.defaultBackgroundColor = ResUtil.getColor(R.color.bottom_navigation_bg)//设置背景颜色
+        bottom_navigation!!.isBehaviorTranslationEnabled = true//重要属性 设置向上滑动时是否隐藏底部栏
+        bottom_navigation!!.accentColor = ResUtil.getColor(R.color.zhihu_blue) //设置选中的颜色
+        bottom_navigation!!.inactiveColor = ResUtil.getColor(R.color.bottom_navigation_inactive)//设置闲置的颜色
+        bottom_navigation!!.defaultBackgroundColor = ResUtil.getColor(R.color.bottom_navigation_bg)//设置背景颜色
 
-        //mBottomNavigation.setNotification("", position);//给Item设置通知图标
-        mViewPager!!.offscreenPageLimit = 3
+        //bottom_navigation.setNotification("", position);//给Item设置通知图标
+        view_pager!!.offscreenPageLimit = 3
 
         val feedMainFragment = DailyMainFragment()
         //ThemeMainFragment themeMainFragment = new ThemeMainFragment();
@@ -116,11 +95,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         baseFragments.add(hotMainFragment)
         baseFragments.add(sectionMainFragment)
         adapter = MainViewPagerAdapter(supportFragmentManager, baseFragments)
-        mViewPager!!.adapter = adapter
+        view_pager!!.adapter = adapter
         currentFragment = adapter!!.currentFragment
 
         //wasSelected为真时,表示当前显示与当前点击的是同一个Item
-        mBottomNavigation!!.setOnTabSelectedListener(object : OnTabSelectedListener {
+        bottom_navigation!!.setOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
                 if (currentFragment == null) {
                     currentFragment = adapter!!.currentFragment
@@ -135,7 +114,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     currentFragment!!.willBeHidden()
                 }
 
-                mViewPager!!.setCurrentItem(position, false)
+                view_pager!!.setCurrentItem(position, false)
                 currentFragment = adapter!!.currentFragment
                 currentFragment!!.willBeDisplayed()
                 return true
@@ -144,8 +123,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onBackPressed() {
-        if (mDrawerLayout!!.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout!!.closeDrawer(GravityCompat.START)
+        if (drawer_layout!!.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout!!.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
@@ -170,7 +149,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         }
 
-        mDrawerLayout!!.closeDrawer(GravityCompat.START)
+        drawer_layout!!.closeDrawer(GravityCompat.START)
         return true
     }
 

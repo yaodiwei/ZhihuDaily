@@ -16,7 +16,7 @@
         android:layout_weight="1" />
 
     <ImageView
-        android:id="@+id/iv_splash"
+        android:id="@+id/iv_pic"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginStart="30dp" />
