@@ -49,7 +49,7 @@ class HotMainFragment : BaseFragment() {
     }
 
     private fun getHot() {
-        ZhihuHttp.zhihuHttp.hot.subscribe(object : Observer<HotJson> {
+        ZhihuHttp.zhihuHttp.getHots().subscribe(object : Observer<HotJson> {
 
             override fun onSubscribe(@NonNull d: Disposable) {
                 mDisposable = d

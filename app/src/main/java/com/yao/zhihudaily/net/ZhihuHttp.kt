@@ -5,11 +5,6 @@ import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 /**
  * @author Yao
@@ -17,76 +12,64 @@ import java.util.concurrent.TimeUnit
  */
 class ZhihuHttp private constructor() {
 
-    private val okHttpClient: OkHttpClient
+    private val mZhihuApiService: ZhihuApiService = ZhihuApiService.create()
 
-    private val retrofit: Retrofit
-
-    private val zhihuApi: ZhihuApi
-
-    val startImage: Observable<StartImageJson>
-        get() = zhihuApi.startImage
+    fun startImage(): Observable<StartImageJson> {
+        return mZhihuApiService.startImage()
                 .compose(applySchedulers())
                 .observeOn(Schedulers.io())
+    }
 
-    val dailies: Observable<DailiesJson>
-        get() = zhihuApi.dailies.compose(applySchedulers())
+    fun getDailies(): Observable<DailiesJson> {
+        return mZhihuApiService.dailies().compose(applySchedulers())
+    }
 
-    val themes: Observable<ThemesJson>
-        get() = zhihuApi.themes.compose(applySchedulers())
+    fun getThemes(): Observable<ThemesJson> {
+        return mZhihuApiService.themes().compose(applySchedulers())
+    }
 
-    val hot: Observable<HotJson>
-        get() = zhihuApi.hot.compose(applySchedulers())
+    fun getHots(): Observable<HotJson> {
+        return mZhihuApiService.hot().compose(applySchedulers())
+    }
 
-    val sections: Observable<SectionsJson>
-        get() = zhihuApi.sections.compose(applySchedulers())
-
-    init {
-        okHttpClient = OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build()
-
-        retrofit = Retrofit.Builder()
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(ZHIHU_BASE_URL)
-                .build()
-
-        zhihuApi = retrofit.create(ZhihuApi::class.java)
+    fun getSections(): Observable<SectionsJson> {
+        return mZhihuApiService.sections().compose(applySchedulers())
     }
 
     fun getDailiesBefore(date: String): Observable<DailiesJson> {
-        return zhihuApi.getDailiesBefore(date).compose(applySchedulers())
+        return mZhihuApiService.getDailiesBefore(date).compose(applySchedulers())
     }
 
     fun getNews(id: String): Observable<DailyJson> {
-        return zhihuApi.getNews(id).compose(applySchedulers())
+        return mZhihuApiService.getNews(id).compose(applySchedulers())
     }
 
     fun getStoryExtra(id: String): Observable<StoryExtra> {
-        return zhihuApi.getStoryExtra(id).compose(applySchedulers())
+        return mZhihuApiService.getStoryExtra(id).compose(applySchedulers())
     }
 
     fun getShortComments(id: String): Observable<CommentJson> {
-        return zhihuApi.getShortComments(id).compose(applySchedulers())
+        return mZhihuApiService.getShortComments(id).compose(applySchedulers())
     }
 
     fun getLongComments(id: String): Observable<CommentJson> {
-        return zhihuApi.getLongComments(id).compose(applySchedulers())
+        return mZhihuApiService.getLongComments(id).compose(applySchedulers())
     }
 
     fun getTheme(id: String): Observable<ThemeJson> {
-        return zhihuApi.getTheme(id).compose(applySchedulers())
+        return mZhihuApiService.getTheme(id).compose(applySchedulers())
     }
 
     fun getSection(id: String): Observable<SectionJson> {
-        return zhihuApi.getSection(id).compose(applySchedulers())
+        return mZhihuApiService.getSection(id).compose(applySchedulers())
     }
 
     fun getSectionBefore(id: String, timestamp: String): Observable<SectionJson> {
-        return zhihuApi.getSectionBefore(id, timestamp).compose(applySchedulers())
+        return mZhihuApiService.getSectionBefore(id, timestamp).compose(applySchedulers())
     }
 
     fun getRecommends(id: String): Observable<RecommendsJson> {
-        return zhihuApi.getRecommends(id).compose(applySchedulers())
+        return mZhihuApiService.getRecommends(id).compose(applySchedulers())
     }
 
     companion object {

@@ -119,7 +119,7 @@ class DailyMainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
             }
         }
         if (targetDate == null) {
-            ZhihuHttp.zhihuHttp.dailies.subscribe(observer)
+            ZhihuHttp.zhihuHttp.getDailies().subscribe(observer)
         } else {
             ZhihuHttp.zhihuHttp.getDailiesBefore(targetDate).subscribe(observer)
         }
