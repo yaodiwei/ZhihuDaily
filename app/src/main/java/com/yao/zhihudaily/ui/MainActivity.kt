@@ -25,7 +25,7 @@ import java.util.*
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var currentFragment: BaseFragment? = null
-    private var adapter: MainViewPagerAdapter? = null
+    private lateinit var adapter: MainViewPagerAdapter
     private val bottomNavigationItems = ArrayList<AHBottomNavigationItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,15 +39,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         toggle.isDrawerIndicatorEnabled = false//隐藏左上角的DrawerLayout图标
-        drawer_layout!!.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)//暂时关闭侧边栏,因为没有什么业务好写
-        drawer_layout!!.addDrawerListener(toggle)
+        drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)//暂时关闭侧边栏,因为没有什么业务好写
+        drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        navigation_view!!.setNavigationItemSelectedListener(this)
+        navigation_view.setNavigationItemSelectedListener(this)
 
 
-        toolbar!!.inflateMenu(R.menu.main)//设置右上角的填充菜单
-        toolbar!!.setOnMenuItemClickListener { item ->
+        toolbar.inflateMenu(R.menu.main)//设置右上角的填充菜单
+        toolbar.setOnMenuItemClickListener { item ->
             val menuItemId = item.itemId
             if (menuItemId == R.id.action_settings) {
                 startActivity(Intent(this@MainActivity, SettingActivity::class.java))
@@ -74,16 +74,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             bottomNavigationItems.add(item3)
             bottomNavigationItems.add(item4)
 
-            bottom_navigation!!.addItems(bottomNavigationItems)
+            bottom_navigation.addItems(bottomNavigationItems)
         }
 
-        bottom_navigation!!.isBehaviorTranslationEnabled = true//重要属性 设置向上滑动时是否隐藏底部栏
-        bottom_navigation!!.accentColor = ResUtil.getColor(R.color.zhihu_blue) //设置选中的颜色
-        bottom_navigation!!.inactiveColor = ResUtil.getColor(R.color.bottom_navigation_inactive)//设置闲置的颜色
-        bottom_navigation!!.defaultBackgroundColor = ResUtil.getColor(R.color.bottom_navigation_bg)//设置背景颜色
+        bottom_navigation.isBehaviorTranslationEnabled = true//重要属性 设置向上滑动时是否隐藏底部栏
+        bottom_navigation.accentColor = ResUtil.getColor(R.color.zhihu_blue) //设置选中的颜色
+        bottom_navigation.inactiveColor = ResUtil.getColor(R.color.bottom_navigation_inactive)//设置闲置的颜色
+        bottom_navigation.defaultBackgroundColor = ResUtil.getColor(R.color.bottom_navigation_bg)//设置背景颜色
 
         //bottom_navigation.setNotification("", position);//给Item设置通知图标
-        view_pager!!.offscreenPageLimit = 3
+        view_pager.offscreenPageLimit = 3
 
         val feedMainFragment = DailyMainFragment()
         //ThemeMainFragment themeMainFragment = new ThemeMainFragment();
@@ -95,18 +95,18 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         baseFragments.add(hotMainFragment)
         baseFragments.add(sectionMainFragment)
         adapter = MainViewPagerAdapter(supportFragmentManager, baseFragments)
-        view_pager!!.adapter = adapter
-        currentFragment = adapter!!.currentFragment
+        view_pager.adapter = adapter
+        currentFragment = adapter.currentFragment
 
         //wasSelected为真时,表示当前显示与当前点击的是同一个Item
-        bottom_navigation!!.setOnTabSelectedListener(object : OnTabSelectedListener {
+        bottom_navigation.setOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
                 if (currentFragment == null) {
-                    currentFragment = adapter!!.currentFragment
+                    currentFragment = adapter.currentFragment
                 }
 
                 if (wasSelected) {//为真时,刷新一个当前item就行
-                    currentFragment!!.refresh()
+                    currentFragment?.refresh()
                     return true
                 }
 
@@ -115,7 +115,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
 
                 view_pager!!.setCurrentItem(position, false)
-                currentFragment = adapter!!.currentFragment
+                currentFragment = adapter.currentFragment
                 currentFragment!!.willBeDisplayed()
                 return true
             }
