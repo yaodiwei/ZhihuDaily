@@ -44,7 +44,7 @@ interface ZhihuApiService {
     fun getStartImageFile(@Url url: String): Observable<ResponseBody> //通过@Url覆盖baseurl
 
     @GET("4/news/latest")
-    fun dailies(): Observable<DailiesJson>
+    fun getDailies(): Observable<DailiesJson>
 
     @GET("4/news/before/{date}")
     fun getDailiesBefore(@Path("date") date: String): Observable<DailiesJson>
@@ -62,16 +62,16 @@ interface ZhihuApiService {
     fun getLongComments(@Path("id") id: String): Observable<CommentJson>
 
     @GET("4/themes")
-    fun themes(): Observable<ThemesJson>
+    fun getThemes(): Observable<ThemesJson>
 
     @GET("4/theme/{id}")
     fun getTheme(@Path("id") id: String): Observable<ThemeJson>
 
     @GET("3/news/hot")
-    fun hot(): Observable<HotJson>
+    fun getHot(): Observable<HotJson>
 
     @GET("3/sections")
-    fun sections(): Observable<SectionsJson>
+    fun getSections(): Observable<SectionsJson>
 
     @GET("3/section/{id}")
     fun getSection(@Path("id") id: String): Observable<SectionJson>

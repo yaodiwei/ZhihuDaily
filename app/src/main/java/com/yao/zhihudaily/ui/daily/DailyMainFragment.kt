@@ -72,7 +72,7 @@ class DailyMainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
         //如果是首次加载这个界面
         //表示下拉刷新
         //App的最晚时间 等于 下拉新获取的时间
-        ////App的最晚时间 不等于 下拉新获取的时间
+        //App的最晚时间 不等于 下拉新获取的时间
         //表示上拉加载
         val observer = object : Observer<DailiesJson> {
 
@@ -123,9 +123,7 @@ class DailyMainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
         } else {
             ZhihuHttp.zhihuHttp.getDailiesBefore(targetDate).subscribe(observer)
         }
-
     }
-
 
     override fun onRefresh() {
         getDailies(null)
@@ -140,7 +138,6 @@ class DailyMainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     companion object {
-
         private val TAG = "DailyMainFragment"
     }
 }

@@ -21,23 +21,23 @@ class ZhihuHttp private constructor() {
     }
 
     fun getDailies(): Observable<DailiesJson> {
-        return mZhihuApiService.dailies().compose(applySchedulers())
-    }
-
-    fun getThemes(): Observable<ThemesJson> {
-        return mZhihuApiService.themes().compose(applySchedulers())
-    }
-
-    fun getHots(): Observable<HotJson> {
-        return mZhihuApiService.hot().compose(applySchedulers())
-    }
-
-    fun getSections(): Observable<SectionsJson> {
-        return mZhihuApiService.sections().compose(applySchedulers())
+        return mZhihuApiService.getDailies().compose(applySchedulers())
     }
 
     fun getDailiesBefore(date: String): Observable<DailiesJson> {
         return mZhihuApiService.getDailiesBefore(date).compose(applySchedulers())
+    }
+
+    fun getThemes(): Observable<ThemesJson> {
+        return mZhihuApiService.getThemes().compose(applySchedulers())
+    }
+
+    fun getHots(): Observable<HotJson> {
+        return mZhihuApiService.getHot().compose(applySchedulers())
+    }
+
+    fun getSections(): Observable<SectionsJson> {
+        return mZhihuApiService.getSections().compose(applySchedulers())
     }
 
     fun getNews(id: String): Observable<DailyJson> {
