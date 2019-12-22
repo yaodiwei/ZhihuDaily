@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.yao.zhihudaily"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode rootProject.ext.versions.versionCode
         versionName rootProject.ext.versions.versionName
@@ -60,12 +60,14 @@ dependencies {
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
     implementation 'org.greenrobot:eventbus:3.1.1'
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2'
+
     implementation "com.android.support:multidex:1.0.3"
 
     implementation 'com.tencent.tinker:tinker-android-lib:1.9.14'
     compileOnly 'com.tencent.tinker:tinker-android-anno:1.9.14'
     //不加这句依赖，会报下面这个错
     //Annotation processors must be explicitly declared now.  The following dependencies on the compile classpath are found to contain annotation processor.  Please add them to the annotationProcessor configuration.
-    //- tinker-android-anno-1.9.14.jar (com.tencent.tinker:tinker-android-anno:1.9.14)
     annotationProcessor 'com.tencent.tinker:tinker-android-anno:1.9.14'
 }

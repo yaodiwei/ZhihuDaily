@@ -56,7 +56,7 @@ class RecommendersActivity : BaseActivity() {
 
     private fun getRecommenders(id: String) {
         mStateTool!!.showProgressView()
-        ZhihuHttp.zhihuHttp.getRecommends(id).subscribe(object : Observer<RecommendsJson> {
+        ZhihuHttp.mZhihuHttp.getRecommends(id).subscribe(object : Observer<RecommendsJson> {
 
             override fun onSubscribe(@NonNull d: Disposable) {
                 mDisposable = d

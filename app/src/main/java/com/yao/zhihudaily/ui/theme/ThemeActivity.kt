@@ -60,7 +60,7 @@ class ThemeActivity : BaseActivity() {
     }
 
     private fun getThemeData() {
-        ZhihuHttp.zhihuHttp.getTheme(mId.toString()).subscribe(object : Observer<ThemeJson> {
+        ZhihuHttp.mZhihuHttp.getTheme(mId.toString()).subscribe(object : Observer<ThemeJson> {
 
             override fun onSubscribe(@NonNull d: Disposable) {
                 mDisposable = d

@@ -120,9 +120,9 @@ class CommentsFragment : BaseFragment() {
         }
 
         if (url.endsWith("short-comments")) {
-            ZhihuHttp.zhihuHttp.getShortComments(commentId.toString()).subscribe(subscriber)
+            ZhihuHttp.mZhihuHttp.getShortComments(commentId.toString()).subscribe(subscriber)
         } else {
-            ZhihuHttp.zhihuHttp.getLongComments(commentId.toString()).subscribe(subscriber)
+            ZhihuHttp.mZhihuHttp.getLongComments(commentId.toString()).subscribe(subscriber)
         }
     }
 

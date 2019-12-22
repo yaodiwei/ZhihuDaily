@@ -151,7 +151,7 @@ class SplashActivity : BaseActivity() {
 
     @Deprecated("")//此api已废弃
     private fun getStartImage() {
-        ZhihuHttp.zhihuHttp.startImage()
+        ZhihuHttp.mZhihuHttp.startImage()
                 .filter { startImageJson ->
                     //与缓存url的不相等, 才进入下一步进行新url的缓存
                     SP.getString(START_TEXT, "") != startImageJson.text

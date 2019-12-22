@@ -21,6 +21,10 @@ interface ZhihuApiService {
 
     companion object Factory {
 
+        val ZHIHU_BASE_URL = "http://news-at.zhihu.com/api/"
+
+        val mZhihuApiService = create()
+
         fun create(): ZhihuApiService {
 
             val okHttpClient = OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build()
@@ -29,7 +33,7 @@ interface ZhihuApiService {
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .baseUrl(ZhihuHttp.ZHIHU_BASE_URL)
+                    .baseUrl(ZHIHU_BASE_URL)
                     .build()
 
             return retrofit.create(ZhihuApiService::class.java)
@@ -69,6 +73,9 @@ interface ZhihuApiService {
 
     @GET("3/news/hot")
     fun getHot(): Observable<HotJson>
+
+    @GET("3/news/hot")
+    suspend fun getHotCoroutine(): HotJson
 
     @GET("3/sections")
     fun getSections(): Observable<SectionsJson>

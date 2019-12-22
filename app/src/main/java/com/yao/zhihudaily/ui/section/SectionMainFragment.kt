@@ -48,7 +48,7 @@ class SectionMainFragment : BaseFragment() {
     }
 
     private fun getSections() {
-        ZhihuHttp.zhihuHttp.getSections().subscribe(object : Observer<SectionsJson> {
+        ZhihuHttp.mZhihuHttp.getSections().subscribe(object : Observer<SectionsJson> {
 
             override fun onSubscribe(@NonNull d: Disposable) {
                 mDisposable = d

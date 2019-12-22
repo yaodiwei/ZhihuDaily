@@ -73,7 +73,7 @@ class NewsDetailActivity : BaseActivity() {
     }
 
     private fun getNews(id: Int) {
-        ZhihuHttp.zhihuHttp.getNews(id.toString()).subscribe(object : Observer<DailyJson> {
+        ZhihuHttp.mZhihuHttp.getNews(id.toString()).subscribe(object : Observer<DailyJson> {
 
             override fun onSubscribe(@NonNull d: Disposable) {
                 mCompositeDisposable.add(d)
@@ -107,7 +107,7 @@ class NewsDetailActivity : BaseActivity() {
     }
 
     private fun getStoryExtra(id: Int) {
-        ZhihuHttp.zhihuHttp.getStoryExtra(id.toString()).subscribe(object : Observer<StoryExtra> {
+        ZhihuHttp.mZhihuHttp.getStoryExtra(id.toString()).subscribe(object : Observer<StoryExtra> {
 
             override fun onSubscribe(@NonNull d: Disposable) {
                 mCompositeDisposable.add(d)

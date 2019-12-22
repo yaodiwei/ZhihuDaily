@@ -48,7 +48,7 @@ class ThemeMainFragment : BaseFragment() {
 
     private fun getThemes() {
 
-        ZhihuHttp.zhihuHttp.getThemes().subscribe(object : Observer<ThemesJson> {
+        ZhihuHttp.mZhihuHttp.getThemes().subscribe(object : Observer<ThemesJson> {
 
             override fun onSubscribe(@NonNull d: Disposable) {
                 mDisposable = d

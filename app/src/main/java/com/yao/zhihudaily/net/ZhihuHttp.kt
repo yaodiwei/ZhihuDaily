@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class ZhihuHttp private constructor() {
 
-    private val mZhihuApiService: ZhihuApiService = ZhihuApiService.create()
+    private val mZhihuApiService = ZhihuApiService.mZhihuApiService
 
     fun startImage(): Observable<StartImageJson> {
         return mZhihuApiService.startImage()
@@ -32,8 +32,12 @@ class ZhihuHttp private constructor() {
         return mZhihuApiService.getThemes().compose(applySchedulers())
     }
 
-    fun getHots(): Observable<HotJson> {
+    fun getHot(): Observable<HotJson> {
         return mZhihuApiService.getHot().compose(applySchedulers())
+    }
+
+    suspend fun getHotCoroutine(): HotJson {
+        return mZhihuApiService.getHotCoroutine()
     }
 
     fun getSections(): Observable<SectionsJson> {
@@ -74,9 +78,7 @@ class ZhihuHttp private constructor() {
 
     companion object {
 
-        val ZHIHU_BASE_URL = "http://news-at.zhihu.com/api/"
-
-        val zhihuHttp = ZhihuHttp()
+        val mZhihuHttp = ZhihuHttp()
 
         private fun <T> applySchedulers(): ObservableTransformer<T, T> {
             return ObservableTransformer { upstream ->

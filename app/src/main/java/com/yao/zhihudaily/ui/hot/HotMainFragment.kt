@@ -1,13 +1,16 @@
 package com.yao.zhihudaily.ui.hot
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.orhanobut.logger.Logger
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.HotJson
+import com.yao.zhihudaily.net.ZhihuApiService
 import com.yao.zhihudaily.net.ZhihuHttp
 import com.yao.zhihudaily.tool.SimpleDividerDecoration
 import com.yao.zhihudaily.ui.BaseFragment
@@ -15,12 +18,16 @@ import io.reactivex.Observer
 import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_hot.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * @author Yao
  * @date 2016/7/22
  */
-class HotMainFragment : BaseFragment() {
+class HotMainFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private var hotAdapter: HotAdapter? = null
 
@@ -32,6 +39,7 @@ class HotMainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        swipe_refresh_layout.setOnRefreshListener(this)
         rv_hots!!.layoutManager = LinearLayoutManager(fragmentActivity)
         //rv_hots.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         rv_hots!!.addItemDecoration(SimpleDividerDecoration(fragmentActivity))
@@ -48,8 +56,57 @@ class HotMainFragment : BaseFragment() {
         }
     }
 
+    override fun onRefresh() {
+        Log.e("YAO", "HotMainFragment --- onRefresh()")
+        getHot()
+    }
+
+    private fun getHotOriginal() {
+        GlobalScope.launch(Dispatchers.Main) {
+
+            val hotJson = withContext(Dispatchers.IO){
+                val dailiesJson = ZhihuApiService.mZhihuApiService.getHotCoroutine()
+                dailiesJson
+            }
+
+            if (swipe_refresh_layout.isRefreshing) {
+                swipe_refresh_layout.isRefreshing = false
+            }
+
+            val hots = hotJson.hots
+            if (hots != null) {
+                hotAdapter!!.addList(hots)
+                hotAdapter!!.notifyDataSetChanged()
+            }
+        }
+    }
+
     private fun getHot() {
-        ZhihuHttp.zhihuHttp.getHots().subscribe(object : Observer<HotJson> {
+        GlobalScope.launch(Dispatchers.Main) {
+
+            try {
+                val hotJson = withContext(Dispatchers.IO){
+                    val dailiesJson = ZhihuApiService.mZhihuApiService.getHotCoroutine()
+                    dailiesJson
+                }
+
+                val hots = hotJson.hots
+                if (hots != null) {
+                    hotAdapter!!.addList(hots)
+                    hotAdapter!!.notifyDataSetChanged()
+                }
+            } catch (e: Exception) {
+                Log.e("YAO", e.toString())
+            } finally {
+                if (swipe_refresh_layout.isRefreshing) {
+                    swipe_refresh_layout.isRefreshing = false
+                }
+            }
+        }
+    }
+
+    private fun getHotBak() {
+        ZhihuHttp.mZhihuHttp.getHot().subscribe(object : Observer<HotJson> {
 
             override fun onSubscribe(@NonNull d: Disposable) {
                 mDisposable = d
@@ -77,5 +134,4 @@ class HotMainFragment : BaseFragment() {
 
         private val TAG = "HotMainFragment"
     }
-
 }

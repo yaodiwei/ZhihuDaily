@@ -90,11 +90,11 @@ class SectionActivity : BaseActivity() {
             }
         }
         if (timestamp == -1L) {
-            ZhihuHttp.zhihuHttp.getSection(mId.toString()).subscribe(subscriber)
+            ZhihuHttp.mZhihuHttp.getSection(mId.toString()).subscribe(subscriber)
         } else if (timestamp == 0L) {
             //nothing to do
         } else {
-            ZhihuHttp.zhihuHttp.getSectionBefore(mId.toString(), timestamp.toString()).subscribe(subscriber)
+            ZhihuHttp.mZhihuHttp.getSectionBefore(mId.toString(), timestamp.toString()).subscribe(subscriber)
         }
 
     }

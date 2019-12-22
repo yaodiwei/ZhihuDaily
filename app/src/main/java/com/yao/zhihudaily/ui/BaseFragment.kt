@@ -1,17 +1,13 @@
 package com.yao.zhihudaily.ui
 
 import android.util.Log
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
-
-import com.umeng.analytics.MobclickAgent
-import com.yao.zhihudaily.R
-
-import java.util.Objects
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.RecyclerView
+import com.umeng.analytics.MobclickAgent
+import com.yao.zhihudaily.R
+import java.util.*
 
 /**
  * @author Yao
@@ -20,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class BaseFragment : Fragment() {
 
     private val mFragmentContainer: FrameLayout? = null
-    private val mRecyclerView: RecyclerView? = null
 
     val fragmentActivity: FragmentActivity
         get() = Objects.requireNonNull<FragmentActivity>(activity)
@@ -41,8 +36,7 @@ abstract class BaseFragment : Fragment() {
      * Refresh
      * 如果是当前页面=点击页面, 则平滑移动到头部
      */
-    fun refresh() {
-        mRecyclerView?.smoothScrollToPosition(0)
+    open fun refresh() {
     }
 
     /**
