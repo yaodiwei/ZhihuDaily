@@ -9,10 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Recommender;
 import com.yao.zhihudaily.tool.Constant;
-import com.yao.zhihudaily.tool.GlideCircleTransform;
 import com.yao.zhihudaily.tool.OnItemClickListener;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class RecommenderAdapter extends RecyclerView.Adapter<RecommenderAdapter.
         holder.tvName.setText(recommender.getName());
         holder.tvBio.setText(recommender.getBio());
         if (recommender.getAvatar() != null) {
-            Glide.with(mActivity).load(recommender.getAvatar()).transform(new GlideCircleTransform()).into(holder.iv);
+            Glide.with(mActivity).load(recommender.getAvatar()).transform(new CircleCrop()).into(holder.iv);
         }
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(mOnItemClickListener);

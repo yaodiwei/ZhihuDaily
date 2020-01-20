@@ -9,10 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.Comment;
-import com.yao.zhihudaily.tool.GlideCircleTransform;
 
 import java.util.ArrayList;
 
@@ -38,12 +38,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
     private ArrayList<Comment> mComments = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
     private Context ctx;
-    private GlideCircleTransform mGlideCircleTransform;
+    private CircleCrop mCircleCrop;
 
     public CommentAdapter(Context ctx) {
         this.ctx = ctx;
         mLayoutInflater = LayoutInflater.from(ctx);
-        mGlideCircleTransform = new GlideCircleTransform();
+        mCircleCrop = new CircleCrop();
     }
 
     public void addList(ArrayList<Comment> comments) {
@@ -73,7 +73,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ShortCom
             }
         };
         Glide.with(ctx).asBitmap().load(c.getAvatar()).centerCrop().into(target);
-        Glide.with(ctx).load(c.getAvatar()).transform(mGlideCircleTransform).into(holder.ivAvatar);
+        Glide.with(ctx).load(c.getAvatar()).transform(mCircleCrop).into(holder.ivAvatar);
         holder.tvAuthor.setText(c.getAuthor());
         holder.tvContent.setText(c.getContent());
         holder.tvTime.setText(c.getTimeStr());
