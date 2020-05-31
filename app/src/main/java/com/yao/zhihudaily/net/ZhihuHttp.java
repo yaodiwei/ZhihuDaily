@@ -1,5 +1,6 @@
 package com.yao.zhihudaily.net;
 
+import com.yao.zhihudaily.BuildConfig;
 import com.yao.zhihudaily.model.CommentJson;
 import com.yao.zhihudaily.model.DailiesJson;
 import com.yao.zhihudaily.model.DailyJson;
@@ -12,7 +13,17 @@ import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.model.ThemeJson;
 import com.yao.zhihudaily.model.ThemesJson;
 
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
@@ -39,8 +50,49 @@ public class ZhihuHttp {
 
     private ZhihuApi zhihuApi;
 
+    private static SSLSocketFactory createSSLSocketFactory() {
+        SSLSocketFactory sSLSocketFactory = null;
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, new TrustManager[]{new TrustAllManager()},
+                    new SecureRandom());
+            sSLSocketFactory = sc.getSocketFactory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sSLSocketFactory;
+    }
+
+    private static class TrustAllManager implements X509TrustManager {
+        @Override
+        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        }
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        }
+
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return new X509Certificate[0];
+        }
+    }
+
+    private static class TrustAllHostnameVerifier implements HostnameVerifier {
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            return true;
+        }
+    }
+
     private ZhihuHttp() {
-        okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).build();
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(10, TimeUnit.SECONDS);
+        if (BuildConfig.DEBUG) {
+            builder.sslSocketFactory(createSSLSocketFactory(), new TrustAllManager());
+            builder.hostnameVerifier(new TrustAllHostnameVerifier());
+        }
+        okHttpClient = builder.build();
 
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
