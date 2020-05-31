@@ -29,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ZhihuHttp {
 
-    public static final String ZHIHU_BASE_URL = "http://news-at.zhihu.com/api/";
+    public static final String ZHIHU_BASE_URL = "https://news-at.zhihu.com/api/";
 
     private static final ZhihuHttp zhihuHttp = new ZhihuHttp();
 
