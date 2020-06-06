@@ -3,6 +3,7 @@ package com.yao.zhihudaily.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 
 /**
  * @author Yao
@@ -13,8 +14,12 @@ public class ResUtil {
     @SuppressLint("StaticFieldLeak")
     private static Context sContext;
 
-    public static void init(Context ctx){
+    public static void init(Context ctx) {
         sContext = ctx;
+    }
+
+    public static Resources getResources() {
+        return sContext.getResources();
     }
 
     public static String getString(int resId) {
