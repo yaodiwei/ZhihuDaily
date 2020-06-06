@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.orhanobut.logger.Logger;
 import com.yao.zhihudaily.R;
 import com.yao.zhihudaily.model.DailiesJson;
@@ -16,9 +20,6 @@ import com.yao.zhihudaily.tool.SimpleDividerDecoration;
 import com.yao.zhihudaily.tool.StateTool;
 import com.yao.zhihudaily.ui.BaseFragment;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;

@@ -1,6 +1,7 @@
 package com.yao.zhihudaily.net;
 
-import com.yao.zhihudaily.BuildConfig;
+import android.util.Log;
+
 import com.yao.zhihudaily.model.CommentJson;
 import com.yao.zhihudaily.model.DailiesJson;
 import com.yao.zhihudaily.model.DailyJson;
@@ -13,6 +14,9 @@ import com.yao.zhihudaily.model.StoryExtra;
 import com.yao.zhihudaily.model.ThemeJson;
 import com.yao.zhihudaily.model.ThemesJson;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -29,7 +33,11 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -88,10 +96,25 @@ public class ZhihuHttp {
     private ZhihuHttp() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(10, TimeUnit.SECONDS);
-        if (BuildConfig.DEBUG) {
-            builder.sslSocketFactory(createSSLSocketFactory(), new TrustAllManager());
-            builder.hostnameVerifier(new TrustAllHostnameVerifier());
-        }
+
+        // Debug 模式下信息所有证书，方便开发时候抓包
+//        if (BuildConfig.DEBUG) {
+//            builder.sslSocketFactory(createSSLSocketFactory(), new TrustAllManager());
+//            builder.hostnameVerifier(new TrustAllHostnameVerifier());
+//        }
+
+        // 只信任网站对应的证书
+//        CertificatePinner certificatePinner = new CertificatePinner.Builder()
+//                //正常请求下的证书验证链路
+//                .add("news-at.zhihu.com", "sha256/f5fNYvDJUKFsO51UowKkyKAlWXZXpaGK6Bah4yX9zmI=")//CN=*.zhihu.com,OU=IT,O=智者四海（北京）技术有限公司,L=北京市,C=CN
+//                .add("news-at.zhihu.com", "sha256/zUIraRNo+4JoAYA7ROeWjARtIoN4rIEbCpfCRQT6N6A=")//CN=GeoTrust RSA CA 2018,OU=www.digicert.com,O=DigiCert Inc,C=US
+//                .add("news-at.zhihu.com", "sha256/r/mIkG3eEpVdm+u/ko/cwxzOMo1bk4TyHIlByibiA5E=")//CN=DigiCert Global Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US
+//
+//                //charles 抓包下的配置
+//                .add("news-at.zhihu.com", "sha256/dVUJFtUhQtJki5t0/j+hMYzTgtVkETqjsogUuyquPPo=")//CN=*.zhihu.com,OU=IT,O=智者四海（北京）技术有限公司,L=北京市,C=CN
+//                .add("news-at.zhihu.com", "sha256/54ZQa+M6vq6DhdR7DLkc1X6fWmVEZ6wLZaaYwoR4Uvw=")//C=NZ,ST=Auckland,L=Auckland,O=XK72 Ltd,OU=https://charlesproxy.com/ssl,CN=Charles Proxy CA (2 十月 2017\, YaodeMacBook-Pro.local)
+//                .build();
+//        builder.certificatePinner(certificatePinner);
         okHttpClient = builder.build();
 
         retrofit = new Retrofit.Builder()
@@ -106,6 +129,24 @@ public class ZhihuHttp {
 
     public static ZhihuHttp getZhihuHttp() {
         return zhihuHttp;
+    }
+
+    public void getDailiesWithCallback() {
+        Request request = new Request.Builder()
+                .url(ZHIHU_BASE_URL + "4/news/latest")
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("YAO", "ZhihuHttp.java - onFailure() ----- e:" + e.toString());
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                Log.e("YAO", "ZhihuHttp.java - onResponse() ----- :" + response.toString());
+            }
+        });
     }
 
     public Observable<StartImageJson> getStartImage() {

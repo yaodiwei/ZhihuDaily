@@ -1,8 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
+
+    <!-- 这个是全局的基础的配置 -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <!-- 如果整个base-config都不写，就等于是<certificates src="system" /> -->
+            <!-- 这里写全局基础配置，只信任下面某几个证书 -->
+            <certificates src="@raw/zhihu" />
+            <certificates src="@raw/yao_charles" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- 如果只对某些涉及数据安全的私密域名进行保护，可以针对某个域名，只信任某几个证书 -->
+    <!-- BaseConfig如果已经命中了，下面这个domain-config配置可以不写。 -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">zhihu.com</domain>
+        <domain includeSubdomains="true">zhimg.com</domain>
+        <trust-anchors>
+            <certificates src="@raw/zhihu" />
+            <certificates src="@raw/yao_charles" />
+        </trust-anchors>
+    </domain-config>
+
     <debug-overrides>
         <trust-anchors>
             <certificates src="user" />
         </trust-anchors>
     </debug-overrides>
+
 </network-security-config>
