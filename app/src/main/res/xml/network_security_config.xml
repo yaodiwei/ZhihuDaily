@@ -7,6 +7,7 @@
             <!-- 如果整个base-config都不写，就等于是<certificates src="system" /> -->
             <!-- 这里写全局基础配置，只信任下面某几个证书 -->
             <certificates src="@raw/zhihu" />
+            <certificates src="@raw/zhimg" />
             <certificates src="@raw/yao_charles" />
         </trust-anchors>
     </base-config>
