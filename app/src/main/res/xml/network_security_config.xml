@@ -8,6 +8,7 @@
             <!-- 这里写全局基础配置，只信任下面某几个证书 -->
             <certificates src="@raw/zhihu" />
             <certificates src="@raw/zhimg" />
+            <!-- 正式版本，然后可以用自己的电脑抓包 -->
             <certificates src="@raw/yao_charles" />
         </trust-anchors>
     </base-config>
@@ -19,6 +20,8 @@
         <domain includeSubdomains="true">zhimg.com</domain>
         <trust-anchors>
             <certificates src="@raw/zhihu" />
+            <certificates src="@raw/zhimg" />
+            <!-- 正式版本，然后可以用自己的电脑抓包 -->
             <certificates src="@raw/yao_charles" />
         </trust-anchors>
     </domain-config>
