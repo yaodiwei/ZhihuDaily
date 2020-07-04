@@ -33,14 +33,18 @@
             android:value="ca834d04d081f2ba2875ebe04a97801d" />
 
         <activity
-            android:name=".ui.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/FullscreenTheme">
+            android:name=".ui.MultiTaskActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme">
         </activity>
         <activity android:name=".ui.MainActivity">
             <intent-filter>
