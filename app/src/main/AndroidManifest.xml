@@ -33,7 +33,7 @@
             android:value="ca834d04d081f2ba2875ebe04a97801d" />
 
         <activity
-            android:name=".ui.MultiTaskActivity"
+            android:name=".ui.ConcurrentTaskActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
