@@ -9,10 +9,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.Recommender
 import com.yao.zhihudaily.tool.Constant
-import com.yao.zhihudaily.tool.GlideCircleTransform
 import com.yao.zhihudaily.tool.OnItemClickListener
 import kotlinx.android.synthetic.main.item_recommender.view.*
 import java.util.*
@@ -49,7 +49,7 @@ class RecommenderAdapter(private val mActivity: Activity) : RecyclerView.Adapter
         holder.tvName.text = recommender.name
         holder.tvBio.text = recommender.bio
         if (recommender.avatar != null) {
-            Glide.with(mActivity).load(recommender.avatar).transform(GlideCircleTransform()).into(holder.ivAvatar!!)
+            Glide.with(mActivity).load(recommender.avatar).transform(CircleCrop()).into(holder.ivAvatar!!)
         }
         holder.itemView.tag = position
         holder.itemView.setOnClickListener(mOnItemClickListener)

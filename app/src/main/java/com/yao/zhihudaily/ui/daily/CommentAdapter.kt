@@ -11,10 +11,10 @@ import android.widget.TextView
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.yao.zhihudaily.R
 import com.yao.zhihudaily.model.Comment
-import com.yao.zhihudaily.tool.GlideCircleTransform
 import kotlinx.android.synthetic.main.item_short_comment_with_reply.view.*
 import java.util.*
 
@@ -28,11 +28,11 @@ class CommentAdapter(private val ctx: Context) : RecyclerView.Adapter<CommentAda
 
     private val mComments = ArrayList<Comment>()
     private val mLayoutInflater: LayoutInflater
-    private val mGlideCircleTransform: GlideCircleTransform
+    private val mCircleCrop: CircleCrop
 
     init {
         mLayoutInflater = LayoutInflater.from(ctx)
-        mGlideCircleTransform = GlideCircleTransform()
+        mCircleCrop = CircleCrop()
     }
 
     fun addList(comments: ArrayList<Comment>) {
@@ -59,7 +59,7 @@ class CommentAdapter(private val ctx: Context) : RecyclerView.Adapter<CommentAda
             }
         }
         Glide.with(ctx).asBitmap().load(c.avatar).centerCrop().into<BitmapImageViewTarget>(target)
-        Glide.with(ctx).load(c.avatar).transform(mGlideCircleTransform).into(holder.ivAvatar)
+        Glide.with(ctx).load(c.avatar).transform(mCircleCrop).into(holder.ivAvatar)
         holder.tvAuthor.text = c.author
         holder.tvContent.text = c.content
         holder.tvTime.text = c.timeStr
