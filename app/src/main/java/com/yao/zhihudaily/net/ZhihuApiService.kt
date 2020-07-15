@@ -21,7 +21,7 @@ interface ZhihuApiService {
 
     companion object Factory {
 
-        val ZHIHU_BASE_URL = "http://news-at.zhihu.com/api/"
+        val ZHIHU_BASE_URL = "https://news-at.zhihu.com/api/"
 
         val mZhihuApiService = create()
 

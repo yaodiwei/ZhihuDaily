@@ -3,6 +3,18 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.tencent.tinker.patch'
 
+//如果是作者自己，isYao为真，可以打正式包，正式包使用 ./private/ 文件夹下的签名和配置
+//如果不是作者，debug模式可以用，release模式需要自己配置好相应的签名
+boolean isYao = rootDir.toString() == "/Users/Yao/work/ZhihuDaily"
+def config
+if (isYao) {
+    //读取一个路径为 ./private/config.properties 的文件，这是一个私有的文件
+    //用于存放签名文件，或者一些第三方的key
+    println(new File("./"))
+    config = new ConfigSlurper().parse(new File("./private/config.properties").text)
+    println config
+}
+
 android {
     compileSdkVersion 28
 
@@ -19,10 +31,32 @@ android {
             }
         }
     }
+
+    if (isYao) {
+        signingConfigs {
+            release {
+                storeFile file('../private/yao.keystore')
+                storePassword config.release_password
+                keyAlias config.release_alias
+                keyPassword config.release_password
+                v2SigningEnabled false
+            }
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            if (isYao) {
+                signingConfig signingConfigs.release
+            }
+            minifyEnabled false //为true会导致tinker报错 https://github.com/Tencent/tinker/issues/1231
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            shrinkResources false
         }
     }
 
