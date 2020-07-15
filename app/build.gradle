@@ -53,7 +53,15 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
+        preRelease {
+            if (isYao) {
+                signingConfig signingConfigs.release
+            }
+            minifyEnabled false //为true会导致tinker报错 https://github.com/Tencent/tinker/issues/1231
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+        }
         debug {
             minifyEnabled false
             shrinkResources false
