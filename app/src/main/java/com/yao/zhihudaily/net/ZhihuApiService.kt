@@ -3,6 +3,7 @@ package com.yao.zhihudaily.net
 import com.yao.zhihudaily.BuildConfig
 import com.yao.zhihudaily.model.*
 import io.reactivex.Observable
+import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
@@ -67,10 +68,25 @@ interface ZhihuApiService {
 
             val builder = OkHttpClient.Builder()
             builder.connectTimeout(10, TimeUnit.SECONDS)
-            if (BuildConfig.DEBUG) {
-                builder.sslSocketFactory(createSSLSocketFactory()!!, TrustAllManager())
-                builder.hostnameVerifier(TrustAllHostnameVerifier())
-            }
+
+            // Debug 模式下信息所有证书，方便开发时候抓包
+//            if (BuildConfig.DEBUG) {
+//                builder.sslSocketFactory(createSSLSocketFactory()!!, TrustAllManager());
+//                builder.hostnameVerifier(TrustAllHostnameVerifier());
+//            }
+
+            // 只信任网站对应的证书
+//            val certificatePinner = CertificatePinner.Builder()
+//                    //正常请求下的证书验证链路
+//                    .add("news-at.zhihu.com", "sha256/f5fNYvDJUKFsO51UowKkyKAlWXZXpaGK6Bah4yX9zmI=")//CN=*.zhihu.com,OU=IT,O=智者四海（北京）技术有限公司,L=北京市,C=CN
+//                    .add("news-at.zhihu.com", "sha256/zUIraRNo+4JoAYA7ROeWjARtIoN4rIEbCpfCRQT6N6A=")//CN=GeoTrust RSA CA 2018,OU=www.digicert.com,O=DigiCert Inc,C=US
+//                    .add("news-at.zhihu.com", "sha256/r/mIkG3eEpVdm+u/ko/cwxzOMo1bk4TyHIlByibiA5E=")//CN=DigiCert Global Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US
+//                    //charles 抓包下的配置
+//                    .add("news-at.zhihu.com", "sha256/dVUJFtUhQtJki5t0/j+hMYzTgtVkETqjsogUuyquPPo=")//CN=*.zhihu.com,OU=IT,O=智者四海（北京）技术有限公司,L=北京市,C=CN
+//                    .add("news-at.zhihu.com", "sha256/54ZQa+M6vq6DhdR7DLkc1X6fWmVEZ6wLZaaYwoR4Uvw=")//C=NZ,ST=Auckland,L=Auckland,O=XK72 Ltd,OU=https://charlesproxy.com/ssl,CN=Charles Proxy CA (2 十月 2017\, YaodeMacBook-Pro.local)
+//                    .build();
+//            builder.certificatePinner(certificatePinner);
+
             val okHttpClient = builder.build()
 
             val retrofit = Retrofit.Builder()
