@@ -3,6 +3,7 @@ package com.yao.zhihudaily.util
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 
 /**
  * @author Yao
@@ -15,6 +16,10 @@ object ResUtil {
 
     fun init(ctx: Context) {
         sContext = ctx
+    }
+
+    fun getResources(): Resources {
+        return sContext.resources
     }
 
     fun getString(resId: Int): String {
