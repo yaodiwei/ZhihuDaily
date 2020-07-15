@@ -35,13 +35,13 @@ class NewsDetailActivity : BaseActivity() {
         val id = intent.getIntExtra(Constant.ID, 0)
 
         //也可以在xml中设置
-        collapsing_toolbar_layout!!.setExpandedTitleTextAppearance(R.style.ExpandedDisappearAppBar)
-        collapsing_toolbar_layout!!.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar)
+        collapsing_toolbar_layout.setExpandedTitleTextAppearance(R.style.ExpandedDisappearAppBar)
+        collapsing_toolbar_layout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar)
 
-        toolbar!!.setNavigationIcon(R.mipmap.back)//设置导航栏图标
-        toolbar!!.inflateMenu(R.menu.new_detail_menu)//设置右上角的填充菜单
-        toolbar!!.setNavigationOnClickListener { view -> finish() }
-        toolbar!!.setOnMenuItemClickListener { item ->
+        toolbar.setNavigationIcon(R.mipmap.back)//设置导航栏图标
+        toolbar.inflateMenu(R.menu.new_detail_menu)//设置右上角的填充菜单
+        toolbar.setNavigationOnClickListener { finish() }
+        toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.itemShare -> {
                     Toast.makeText(this@NewsDetailActivity, "点击分享", Toast.LENGTH_SHORT).show()
@@ -80,20 +80,20 @@ class NewsDetailActivity : BaseActivity() {
             }
 
             override fun onNext(dailyJson: DailyJson) {
-                web_view!!.loadData(HtmlUtil.createHtmlData(dailyJson), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING)
-                tv_title!!.text = dailyJson.title
-                tv_source!!.text = dailyJson.imageSource
+                web_view.loadData(HtmlUtil.createHtmlData(dailyJson), HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING)
+                tv_title.text = dailyJson.title
+                tv_source.text = dailyJson.imageSource
                 if (dailyJson.recommenders == null) {
-                    collapsing_toolbar_layout!!.title = "并没有推荐者"
+                    collapsing_toolbar_layout.title = "并没有推荐者"
                 } else {
-                    collapsing_toolbar_layout!!.title = dailyJson.recommenders!!.size.toString() + "个推荐者"
-                    toolbar!!.setOnClickListener { view ->
+                    collapsing_toolbar_layout.title = dailyJson.recommenders!!.size.toString() + "个推荐者"
+                    toolbar.setOnClickListener { view ->
                         val intent = Intent(this@NewsDetailActivity, RecommendersActivity::class.java)
                         intent.putExtra(Constant.ID, id)
                         startActivity(intent)
                     }
                 }
-                Glide.with(this@NewsDetailActivity).load(dailyJson.image).placeholder(R.mipmap.liukanshan).into(iv_news!!)
+                Glide.with(this@NewsDetailActivity).load(dailyJson.image).placeholder(R.mipmap.liukanshan).into(iv_news)
             }
 
             override fun onComplete() {
