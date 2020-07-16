@@ -110,21 +110,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     return true
                 }
 
-                if (currentFragment != null) {
-                    currentFragment!!.willBeHidden()
-                }
+                currentFragment?.willBeHidden()
 
-                view_pager!!.setCurrentItem(position, false)
+                view_pager?.setCurrentItem(position, false)
                 currentFragment = adapter.currentFragment
-                currentFragment!!.willBeDisplayed()
+                currentFragment?.willBeDisplayed()
                 return true
             }
         })
     }
 
     override fun onBackPressed() {
-        if (drawer_layout!!.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout!!.closeDrawer(GravityCompat.START)
+        if (drawer_layout?.isDrawerOpen(GravityCompat.START) == true) {
+            drawer_layout?.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
@@ -149,7 +147,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         }
 
-        drawer_layout!!.closeDrawer(GravityCompat.START)
+        drawer_layout?.closeDrawer(GravityCompat.START)
         return true
     }
 

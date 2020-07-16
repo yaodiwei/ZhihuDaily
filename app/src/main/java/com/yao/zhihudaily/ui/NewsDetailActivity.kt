@@ -86,7 +86,7 @@ class NewsDetailActivity : BaseActivity() {
                 if (dailyJson.recommenders == null) {
                     collapsing_toolbar_layout.title = "并没有推荐者"
                 } else {
-                    collapsing_toolbar_layout.title = dailyJson.recommenders!!.size.toString() + "个推荐者"
+                    collapsing_toolbar_layout.title = dailyJson.recommenders?.size.toString() + "个推荐者"
                     toolbar.setOnClickListener { view ->
                         val intent = Intent(this@NewsDetailActivity, RecommendersActivity::class.java)
                         intent.putExtra(Constant.ID, id)
