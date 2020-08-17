@@ -25,7 +25,7 @@ import java.util.*
 class SectionStoryAdapter(private val mActivity: Activity) : RecyclerView.Adapter<SectionStoryAdapter.StoryHolder>() {
     private val mSectionStories = ArrayList<SectionStory>()
 
-    private val listener = object : OnItemClickListener() {
+    private val mOnItemClickListener = object : OnItemClickListener() {
         override fun onItemClick(pos: Int) {
             val sectionStory = mSectionStories[pos]
             val intent = Intent(mActivity, NewsDetailActivity::class.java)
@@ -39,7 +39,12 @@ class SectionStoryAdapter(private val mActivity: Activity) : RecyclerView.Adapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryHolder {
-        return StoryHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_section_story_with_image, parent, false))
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_section_story_with_image, parent, false)
+        val holder = StoryHolder(itemView)
+        itemView.setOnClickListener(View.OnClickListener {
+            mOnItemClickListener.onItemClick(holder.layoutPosition)
+        })
+        return holder
     }
 
     override fun onBindViewHolder(holder: StoryHolder, position: Int) {
@@ -49,9 +54,6 @@ class SectionStoryAdapter(private val mActivity: Activity) : RecyclerView.Adapte
         if (sectionStory.images != null) {
             Glide.with(mActivity).load(sectionStory.images!![0]).placeholder(R.mipmap.ic_launcher).into(holder.ivPic)
         }
-        holder.itemView.tag = position
-        holder.itemView.setOnClickListener(listener)
-
     }
 
     override fun getItemCount(): Int {

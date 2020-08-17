@@ -41,7 +41,12 @@ class RecommenderAdapter(private val mActivity: Activity) : RecyclerView.Adapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommenderHolder {
-        return RecommenderHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_recommender, parent, false))
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_recommender, parent, false)
+        val holder = RecommenderHolder(itemView)
+        itemView.setOnClickListener(View.OnClickListener {
+            mOnItemClickListener.onItemClick(holder.layoutPosition)
+        })
+        return holder
     }
 
     override fun onBindViewHolder(holder: RecommenderHolder, position: Int) {
@@ -51,9 +56,6 @@ class RecommenderAdapter(private val mActivity: Activity) : RecyclerView.Adapter
         if (recommender.avatar != null) {
             Glide.with(mActivity).load(recommender.avatar).transform(CircleCrop()).into(holder.ivAvatar!!)
         }
-        holder.itemView.tag = position
-        holder.itemView.setOnClickListener(mOnItemClickListener)
-
     }
 
     override fun getItemCount(): Int {

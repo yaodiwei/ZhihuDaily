@@ -24,7 +24,7 @@ import java.util.*
  */
 class ThemeStoryAdapter(private val aty: Activity) : RecyclerView.Adapter<ThemeStoryAdapter.StoryHolder>() {
     private val stories = ArrayList<ThemeStory>()
-    private val listener = object : OnItemClickListener() {
+    private val mOnItemClickListener = object : OnItemClickListener() {
         override fun onItemClick(pos: Int) {
             val themeStory = stories[pos]
             val intent = Intent(aty, NewsDetailActivity::class.java)
@@ -39,11 +39,19 @@ class ThemeStoryAdapter(private val aty: Activity) : RecyclerView.Adapter<ThemeS
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryHolder {
-        return if (viewType == STORY) {
-            StoryHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_theme_story, parent, false), STORY)
+        lateinit var itemView: View
+        lateinit var holder: RecyclerView.ViewHolder
+        if (viewType == STORY) {
+            itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_theme_story, parent, false)
+            holder = StoryHolder(itemView, STORY)
         } else {
-            StoryHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_theme_story_with_image, parent, false), STORY_WITH_IMAGE)
+            itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_theme_story_with_image, parent, false)
+            holder = StoryHolder(itemView, STORY_WITH_IMAGE)
         }
+        itemView.setOnClickListener {
+            mOnItemClickListener.onItemClick(holder.layoutPosition)
+        }
+        return holder
     }
 
     override fun onBindViewHolder(holder: StoryHolder, position: Int) {
@@ -52,9 +60,6 @@ class ThemeStoryAdapter(private val aty: Activity) : RecyclerView.Adapter<ThemeS
         if (themeStory.images != null) {
             Glide.with(aty).load(themeStory.images!![0]).placeholder(R.mipmap.ic_launcher).into(holder.ivPic)
         }
-        holder.itemView.tag = position
-        holder.itemView.setOnClickListener(listener)
-
     }
 
     override fun getItemViewType(position: Int): Int {

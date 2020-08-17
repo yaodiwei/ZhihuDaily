@@ -50,7 +50,12 @@ class HotAdapter : RecyclerView.Adapter<HotAdapter.StoryHolder> {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryHolder {
-        return StoryHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_hot, parent, false))
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_hot, parent, false)
+        val holder = StoryHolder(itemView)
+        itemView.setOnClickListener(View.OnClickListener {
+            mOnItemClickListener.onItemClick(holder.layoutPosition)
+        })
+        return holder
     }
 
     override fun onBindViewHolder(holder: StoryHolder, position: Int) {
@@ -59,8 +64,6 @@ class HotAdapter : RecyclerView.Adapter<HotAdapter.StoryHolder> {
         if (!TextUtils.isEmpty(hot.thumbnail)) {
             Glide.with(mFragment).load(hot.thumbnail).into(holder.ivPic!!)
         }
-        holder.itemView.tag = position
-        holder.itemView.setOnClickListener(mOnItemClickListener)
     }
 
     override fun getItemCount(): Int {

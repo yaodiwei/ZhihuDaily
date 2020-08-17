@@ -51,19 +51,21 @@ class SectionAdapter : RecyclerView.Adapter<SectionAdapter.SectionHolder> {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionHolder {
-        return SectionHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_section, parent, false))
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_section, parent, false)
+        val holder = SectionHolder(itemView)
+        itemView.setOnClickListener(View.OnClickListener {
+            mOnItemClickListener.onItemClick(holder.layoutPosition)
+        })
+        return holder
     }
 
     override fun onBindViewHolder(holder: SectionHolder, position: Int) {
         val section = mSections[position]
-        holder.tvTitle!!.text = section.name
-        holder.tvDescription!!.text = section.description
+        holder.tvTitle.text = section.name
+        holder.tvDescription.text = section.description
         if (!TextUtils.isEmpty(section.thumbnail)) {
-            Glide.with(mBaseFragment!!).load(section.thumbnail).into(holder.ivPic!!)
+            Glide.with(mBaseFragment!!).load(section.thumbnail).into(holder.ivPic)
         }
-        holder.itemView.tag = position
-        holder.itemView.setOnClickListener(mOnItemClickListener)
-
     }
 
     override fun getItemCount(): Int {

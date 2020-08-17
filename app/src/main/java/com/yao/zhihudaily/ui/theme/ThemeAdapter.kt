@@ -27,7 +27,7 @@ import java.util.*
 class ThemeAdapter(private val fragment: BaseFragment) : RecyclerView.Adapter<ThemeAdapter.ThemeHolder>() {
     private val themes = ArrayList<Theme>()
 
-    private val listener = object : OnItemClickListener() {
+    private val mOnItemClickListener = object : OnItemClickListener() {
         override fun onItemClick(pos: Int) {
             val theme = themes[pos]
             val intent = Intent(fragment.activity, ThemeActivity::class.java)
@@ -41,7 +41,12 @@ class ThemeAdapter(private val fragment: BaseFragment) : RecyclerView.Adapter<Th
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThemeHolder {
-        return ThemeHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_theme, parent, false))
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_theme, parent, false)
+        val holder = ThemeHolder(itemView)
+        itemView.setOnClickListener(View.OnClickListener {
+            mOnItemClickListener.onItemClick(holder.layoutPosition)
+        })
+        return holder
     }
 
     override fun onBindViewHolder(holder: ThemeHolder, position: Int) {
@@ -51,9 +56,6 @@ class ThemeAdapter(private val fragment: BaseFragment) : RecyclerView.Adapter<Th
         if (!TextUtils.isEmpty(theme.thumbnail)) {
             Glide.with(fragment).load(theme.thumbnail).into(holder.ivPic)
         }
-        holder.itemView.tag = position
-        holder.itemView.setOnClickListener(listener)
-
     }
 
     override fun getItemCount(): Int {

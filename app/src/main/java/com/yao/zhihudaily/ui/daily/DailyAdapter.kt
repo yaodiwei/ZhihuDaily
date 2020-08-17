@@ -25,7 +25,7 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.StoryHolder> {
 
     private var fragment: BaseFragment? = null
     private var stories = ArrayList<Daily>()
-    private val listener = object : OnItemClickListener() {
+    private val mOnItemClickListener = object : OnItemClickListener() {
         override fun onItemClick(pos: Int) {
             val daily = stories[pos]
             val intent = Intent(fragment!!.activity, NewsDetailActivity::class.java)
@@ -52,7 +52,12 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.StoryHolder> {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryHolder {
-        return StoryHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_daily, parent, false))
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_daily, parent, false)
+        val holder = StoryHolder(itemView)
+        itemView.setOnClickListener(View.OnClickListener {
+            mOnItemClickListener.onItemClick(holder.layoutPosition)
+        })
+        return holder
     }
 
     override fun onBindViewHolder(holder: StoryHolder, position: Int) {
@@ -63,9 +68,6 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.StoryHolder> {
         } else {
             Glide.with(fragment!!).load(daily.image).into(holder.ivPic)
         }
-        holder.itemView.tag = position
-        holder.itemView.setOnClickListener(listener)
-
     }
 
     override fun getItemCount(): Int {
