@@ -78,37 +78,39 @@ apply from: './tinker.gradle'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.12'
+    testImplementation "junit:junit:$rootProject.ext.versions.junit"
     implementation "androidx.appcompat:appcompat:$rootProject.ext.versions.appcompat"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.versions.constraintlayout"
     implementation "androidx.recyclerview:recyclerview:$rootProject.ext.versions.recyclerview"
     implementation "androidx.cardview:cardview:$rootProject.ext.versions.cardview"
-    implementation 'com.squareup.okhttp3:okhttp:4.1.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.ext.versions.okhttp"
+    implementation "com.google.code.gson:gson:$rootProject.ext.versions.gson"
+    implementation "com.github.bumptech.glide:glide:$rootProject.ext.versions.glide"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.versions.rxandroid"
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.versions.rxjavaVersion"
-    implementation 'com.aurelhubert:ahbottomnavigation:1.4.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
-    implementation 'com.orhanobut:logger:1.15'
-    implementation 'com.yanzhenjie:permission:1.1.0'
-    implementation 'com.umeng.umsdk:analytics:8.0.0'
-    implementation 'com.umeng.umsdk:common:2.0.0'
-    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
-    implementation 'com.alibaba:arouter-api:1.5.0'
-    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
-    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation "com.aurelhubert:ahbottomnavigation:$rootProject.ext.versions.ahbottomnavigation"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.versions.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.versions.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.versions.retrofit"
+    implementation "com.orhanobut:logger:$rootProject.ext.versions.logger"
+    implementation "com.yanzhenjie:permission:$rootProject.ext.versions.permission"
+    implementation "com.umeng.umsdk:analytics:$rootProject.ext.versions.umsdkAnalytics"
+    implementation "com.umeng.umsdk:common:$rootProject.ext.versions.umsdkCommon"
+    implementation "com.umeng.umsdk:utdid:$rootProject.ext.versions.umsdkUtdid"
+    implementation "com.alibaba:arouter-api:$rootProject.ext.versions.arouterApi"
+    annotationProcessor "com.alibaba:arouter-compiler:$rootProject.ext.versions.arouterCompiler"
+    implementation "org.greenrobot:eventbus:$rootProject.ext.versions.eventbus"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.ext.versions.kotlin"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.versions.kotlinxCoroutinesAndroid"
 
-    implementation "com.android.support:multidex:1.0.3"
+    implementation "com.android.support:multidex:$rootProject.ext.versions.multidex"
 
-    implementation 'com.tencent.tinker:tinker-android-lib:1.9.14'
-    compileOnly 'com.tencent.tinker:tinker-android-anno:1.9.14'
+    implementation "com.tencent.tinker:tinker-android-lib:$rootProject.ext.versions.tinker"
+    //这里使用 1.9.14.7 会导致找不到DefaultLifeCycle类，SampleApplicationLike报错。被迫让整个tinker只能使用tinker。
+    compileOnly "com.tencent.tinker:tinker-android-anno:$rootProject.ext.versions.tinker"
     //不加这句依赖，会报下面这个错
     //Annotation processors must be explicitly declared now.  The following dependencies on the compile classpath are found to contain annotation processor.  Please add them to the annotationProcessor configuration.
-    annotationProcessor 'com.tencent.tinker:tinker-android-anno:1.9.14'
+    annotationProcessor "com.tencent.tinker:tinker-android-anno:$rootProject.ext.versions.tinker"
+
 }
