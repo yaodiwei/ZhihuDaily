@@ -22,6 +22,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
+import androidx.multidex.MultiDex;
+
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.tencent.tinker.anno.DefaultLifeCycle;
@@ -29,12 +31,9 @@ import com.tencent.tinker.entry.ApplicationLifeCycle;
 import com.tencent.tinker.entry.DefaultApplicationLike;
 import com.tencent.tinker.lib.tinker.Tinker;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
-import com.umeng.analytics.MobclickAgent;
 import com.yao.zhihudaily.util.AppUtil;
 
 import org.greenrobot.eventbus.EventBus;
-
-import androidx.multidex.MultiDex;
 
 /**
  * because you can not use any other class in your application, we need to
@@ -117,28 +116,11 @@ public class SampleApplicationLike extends DefaultApplicationLike {
                 .logLevel(LogLevel.FULL)// default LogLevel.FULL
                 .methodOffset(0);// default 0
 
-        umengAnalytics();
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void registerActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks callback) {
         getApplication().registerActivityLifecycleCallbacks(callback);
-    }
-
-    private void umengAnalytics() {
-        /* -------------------- 友盟统计配置 -------------------- */
-        //打开友盟
-        MobclickAgent.setDebugMode(true);
-
-        //场景设置:普通统计场景类型
-        MobclickAgent.setScenarioType(getApplication(), MobclickAgent.EScenarioType.E_UM_NORMAL);
-        //设置多少秒间隔后,从后台返回app前端,会被认为是两次独立的启动
-//        MobclickAgent.setSessionContinueMillis(30);
-        //设置日志加密
-        MobclickAgent.enableEncrypt(true);//6.0.0版本及以后
-        //报告信息
-        //MobclickAgent.reportError(this, DeviceUtil.getAllDeviceInfo());
-        /* -------------------- 友盟统计配置 -------------------- */
     }
 
 }

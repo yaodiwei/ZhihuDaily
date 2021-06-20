@@ -2,7 +2,6 @@ package com.yao.zhihudaily.ui
 
 import android.os.Bundle
 
-import com.umeng.analytics.MobclickAgent
 import com.yao.zhihudaily.tool.EventCenter
 
 import androidx.appcompat.app.AppCompatActivity
@@ -21,12 +20,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
     public override fun onResume() {
         super.onResume()
-        MobclickAgent.onResume(this)
     }
 
     public override fun onPause() {
         super.onPause()
-        MobclickAgent.onPause(this)
     }
 
     override fun onDestroy() {

@@ -3,19 +3,19 @@ apply from: "config.gradle"
 
 buildscript {
     ext.pluginVersion = [
-            kotlin : '1.3.72',
-            tinker : '1.9.14.6'
+            kotlin : '1.4.20',
+            tinker : '1.9.14.17'
     ]
 
     repositories {
-        jcenter()
         google()
+        jcenter()
         maven { url 'https://dl.bintray.com/umsdk/release' }
     }
     dependencies {
         //升级到3.5，会导致tinker不可用，tinker还没兼容好。使用3.4.2正常。
         //https://github.com/BuglyDevTeam/Bugly-Android-Demo/issues/174
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.1.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$pluginVersion.kotlin"
         classpath "com.tencent.tinker:tinker-patch-gradle-plugin:$pluginVersion.tinker"
 

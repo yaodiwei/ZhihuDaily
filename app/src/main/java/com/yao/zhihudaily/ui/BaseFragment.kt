@@ -5,7 +5,6 @@ import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.umeng.analytics.MobclickAgent
 import com.yao.zhihudaily.R
 import java.util.*
 
@@ -22,13 +21,11 @@ abstract class BaseFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        MobclickAgent.onPageEnd(this.javaClass.simpleName)
         Log.i(TAG, "BaseFragment.java - onPause() ---------- Fragment:" + this.javaClass.name)
     }
 
     override fun onResume() {
         super.onResume()
-        MobclickAgent.onPageStart(this.javaClass.simpleName)
         Log.i(TAG, "BaseFragment.java - onResume() ---------- Fragment:" + this.javaClass.name)
     }
 

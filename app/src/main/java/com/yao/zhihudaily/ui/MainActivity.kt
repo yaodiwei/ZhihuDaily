@@ -2,6 +2,7 @@ package com.yao.zhihudaily.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
@@ -32,7 +33,31 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Log.e("YAO", "MainActivity.java - onCreate() ----- :" + this);
+
+        if (savedInstanceState != null) {
+            Log.e("YAO", ".java - () ----- :onCreate");
+            Log.e("YAO", "onCreate ----- :" + savedInstanceState.getString("wife"))
+            Log.e("YAO", "onCreate ----- :" + savedInstanceState.getInt("age"))
+        } else {
+            Log.e("YAO", ".java - () ----- :savedInstanceState is null");
+        }
+
         initView()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.e("YAO", "onSaveInstanceState.java - () ----- :onSaveInstanceState" );
+        outState.putString("wife", "hanjiajia")
+        outState.putInt("age", 30)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        Log.e("YAO", ".java - () ----- :onRestoreInstanceState");
+        Log.e("YAO", "onRestoreInstanceState ----- :" + savedInstanceState.getString("wife"))
+        Log.e("YAO", "onRestoreInstanceState ----- :" + savedInstanceState.getInt("age"))
+        super.onRestoreInstanceState(savedInstanceState)
     }
 
     private fun initView() {

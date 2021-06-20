@@ -19,13 +19,13 @@ ext {
 
 
             kotlin : "$pluginVersion.kotlin",
-            kotlinxCoroutinesAndroid : '1.2.2',
+            kotlinxCoroutinesAndroid : '1.4.1',
 
             appcompat : '1.2.0',
-            constraintlayout : '2.0.1',
+            constraintlayout : '2.0.4',
             recyclerview : '1.1.0',
             cardview : '1.0.0',
-            okhttp : '4.1.0',
+            okhttp : '4.9.0',
             gson : '2.8.6',
             glide : '4.11.0',
             rxjavaVersion : '2.2.19',
@@ -34,16 +34,13 @@ ext {
             retrofit : '2.6.1',
             logger : '1.15',
             permission : '1.1.0',
-            umsdkAnalytics : '8.0.0',
-            umsdkCommon : '2.0.0',
-            umsdkUtdid : '1.1.5.3',
-            arouterApi : '1.5.0',
+            arouterApi : '1.5.1',
             arouterCompiler : '1.2.2',
-            eventbus : '3.1.1',
+            eventbus : '3.2.0',
 
             multidex : '1.0.3',
             tinker : "$pluginVersion.tinker",
-            junit : '4.12',
+            junit : '4.13.2',
 
     ]
 }
